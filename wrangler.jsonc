@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "siofi-landing",
+  "compatibility_date": "2026-08-25",
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT_KV"
+    }
+  ]
+}

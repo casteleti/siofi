@@ -13,6 +13,7 @@ interface Props {
   value: string;
   error?: string;
   onInput: (value: string) => void;
+  onFocus?: () => void;
   maxLength?: number;
 }
 
@@ -25,6 +26,7 @@ export default function FormField({
   value,
   error,
   onInput,
+  onFocus,
   maxLength,
 }: Props): JSX.Element {
   const errorId = `${id}-error`;
@@ -47,6 +49,7 @@ export default function FormField({
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
         onInput={(event) => onInput((event.target as HTMLInputElement).value)}
+        onFocus={onFocus}
       />
       {error && (
         <p id={errorId} class="form-field__error" role="alert">

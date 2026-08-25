@@ -4,6 +4,7 @@
  * 4 links + CTA primário full-width + link WhatsApp. Foco preso e `Esc` fecha.
  */
 import Button from '../ui/Button.astro';
+import { getWhatsappHref } from '../../lib/whatsapp';
 
 interface NavLink {
   href: string;
@@ -25,10 +26,10 @@ const { links } = Astro.props;
         <li><a href={link.href} data-drawer-close>{link.label}</a></li>
       ))}
     </ul>
-    <Button variant="primary" href="#form" fullWidth trackId="hero_cta_click">
+    <Button variant="primary" href="#form" fullWidth trackId="demo_cta_click" section="mobile_drawer">
       Agendar uma demonstração
     </Button>
-    <a class="drawer__whatsapp" href="#" data-track="whatsapp_click">
+    <a class="drawer__whatsapp" href={getWhatsappHref()} target="_blank" rel="noopener" data-track="whatsapp_click" data-section="mobile_drawer">
       Falar com um especialista
     </a>
   </nav>

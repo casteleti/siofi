@@ -1,17 +1,20 @@
 /**
- * Ilha Preact do formulário de lead (design system §12 / spec técnica §19).
- * Tarefa 1 — ESCOPO ESTRUTURAL APENAS:
- *  - HTML5 validation + estado local dos 7 campos, na ordem da copy.
- *  - Chama /api/lead, que responde 501 de propósito (Tarefa 4 implementa a lógica real).
- * FORA de escopo aqui (fica para tarefas futuras): geração de lead_id/idempotência,
- * honeypot funcional, máscara de WhatsApp, dataLayer/eventos reais, UTMs/click IDs,
- * retry/timeout, redirect para /siofi/obrigado.
+ * Ilha Preact do formulário de lead (design system §12 / spec técnica §19/§21).
+ * lead_id gerado no primeiro foco (§35); payload inclui atribuição (§32/§33),
+ * flags de consentimento (§38) e honeypot/timing (§19); `lead_submitted` só
+ * dispara após 2xx real de `/api/lead` (§21); redireciona para
+ * `/siofi/obrigado` com uma flag de sessão que confirma a conversão (§36).
  */
-import { useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import FormField from './FormField';
 import ChoiceChips from './ChoiceChips';
+import { getAttribution, getMetaCookies } from '../../lib/tracking/attribution';
+import { getConsentFlagsForSubmission } from '../../lib/tracking/consent';
+import { trackFormStart, trackMigrationInterest, trackFormError, trackLeadSubmitted } from '../../lib/analytics/dataLayer';
+import { getWhatsappHref } from '../../lib/whatsapp';
 
 type UsesSystem = 'sim' | 'nao' | '';
+type FormContext = 'final_cta' | 'troca_sistema';
 
 interface FormState {
   name: string;
@@ -21,6 +24,11 @@ interface FormState {
   employeesRange: string;
   usesManagementSystem: UsesSystem;
   currentSystem: string;
+}
+
+interface Props {
+  buttonLabel: string;
+  microcopy: string;
 }
 
 const EMPLOYEES_OPTIONS = [
@@ -44,46 +52,176 @@ const INITIAL_STATE: FormState = {
   currentSystem: '',
 };
 
-type Status = 'idle' | 'submitting' | 'error' | 'not-implemented';
+type Status = 'idle' | 'submitting' | 'success' | 'error' | 'rate_limited';
 
-export default function LeadForm() {
+const WHATSAPP_FALLBACK_HREF = getWhatsappHref();
+
+export default function LeadForm({ buttonLabel, microcopy }: Props) {
   const [values, setValues] = useState<FormState>(INITIAL_STATE);
+  const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<Status>('idle');
+  const leadIdRef = useRef<string | null>(null);
+  const formRenderedAtRef = useRef<number>(Date.now());
+  const formContextRef = useRef<FormContext>('final_cta');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('ctx') === 'troca') {
+      formContextRef.current = 'troca_sistema';
+      setValues((prev) => ({ ...prev, usesManagementSystem: 'sim' }));
+    }
+  }, []);
 
   const setField = <K extends keyof FormState>(key: K) => (value: FormState[K]) =>
     setValues((prev) => ({ ...prev, [key]: value }));
 
-  async function handleSubmit(event: Event) {
-    event.preventDefault();
-    setStatus('submitting');
+  function handleFirstFocus() {
+    if (leadIdRef.current) return;
+    leadIdRef.current = crypto.randomUUID();
+    trackFormStart(leadIdRef.current, formContextRef.current);
+  }
 
+  function handleUsesSystemChange(value: string) {
+    setField('usesManagementSystem')(value as UsesSystem);
+    if (value === 'sim') trackMigrationInterest(true);
+  }
+
+  async function submitWithTimeout(payload: unknown, timeoutMs: number): Promise<Response> {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const response = await fetch('/api/lead', {
+      return await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
+        signal: controller.signal,
       });
-
-      if (response.status === 501) {
-        // Esperado nesta tarefa — backend real é a Tarefa 4.
-        setStatus('not-implemented');
-        return;
-      }
-
-      setStatus(response.ok ? 'idle' : 'error');
-    } catch {
-      setStatus('error');
+    } finally {
+      clearTimeout(timer);
     }
   }
 
+  async function handleSubmit(event: Event) {
+    event.preventDefault();
+    if (!leadIdRef.current) handleFirstFocus();
+    const leadId = leadIdRef.current as string;
+
+    setStatus('submitting');
+
+    const { first_touch, last_touch } = getAttribution();
+    const { fbp, fbc } = getMetaCookies();
+    const consent = getConsentFlagsForSubmission();
+
+    const payload = {
+      leadId,
+      name: values.name,
+      company: values.company,
+      whatsapp: values.whatsapp,
+      city: values.city,
+      employeesRange: values.employeesRange,
+      usesManagementSystem: values.usesManagementSystem,
+      currentSystem: values.currentSystem || undefined,
+      formContext: formContextRef.current,
+      pageVariant: 'siofi_main',
+      website_url: honeypot,
+      formRenderedAt: formRenderedAtRef.current,
+      firstTouch: first_touch,
+      lastTouch: last_touch,
+      fbp,
+      fbc,
+      consentAdUserData: consent.consent_ad_user_data,
+      consentAnalyticsStorage: consent.consent_analytics_storage,
+    };
+
+    let response: Response;
+    try {
+      response = await submitWithTimeout(payload, 8000);
+    } catch {
+      // Falha de rede/timeout: um retry silencioso antes de desistir (§19).
+      try {
+        response = await submitWithTimeout(payload, 8000);
+      } catch {
+        trackFormError('timeout');
+        setStatus('error');
+        return;
+      }
+    }
+
+    if (response.status === 429) {
+      trackFormError('server');
+      setStatus('rate_limited');
+      return;
+    }
+
+    if (response.status === 422) {
+      trackFormError('validation');
+      setStatus('error');
+      return;
+    }
+
+    if (!response.ok) {
+      trackFormError('server');
+      setStatus('error');
+      return;
+    }
+
+    trackLeadSubmitted({
+      leadId,
+      employeesRange:
+        values.employeesRange === '1-4' ? '1_4' : values.employeesRange === '5-12' ? '5_12' : '13_plus',
+      currentSystem: values.usesManagementSystem === 'sim' ? 'yes' : 'no',
+      formContext: formContextRef.current,
+      pageVariant: 'siofi_main',
+    });
+
+    setStatus('success');
+    try {
+      sessionStorage.setItem('siofi_conversion_confirmed', '1');
+    } catch {
+      // sessionStorage indisponível — a thank-you page cai no estado genérico.
+    }
+    window.setTimeout(() => {
+      window.location.href = '/siofi/obrigado';
+    }, 900);
+  }
+
+  if (status === 'success') {
+    return (
+      <div class="lead-form__confirmation" role="status">
+        <p class="text-h3">Recebemos seus dados</p>
+        <p class="text-body">Redirecionando…</p>
+        <style>{`
+          .lead-form__confirmation { text-align: center; padding: var(--space-8) 0; }
+        `}</style>
+      </div>
+    );
+  }
+
   return (
-    <form class="lead-form" onSubmit={handleSubmit} noValidate={false}>
+    <form class="lead-form" onSubmit={handleSubmit}>
+      {/* Honeypot (§19): campo real escondido via CSS (não display:none no
+          atributo `hidden`, que bots simples ignoram) — usuários reais nunca
+          o preenchem; fora da navegação por teclado e de leitores de tela. */}
+      <div class="lead-form__honeypot" aria-hidden="true">
+        <label htmlFor="website_url">Deixe este campo em branco</label>
+        <input
+          type="text"
+          id="website_url"
+          name="website_url"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onInput={(event) => setHoneypot((event.target as HTMLInputElement).value)}
+        />
+      </div>
+
       <FormField
         id="name"
         label="Nome"
         required
         maxLength={120}
         value={values.name}
+        onFocus={handleFirstFocus}
         onInput={setField('name')}
       />
       <FormField
@@ -123,7 +261,7 @@ export default function LeadForm() {
         name="usesManagementSystem"
         options={USES_SYSTEM_OPTIONS}
         value={values.usesManagementSystem}
-        onChange={(value) => setField('usesManagementSystem')(value as UsesSystem)}
+        onChange={handleUsesSystemChange}
       />
       {values.usesManagementSystem === 'sim' && (
         <FormField
@@ -136,23 +274,28 @@ export default function LeadForm() {
       )}
 
       <button type="submit" class="lead-form__submit" disabled={status === 'submitting'}>
-        {status === 'submitting' ? 'Enviando…' : 'Quero agendar uma demonstração'}
+        {status === 'submitting' ? 'Enviando…' : buttonLabel}
       </button>
 
-      <p class="lead-form__microcopy">
-        Ao enviar seus dados, nossa equipe entrará em contato para combinar a demonstração.
-      </p>
+      <p class="lead-form__microcopy">{microcopy}</p>
 
-      {status === 'not-implemented' && (
-        <p class="lead-form__status" role="status">
-          [Estrutura funcionando — envio real chega na Tarefa 4. O endpoint /api/lead
-          respondeu 501 Not Implemented, como esperado nesta etapa.]
+      {status === 'rate_limited' && (
+        <p class="lead-form__status lead-form__status--error" role="alert">
+          Não foi possível enviar agora. Tente novamente em instantes ou fale pelo{' '}
+          <a href={WHATSAPP_FALLBACK_HREF} data-track="whatsapp_click" data-section="form_fallback">
+            WhatsApp
+          </a>
+          .
         </p>
       )}
 
       {status === 'error' && (
         <p class="lead-form__status lead-form__status--error" role="alert">
-          Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp.
+          Não foi possível enviar agora. Tente novamente ou fale pelo{' '}
+          <a href={WHATSAPP_FALLBACK_HREF} data-track="whatsapp_click" data-section="form_fallback">
+            WhatsApp
+          </a>
+          .
         </p>
       )}
 
@@ -161,6 +304,9 @@ export default function LeadForm() {
           display: flex;
           flex-direction: column;
           gap: var(--space-5);
+        }
+        .lead-form__honeypot {
+          display: none;
         }
         .lead-form__submit {
           height: var(--btn-h);
@@ -186,7 +332,6 @@ export default function LeadForm() {
         .lead-form__status {
           margin: 0;
           font: var(--weight-medium) var(--text-sm) var(--font-body);
-          color: var(--color-primary-dark);
         }
         .lead-form__status--error {
           color: var(--color-error);

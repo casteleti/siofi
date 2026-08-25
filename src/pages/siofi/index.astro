@@ -20,6 +20,7 @@ import SupportSection from '../../components/sections/SupportSection.astro';
 import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
 import FAQSection from '../../components/sections/FAQSection.astro';
 import FinalCTA from '../../components/sections/FinalCTA.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
 // Nota: o campo `slug` no JSON é tratado pelo glob loader do Astro como
 // override do id da entrada — por isso o id real é "siofi" (valor de `slug`),
@@ -37,6 +38,7 @@ const page = entry.data;
   canonical={page.canonical}
   indexable={page.indexable}
   includeSoftwareApplicationSchema
+  faqItems={copy.faq.items}
 >
   <Hero h1={page.h1} />
   <TrustBar />

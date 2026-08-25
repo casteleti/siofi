@@ -2,38 +2,36 @@
 /**
  * Hero (Section Map §25 #1). Split 5/7, painel primary-light com ProductFrame
  * do dashboard + callouts. H1 vem de content/landing-pages (título aprovado);
- * subheadline/microcopy aguardam Tarefa 2 (content/copy).
+ * demais textos vêm de content/copy (copy §6).
  */
 import Button from '../ui/Button.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
 interface Props {
   h1: string;
 }
 
 const { h1 } = Astro.props;
+const { hero } = copy;
 ---
 
 <section id="hero" class="hero">
   <div class="container split split--5-7">
     <div class="hero__text">
-      <p class="text-eyebrow reveal">Sistema de gestão para oficinas e auto centers</p>
+      <p class="text-eyebrow reveal">{hero.eyebrow}</p>
       <h1 class="text-display reveal">{h1}</h1>
-      <p class="text-sub reveal">
-        [PLACEHOLDER — subheadline do hero, Tarefa 2: content/copy → hero]
-      </p>
+      <p class="text-sub reveal">{hero.subheadline}</p>
       <div class="hero__ctas reveal">
-        <Button variant="primary" href="#form" trackId="hero_cta_click">
-          Agendar uma demonstração
+        <Button variant="primary" href="#form" trackId="hero_cta_click" section="hero">
+          {hero.ctaPrimary}
         </Button>
-        <Button variant="secondary" href="#pilares" trackId="secondary_cta_click">
-          Conhecer o SiOfi
+        <Button variant="secondary" href="#pilares" trackId="secondary_cta_click" section="hero">
+          {hero.ctaSecondary}
         </Button>
       </div>
-      <p class="text-small reveal">
-        [PLACEHOLDER — microcopy abaixo do CTA, Tarefa 2]
-      </p>
+      <p class="text-small reveal">{hero.microcopy}</p>
     </div>
 
     <div class="hero__media reveal">

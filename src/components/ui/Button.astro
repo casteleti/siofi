@@ -15,7 +15,10 @@ interface Props {
   iconPosition?: 'left' | 'right';
   onDark?: boolean;
   trackId?: string;
+  /** Contexto do CTA para o parâmetro `cta_location`/`click_location` do dataLayer (§22/§23). */
+  section?: string;
   class?: string;
+  id?: string;
 }
 
 const {
@@ -28,7 +31,9 @@ const {
   iconPosition = 'right',
   onDark = false,
   trackId,
+  section,
   class: className,
+  id,
 } = Astro.props;
 
 const Tag = as;
@@ -44,10 +49,12 @@ const classes = [
 ---
 
 <Tag
+  id={id}
   class={classes}
   href={as === 'a' ? href : undefined}
   type={as === 'button' ? type : undefined}
   data-track={trackId}
+  data-section={section}
 >
   {icon && iconPosition === 'left' && <Icon name={icon} size={20} />}
   <span class="btn__label"><slot /></span>

@@ -4,8 +4,8 @@
  * Nunca substitui o formulário principal — apenas complementa.
  * Número real ainda não fornecido pela F5 (ver README).
  */
-const WHATSAPP_NUMBER = ''; // [TBD — WHATSAPP F5, formato internacional sem símbolos]
-const href = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}` : '#';
+import { getWhatsappHref } from '../../lib/whatsapp';
+const href = getWhatsappHref();
 ---
 
 <a
@@ -14,6 +14,7 @@ const href = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}` : '#';
   target="_blank"
   rel="noopener"
   data-track="whatsapp_click"
+  data-section="floating_button"
   aria-label="Falar com um especialista pelo WhatsApp"
 >
   <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">

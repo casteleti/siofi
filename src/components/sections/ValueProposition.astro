@@ -4,15 +4,16 @@
  * linha de conexão com 5 nós (design system §16).
  */
 import Button from '../ui/Button.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
+
+const { valueProposition } = copy;
 ---
 
 <section id="value-proposition" class="section" aria-labelledby="value-proposition-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <h2 id="value-proposition-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Mais do que informatizar a oficina. É ter controle do negócio.]
-      </h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto da virada, Tarefa 2]</p>
+      <h2 id="value-proposition-heading" class="text-h2 reveal">{valueProposition.headline}</h2>
+      {valueProposition.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
     </div>
 
     <div class="value-proposition__nodes reveal" aria-hidden="true">
@@ -20,8 +21,8 @@ import Button from '../ui/Button.astro';
     </div>
 
     <div class="value-proposition__cta reveal">
-      <Button variant="primary" href="#pilares" trackId="secondary_cta_click">
-        Quero conhecer o SiOfi
+      <Button variant="primary" href="#pilares" trackId="secondary_cta_click" section="virada">
+        {valueProposition.cta}
       </Button>
     </div>
   </div>

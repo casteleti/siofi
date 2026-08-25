@@ -6,15 +6,16 @@ import Button from '../ui/Button.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
 import WorkOrderTimeline from '../ui/WorkOrderTimeline.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
+
+const { workOrder } = copy;
 ---
 
 <section id="os" class="section" aria-labelledby="os-heading">
   <div class="container">
     <div class="section-header">
-      <h2 id="os-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Do orçamento à entrega, acompanhe cada serviço]
-      </h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção OS, Tarefa 2]</p>
+      <h2 id="os-heading" class="text-h2 reveal">{workOrder.headline}</h2>
+      {workOrder.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
     </div>
 
     <div class="work-order__timeline reveal">
@@ -22,13 +23,10 @@ import WorkOrderTimeline from '../ui/WorkOrderTimeline.astro';
     </div>
 
     <div class="split split--5-7">
-      <div>
-        <p class="text-body">[PLACEHOLDER — texto de apoio adicional, se houver]</p>
-        <div class="reveal">
-          <Button variant="secondary" href="#os" trackId="secondary_cta_click" icon="play-circle" iconPosition="left">
-            Ver o SiOfi funcionando
-          </Button>
-        </div>
+      <div class="reveal">
+        <Button variant="secondary" href="#os" trackId="secondary_cta_click" section="os" icon="play-circle" iconPosition="left">
+          {workOrder.cta}
+        </Button>
       </div>
       <div class="split__media reveal">
         <ProductFrame label="Ordem de serviço" ratio="16:10">

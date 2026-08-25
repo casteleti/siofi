@@ -4,19 +4,20 @@
  * primary-deep. Split 6/6, LeadForm em card branco (design system §12/§25).
  */
 import LeadForm from '../form/LeadForm';
+import copy from '../../content/copy/siofi-main.copy.json';
+
+const { finalCta } = copy;
 ---
 
 <section id="form" class="section section--dark on-dark" aria-labelledby="final-cta-heading">
   <div class="container split split--6-6">
     <div>
-      <h2 id="final-cta-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Veja como o SiOfi pode funcionar na sua oficina]
-      </h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto do CTA final, Tarefa 2]</p>
+      <h2 id="final-cta-heading" class="text-h2 reveal">{finalCta.headline}</h2>
+      <p class="text-body-lg reveal">{finalCta.text}</p>
     </div>
 
     <div class="final-cta__form-card reveal">
-      <LeadForm client:visible />
+      <LeadForm client:visible buttonLabel={finalCta.buttonLabel} microcopy={finalCta.microcopy} />
     </div>
   </div>
 </section>

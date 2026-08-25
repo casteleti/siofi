@@ -5,34 +5,26 @@
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
 import Chip from '../ui/Chip.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
-const PILLARS = [
-  { icon: 'clipboard-list', name: 'Oficina', features: ['Abertura e controle de OS', 'Histórico de veículos', 'Histórico de clientes', 'Produtividade de mecânicos'] },
-  { icon: 'wallet', name: 'Financeiro', features: ['Contas a pagar', 'Contas a receber', 'Cobrança', 'Boletos', 'Fluxo de caixa'] },
-  { icon: 'bar-chart-3', name: 'Gestão', features: ['DRE', 'Balanço gerencial', 'Resultados do período', 'Relatórios gerenciais'] },
-  { icon: 'package', name: 'Estoque', features: ['Consulta de produtos', 'Entrada de notas', 'Importação de XML', 'Movimentações'] },
-  { icon: 'shopping-cart', name: 'Compras', features: ['Pedido de compra', 'Sugestão de compra'] },
-  { icon: 'file-check-2', name: 'Fiscal', features: ['Emissão de NF-e', 'Transmissão e validação', 'Envio de XML e PDF por e-mail'] },
-];
+const { featurePillars } = copy;
 ---
 
 <section id="pilares" class="section" aria-labelledby="pilares-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <h2 id="pilares-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: O que você precisa acompanhar, em um só lugar]
-      </h2>
+      <h2 id="pilares-heading" class="text-h2 reveal">{featurePillars.headline}</h2>
     </div>
 
     <div class="card-grid card-grid--3">
       {
-        PILLARS.map((pillar, i) => (
+        featurePillars.pillars.map((pillar, i) => (
           <Card variant="feature" class="reveal" style={`--i:${i}`}>
             <span class="pillar-card__icon">
               <Icon name={pillar.icon} size={28} />
             </span>
-            <p class="text-h3">[PLACEHOLDER — Pilar {pillar.name}: título, Tarefa 2]</p>
-            <p class="text-body">[PLACEHOLDER — texto do pilar, Tarefa 2]</p>
+            <p class="text-h3">{pillar.title}</p>
+            <p class="text-body">{pillar.text}</p>
             <div class="pillar-card__chips">
               {pillar.features.map((feature) => (
                 <Chip>{feature}</Chip>

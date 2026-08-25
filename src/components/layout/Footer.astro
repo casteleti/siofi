@@ -3,6 +3,8 @@
  * Footer (copy §22 / design system §25): fundo primary-deep, logo negativo,
  * contatos, links legais. Dados de contato reais ainda não fornecidos pela F5.
  */
+import { getWhatsappHref, hasWhatsappNumber } from '../../lib/whatsapp';
+const whatsappHref = getWhatsappHref();
 ---
 
 <footer class="footer">
@@ -14,8 +16,19 @@
     </div>
 
     <div class="footer__contact">
-      <p>Telefone: [TBD — TELEFONE F5]</p>
-      <p>WhatsApp: [TBD — WHATSAPP F5]</p>
+      <p>
+        Telefone: <a href="tel:[TBD]" data-track="phone_click" data-section="footer">[TBD — TELEFONE F5]</a>
+      </p>
+      <p>
+        WhatsApp:{' '}
+        {hasWhatsappNumber() ? (
+          <a href={whatsappHref} target="_blank" rel="noopener" data-track="whatsapp_click" data-section="footer_link">
+            Falar no WhatsApp
+          </a>
+        ) : (
+          '[TBD — WHATSAPP F5]'
+        )}
+      </p>
       <p>E-mail: [TBD — E-MAIL F5]</p>
       <p>[TBD — CIDADE/ESTADO F5]</p>
     </div>

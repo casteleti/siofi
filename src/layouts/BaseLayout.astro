@@ -9,8 +9,11 @@ import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import FloatingWhatsApp from '../components/global/FloatingWhatsApp.astro';
 import StickyMobileCTA from '../components/global/StickyMobileCTA.astro';
+import AnalyticsBootstrap from '../components/global/AnalyticsBootstrap.astro';
+import ConsentBanner from '../components/global/ConsentBanner.astro';
 import organizationSchema from '../schemas/organization.json';
 import { buildSoftwareApplicationSchema } from '../schemas/software-application';
+import { buildFaqPageSchema, type FaqItem } from '../schemas/faq-page';
 
 interface Props {
   title: string;
@@ -18,6 +21,7 @@ interface Props {
   canonical: string;
   indexable?: boolean;
   includeSoftwareApplicationSchema?: boolean;
+  faqItems?: FaqItem[];
 }
 
 const {
@@ -26,6 +30,7 @@ const {
   canonical,
   indexable = true,
   includeSoftwareApplicationSchema = false,
+  faqItems = [],
 } = Astro.props;
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
@@ -35,6 +40,7 @@ const robotsContent = indexable ? 'index, follow' : 'noindex, follow';
 const softwareApplicationSchema = includeSoftwareApplicationSchema
   ? buildSoftwareApplicationSchema(siteUrl)
   : null;
+const faqPageSchema = buildFaqPageSchema(faqItems);
 ---
 
 <html lang="pt-BR">
@@ -57,11 +63,17 @@ const softwareApplicationSchema = includeSoftwareApplicationSchema
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
     {
       softwareApplicationSchema && (
         <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema)} is:inline />
+      )
+    }
+    {
+      faqPageSchema && (
+        <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} is:inline />
       )
     }
 
@@ -76,6 +88,8 @@ const softwareApplicationSchema = includeSoftwareApplicationSchema
     <Footer />
     <FloatingWhatsApp />
     <StickyMobileCTA />
+    <ConsentBanner />
+    <AnalyticsBootstrap />
 
     <script>
       // IntersectionObserver único para animações .reveal (§18 design system).

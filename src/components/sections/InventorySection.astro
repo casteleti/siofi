@@ -5,13 +5,9 @@
 import Icon from '../ui/Icon.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
-const BENEFITS = [
-  'Organização das entradas e saídas',
-  'Histórico de movimentações',
-  'Integração com OS e vendas',
-  'Apoio aos pedidos de compra',
-];
+const { inventory } = copy;
 ---
 
 <section id="inventory" class="section" aria-labelledby="inventory-heading">
@@ -24,14 +20,12 @@ const BENEFITS = [
     </div>
 
     <div>
-      <h2 id="inventory-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Saiba o que entra, o que sai e o que precisa comprar]
-      </h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção estoque, Tarefa 2]</p>
+      <h2 id="inventory-heading" class="text-h2 reveal">{inventory.headline}</h2>
+      {inventory.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
 
       <ul class="inventory__checklist reveal">
         {
-          BENEFITS.map((benefit) => (
+          inventory.benefits.map((benefit) => (
             <li>
               <Icon name="check" size={16} />
               <span>{benefit}</span>

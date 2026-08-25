@@ -1,10 +1,14 @@
 ---
 /**
- * Página de obrigado (spec técnica §36): noindex, sem re-disparar conversão em
- * reload/acesso direto. Nesta tarefa é apenas a casca — lógica de exibição
- * condicional por lead_id/referrer é Tarefa 3/4.
+ * Página de obrigado (spec técnica §36): noindex, não dispara nenhum evento
+ * de conversão (isso já aconteceu antes do redirect, baseado na resposta 2xx
+ * da API). Acesso direto (sem `sessionStorage` esperado) mostra uma versão
+ * genérica, sem fingir que uma conversão ocorreu.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getWhatsappHref } from '../../lib/whatsapp';
+
+const whatsappHref = getWhatsappHref();
 ---
 
 <BaseLayout
@@ -15,14 +19,35 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 >
   <section class="section obrigado">
     <div class="container container-narrow" style="text-align: center;">
-      <h1 class="text-h2">Recebemos seus dados</h1>
-      <p class="text-body-lg">
-        [PLACEHOLDER — mensagem pós-envio definitiva, Tarefa 2/4: design system §12
-        marca esta mensagem como `[TBD — DEFINIR MENSAGEM PÓS-ENVIO]`.]
+      <h1 class="text-h2" id="obrigado-title">Recebemos seus dados</h1>
+      <p class="text-body-lg" id="obrigado-text">
+        Nossa equipe entrará em contato para combinar a demonstração do SiOfi.
       </p>
       <p class="text-body">
-        <a href="/siofi">Voltar para a página do SiOfi</a>
+        <a href={whatsappHref} target="_blank" rel="noopener" data-track="whatsapp_click" data-section="thank_you_page">Falar pelo WhatsApp</a>
+        · <a href="/siofi">Voltar para o SiOfi</a>
       </p>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // §36: acesso direto (sem vir do fluxo real de envio) mostra uma versão
+  // genérica — nunca finge que uma conversão ocorreu para fins de tracking
+  // (nenhum evento é disparado aqui de qualquer forma, isso já é garantido
+  // pelo layout base; esta troca de texto é só de experiência).
+  let cameFromRealSubmission = false;
+  try {
+    cameFromRealSubmission = sessionStorage.getItem('siofi_conversion_confirmed') === '1';
+    sessionStorage.removeItem('siofi_conversion_confirmed');
+  } catch {
+    // sessionStorage indisponível — trata como acesso direto.
+  }
+
+  if (!cameFromRealSubmission) {
+    const text = document.getElementById('obrigado-text');
+    if (text) {
+      text.textContent = 'Agende uma demonstração para conhecer o SiOfi aplicado à rotina da sua empresa.';
+    }
+  }
+</script>

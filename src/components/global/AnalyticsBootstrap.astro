@@ -1,0 +1,132 @@
+---
+/**
+ * Bootstrap de tracking client-side (spec técnica §12/§25/§37 + design system
+ * §30.13): Consent Mode default, GTM loader condicional, captura de
+ * atribuição, delegação de cliques `[data-track]`, scroll depth e FAQ open.
+ *
+ * Não faz parte do Claude Code Implementation Map (§68) como arquivo nomeado
+ * — é a peça de infraestrutura que liga os stubs de `/lib/analytics` e
+ * `/lib/tracking` (Tarefa 1) ao DOM real (Tarefa 3).
+ */
+const gtmContainerId = import.meta.env.PUBLIC_GTM_CONTAINER_ID;
+const hasValidGtmId = typeof gtmContainerId === 'string' && /^GTM-[A-Z0-9]+$/.test(gtmContainerId);
+---
+
+{
+  hasValidGtmId && (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtmContainerId}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+        title="Google Tag Manager"
+      />
+    </noscript>
+  )
+}
+
+<script>
+  import { applyDefaultConsent } from '../../lib/tracking/consent';
+  import { captureAttributionFromUrl } from '../../lib/tracking/attribution';
+  import {
+    trackCtaClick,
+    trackWhatsappClick,
+    trackPhoneClick,
+    trackScrollDepth,
+    trackFaqOpen,
+    type WhatsappClickLocation,
+  } from '../../lib/analytics/dataLayer';
+
+  // Consent Mode default (MUST antes do GTM) + atribuição — independem de GTM configurado.
+  applyDefaultConsent();
+  captureAttributionFromUrl();
+
+  const gtmContainerId = import.meta.env.PUBLIC_GTM_CONTAINER_ID;
+  const hasValidGtmId = typeof gtmContainerId === 'string' && /^GTM-[A-Z0-9]+$/.test(gtmContainerId);
+
+  if (hasValidGtmId) {
+    (function (w: any, d: Document, s: string, l: string, i: string) {
+      w[l] = w[l] || [];
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      const f = d.getElementsByTagName(s)[0];
+      const j = d.createElement(s) as HTMLScriptElement;
+      const dl = l !== 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode?.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', gtmContainerId);
+  }
+
+  const CTA_EVENTS = new Set(['hero_cta_click', 'demo_cta_click', 'secondary_cta_click']);
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const trackedEl = target.closest('[data-track]');
+    if (!trackedEl) return;
+
+    const track = trackedEl.getAttribute('data-track');
+    const section = trackedEl.getAttribute('data-section') ?? undefined;
+    const label = trackedEl.textContent?.trim();
+    if (!track) return;
+
+    if (CTA_EVENTS.has(track)) {
+      trackCtaClick(track as 'hero_cta_click' | 'demo_cta_click' | 'secondary_cta_click', section, label);
+      return;
+    }
+
+    if (track === 'whatsapp_click') {
+      trackWhatsappClick((section as WhatsappClickLocation) ?? 'floating_button');
+      return;
+    }
+
+    if (track === 'phone_click') {
+      trackPhoneClick(section ?? 'unknown');
+    }
+  });
+
+  // FAQ open (§22): dispara quando um <details> marcado é aberto pelo usuário.
+  document.addEventListener(
+    'toggle',
+    (event) => {
+      const details = event.target;
+      if (!(details instanceof HTMLDetailsElement)) return;
+      if (!details.open || details.dataset.track !== 'faq_open') return;
+      const question = details.dataset.faqQuestion;
+      if (question) trackFaqOpen(question);
+    },
+    true,
+  );
+
+  // Scroll depth (25/50/75/100%, uma vez por carregamento de página).
+  const firedMilestones = new Set<number>();
+  const MILESTONES = [25, 50, 75, 100] as const;
+
+  function computeScrollPercentage(): number {
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - doc.clientHeight;
+    if (scrollable <= 0) return 100;
+    return Math.min(100, Math.round((window.scrollY / scrollable) * 100));
+  }
+
+  let ticking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const percentage = computeScrollPercentage();
+        for (const milestone of MILESTONES) {
+          if (percentage >= milestone && !firedMilestones.has(milestone)) {
+            firedMilestones.add(milestone);
+            trackScrollDepth(milestone);
+          }
+        }
+        ticking = false;
+      });
+    },
+    { passive: true },
+  );
+</script>

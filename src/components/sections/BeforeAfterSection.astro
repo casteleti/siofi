@@ -1,31 +1,23 @@
 ---
 /**
  * Antes × Com o SiOfi (Section Map §25 #9). Nunca uma <table> visual —
- * cards pareados (design system §17.2). 6 pares, conforme copy §14.
+ * cards pareados (design system §17.2).
  */
 import Icon from '../ui/Icon.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
-const PAIRS = [
-  { before: 'Informações espalhadas', after: 'Dados centralizados' },
-  { before: 'OS em papel ou controles separados', after: 'Histórico organizado de serviços' },
-  { before: 'Estoque difícil de acompanhar', after: 'Movimentações integradas' },
-  { before: 'Financeiro sem visão consolidada', after: 'Relatórios e indicadores' },
-  { before: 'Dependência da memória', after: 'Informações registradas' },
-  { before: 'Problemas percebidos tarde', after: 'Mais visibilidade da operação' },
-];
+const { beforeAfter } = copy;
 ---
 
 <section id="before-after" class="section section--alt" aria-labelledby="before-after-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <h2 id="before-after-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Quando as informações se conectam, administrar fica mais simples]
-      </h2>
+      <h2 id="before-after-heading" class="text-h2 reveal">{beforeAfter.headline}</h2>
     </div>
 
     <div class="before-after__list">
       {
-        PAIRS.map((pair, i) => (
+        beforeAfter.pairs.map((pair, i) => (
           <div class="before-after__row reveal" style={`--i:${i}`}>
             <span class="before-after__item before-after__item--before">
               <Icon name="minus" size={16} />

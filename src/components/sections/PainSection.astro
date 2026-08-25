@@ -1,36 +1,31 @@
 ---
 /**
  * Identificação da dor (Section Map §25 #3). neutral-50, header centralizado + 4 PainCards.
- * Ícones do Icon Map §28.
  */
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
-const PAIN_CARDS = [
-  { icon: 'eye-off', titlePlaceholder: 'Muito movimento, pouca clareza' },
-  { icon: 'layers', titlePlaceholder: 'Informação espalhada' },
-  { icon: 'package-search', titlePlaceholder: 'Estoque difícil de acompanhar' },
-  { icon: 'user-round-cog', titlePlaceholder: 'Tudo depende do dono' },
-];
+const { pain } = copy;
+const ICONS = ['eye-off', 'layers', 'package-search', 'user-round-cog'];
 ---
 
 <section id="pain" class="section section--alt" aria-labelledby="pain-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <p class="text-eyebrow reveal">[PLACEHOLDER — eyebrow, se houver]</p>
-      <h2 id="pain-heading" class="text-h2 reveal">[PLACEHOLDER — headline: Sua oficina cresceu. A gestão acompanhou?]</h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto de introdução da seção, Tarefa 2]</p>
+      <h2 id="pain-heading" class="text-h2 reveal">{pain.headline}</h2>
+      <p class="text-body-lg reveal">{pain.intro}</p>
     </div>
 
     <div class="card-grid card-grid--4">
       {
-        PAIN_CARDS.map((card, i) => (
+        pain.cards.map((card, i) => (
           <Card variant="flat" class="reveal" style={`--i:${i}`}>
             <span class="pain-card__icon">
-              <Icon name={card.icon} size={24} />
+              <Icon name={ICONS[i]} size={24} />
             </span>
-            <p class="text-h3">[PLACEHOLDER — {card.titlePlaceholder}]</p>
-            <p class="text-body">[PLACEHOLDER — texto do card, Tarefa 2]</p>
+            <p class="text-h3">{card.title}</p>
+            <p class="text-body">{card.text}</p>
           </Card>
         ))
       }

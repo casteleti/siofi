@@ -5,27 +5,33 @@
  */
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
+const { switching } = copy;
+
+/**
+ * Rótulos curtos derivados do que a persona "Empresa trocando de sistema"
+ * valoriza (copy §4) — não são frases novas de marketing nem promessa de
+ * processo (isso segue pendente de validação da F5, copy §16 TODO F5).
+ */
 const TRUST_POINTS = [
   { icon: 'shield-check', label: 'Segurança e estabilidade' },
-  { icon: 'arrow-right-left', label: 'Migração — [TBD F5: validar processo real]' },
-  { icon: 'route', label: 'Acompanhamento durante a implantação' },
+  { icon: 'route', label: 'Implantação organizada' },
+  { icon: 'arrow-right-left', label: 'Confiança nos dados' },
 ];
 ---
 
 <section id="switching" class="section section--alt" aria-labelledby="switching-heading">
   <div class="container split split--6-6">
     <div>
-      <h2 id="switching-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Já usa outro sistema?]
-      </h2>
+      <h2 id="switching-heading" class="text-h2 reveal">{switching.headline}</h2>
       <p class="text-sub reveal" style="color: var(--color-text-primary); font-weight: var(--weight-medium);">
-        [PLACEHOLDER — subheadline: Trocar de sistema precisa trazer mais controle — não mais problemas.]
+        {switching.subheadline}
       </p>
-      <p class="text-body reveal">[PLACEHOLDER — texto da seção troca de sistema, Tarefa 2]</p>
+      <p class="text-body reveal">{switching.text}</p>
       <div class="reveal">
-        <Button variant="primary" href="#form" trackId="demo_cta_click">
-          Quero avaliar o SiOfi
+        <Button variant="primary" href="#form?ctx=troca" trackId="demo_cta_click" section="troca_sistema">
+          {switching.cta}
         </Button>
       </div>
     </div>

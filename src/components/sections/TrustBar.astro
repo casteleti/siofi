@@ -1,18 +1,33 @@
 ---
 /**
- * Barra de confiança (Section Map §25 #2). Logos/números condicionais —
- * ocultos até haver dados validados pela F5 (copy §7: não inventar números).
+ * Barra de confiança (Section Map §25 #2). A fila de logos só renderiza
+ * quando houver dados validados pela F5 — copy §7: "não inserir números
+ * fictícios". Vazio hoje (design system: seções condicionais ocultas quando vazias).
  */
+import copy from '../../content/copy/siofi-main.copy.json';
+
+interface TrustLogo {
+  src: string;
+  alt: string;
+}
+
+const { trustBar } = copy;
+const logos = trustBar.logos as TrustLogo[];
+const hasLogos = logos.length > 0;
 ---
 
 <section id="trust-bar" class="trust-bar">
   <div class="container">
-    <p class="text-body trust-bar__phrase reveal">
-      Desenvolvido para a rotina de oficinas, auto centers e empresas do setor automotivo.
-    </p>
-    <div class="trust-bar__logos placeholder-block reveal" style="height: 32px;">
-      [PLACEHOLDER — LogoStrip: logos/números condicionais, ocultos até dado validado pela F5]
-    </div>
+    <p class="text-body trust-bar__phrase reveal">{trustBar.phrase}</p>
+    {
+      hasLogos && (
+        <div class="trust-bar__logos reveal">
+          {logos.map((logo) => (
+            <img src={logo.src} alt={logo.alt} width="96" height="32" loading="lazy" />
+          ))}
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -25,6 +40,16 @@
 
   .trust-bar__phrase {
     text-align: center;
-    margin-bottom: var(--space-6);
+  }
+
+  .trust-bar__logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+    filter: grayscale(1);
+    opacity: 0.8;
   }
 </style>

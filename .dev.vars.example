@@ -1,0 +1,20 @@
+# Segredos locais para `astro dev`/`astro preview` (runtime Cloudflare Workers).
+#
+# Diferente do `.env` (lido só em build time pelo Vite para variáveis
+# PUBLIC_*), este arquivo é a convenção do Wrangler/Miniflare para expor
+# variáveis de ambiente ao runtime do worker localmente — é o que
+# `import { env } from 'cloudflare:workers'` enxerga em `src/pages/api/lead.ts`.
+#
+# Copie para `.dev.vars` (git-ignorado) e preencha com valores de TESTE/sandbox,
+# nunca credenciais reais de produção. Valores reais de produção são
+# configurados como secrets do Cloudflare (`wrangler secret put`) ou no
+# dashboard do projeto, nunca neste arquivo.
+
+META_PIXEL_ID=[TBD — FORNECER PELA F5]
+META_CAPI_ACCESS_TOKEN=[TBD — FORNECER PELA F5]
+GOOGLE_ADS_CONVERSION_ID=[TBD — FORNECER PELA F5]
+GOOGLE_ADS_CONVERSION_LABEL=[TBD — FORNECER PELA F5]
+GOOGLE_ADS_ENHANCED_CONVERSIONS_API_KEY=[TBD — FORNECER PELA F5]
+CRM_ENDPOINT=[TBD — DEFINIR CRM]
+CRM_API_KEY=[TBD — DEFINIR CRM]
+HONEYPOT_FIELD_NAME=website_url

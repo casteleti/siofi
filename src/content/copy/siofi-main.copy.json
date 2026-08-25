@@ -1,19 +1,201 @@
 {
-  "_comment": "Placeholder estrutural — Tarefa 1. Cada chave espelha uma das 16 seções de siofi_landing_page_copy_claude_code.md §5. Tarefa 2 substitui os valores pelo texto literal do documento de copy, seção correspondente. Não redesenhar esta estrutura na Tarefa 2 — apenas preencher.",
-  "hero": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "trustBar": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "painIdentification": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "valueProposition": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "featurePillars": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "workOrder": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "financialResults": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "inventoryPurchasing": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "beforeAfter": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "forWhom": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "systemSwitch": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "support": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "socialProof": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "faq": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "finalCta": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]",
-  "footer": "[PENDENTE — Tarefa 2: copiar texto literal de siofi_landing_page_copy_claude_code.md, seção correspondente]"
+  "hero": {
+    "eyebrow": "Sistema de gestão para oficinas e auto centers",
+    "subheadline": "O SiOfi reúne ordens de serviço, financeiro, estoque, clientes, equipe e gestão em um só lugar para você acompanhar sua oficina com mais clareza e controle.",
+    "ctaPrimary": "Agendar uma demonstração",
+    "ctaSecondary": "Conhecer o SiOfi",
+    "microcopy": "Conheça o sistema em uma demonstração prática e veja como ele pode se encaixar na rotina da sua empresa."
+  },
+  "trustBar": {
+    "phrase": "Desenvolvido para a rotina de oficinas, auto centers e empresas do setor automotivo.",
+    "logos": []
+  },
+  "pain": {
+    "headline": "Sua oficina cresceu. A gestão acompanhou?",
+    "intro": "Quanto mais veículos, peças, clientes e pessoas entram na operação, mais difícil fica acompanhar tudo apenas com papel, memória ou planilhas separadas.",
+    "cards": [
+      {
+        "title": "Muito movimento, pouca clareza",
+        "text": "Você vende, compra, paga contas e recebe clientes — mas nem sempre consegue enxergar com facilidade quanto realmente sobrou."
+      },
+      {
+        "title": "Informação espalhada",
+        "text": "Orçamento, ordem de serviço, histórico do veículo e dados do cliente precisam estar organizados e fáceis de encontrar."
+      },
+      {
+        "title": "Estoque difícil de acompanhar",
+        "text": "Quando entradas, saídas e compras não conversam entre si, fica mais difícil saber o que realmente existe no estoque."
+      },
+      {
+        "title": "Tudo depende do dono",
+        "text": "Se toda informação precisa passar por você, administrar a oficina fica mais pesado conforme a empresa cresce."
+      }
+    ]
+  },
+  "valueProposition": {
+    "headline": "Mais do que informatizar a oficina. É ter controle do negócio.",
+    "paragraphs": [
+      "O SiOfi centraliza as principais informações da sua operação para facilitar a rotina da equipe e dar ao gestor uma visão mais clara do que acontece na empresa.",
+      "Do atendimento ao financeiro, da ordem de serviço ao estoque, as informações ficam conectadas em um mesmo sistema."
+    ],
+    "cta": "Quero conhecer o SiOfi"
+  },
+  "featurePillars": {
+    "headline": "O que você precisa acompanhar, em um só lugar",
+    "pillars": [
+      {
+        "name": "Oficina",
+        "icon": "clipboard-list",
+        "title": "Acompanhe cada serviço",
+        "text": "Abra e acompanhe ordens de serviço, registre serviços, peças, técnicos e mantenha o histórico de clientes e veículos organizado.",
+        "features": ["Abertura e controle de OS", "Histórico de veículos", "Histórico de clientes", "Produtividade de mecânicos"]
+      },
+      {
+        "name": "Financeiro",
+        "icon": "wallet",
+        "title": "Saiba o que entra, o que sai e o que precisa receber",
+        "text": "Acompanhe contas a pagar e receber, caixa, cobranças, boletos e movimentações financeiras em uma única gestão.",
+        "features": ["Contas a pagar", "Contas a receber", "Cobrança", "Boletos", "Fluxo de caixa", "Movimentação financeira"]
+      },
+      {
+        "name": "Gestão",
+        "icon": "bar-chart-3",
+        "title": "Enxergue os resultados da empresa",
+        "text": "Tenha relatórios e indicadores para acompanhar faturamento, resultados, ticket médio e outras informações importantes para a tomada de decisão.",
+        "features": ["DRE", "Balanço gerencial", "Resultados do período", "Resumos de venda", "Relatórios gerenciais"]
+      },
+      {
+        "name": "Estoque",
+        "icon": "package",
+        "title": "Estoque integrado à operação",
+        "text": "Acompanhe produtos, movimentações e entradas de mercadorias de forma integrada às vendas e ordens de serviço.",
+        "features": ["Consulta de produtos", "Entrada de notas", "Importação de XML", "Movimentações", "Entradas e saídas avulsas"]
+      },
+      {
+        "name": "Compras",
+        "icon": "shopping-cart",
+        "title": "Compre com mais informação",
+        "text": "Organize pedidos e utilize as informações do sistema para apoiar as decisões de compra.",
+        "features": ["Pedido de compra", "Sugestão de compra"]
+      },
+      {
+        "name": "Fiscal",
+        "icon": "file-check-2",
+        "title": "Emissão fiscal integrada à rotina",
+        "text": "Emita NF-e a partir do sistema e facilite o envio dos documentos fiscais ao cliente.",
+        "features": ["Emissão de NF-e", "Transmissão e validação", "Envio de XML e PDF por e-mail", "Cópia automática do XML"]
+      }
+    ]
+  },
+  "workOrder": {
+    "headline": "Do orçamento à entrega, acompanhe cada serviço",
+    "paragraphs": [
+      "Centralize as informações do veículo, cliente, serviços, peças e técnicos em uma única ordem de serviço.",
+      "Tenha o histórico organizado e facilite o acompanhamento da equipe durante toda a operação."
+    ],
+    "cta": "Ver o SiOfi funcionando"
+  },
+  "financial": {
+    "headline": "Sua oficina está cheia. Mas ela está dando resultado?",
+    "paragraphs": [
+      "Movimento não é a mesma coisa que lucro.",
+      "Com o SiOfi, você pode acompanhar informações financeiras e gerenciais para entender melhor o desempenho da empresa e tomar decisões com mais clareza."
+    ],
+    "highlights": ["Faturamento", "Contas a pagar", "Contas a receber", "Fluxo de caixa", "DRE", "Balanço gerencial", "Resultados do período", "Ticket médio", "Indicadores"],
+    "supportPhrase": "Menos achismo. Mais informação para decidir.",
+    "cta": "Quero ter mais controle da minha oficina"
+  },
+  "inventory": {
+    "headline": "Saiba o que entra, o que sai e o que precisa comprar",
+    "paragraphs": [
+      "O estoque do SiOfi trabalha integrado às ordens de serviço, vendas e notas fiscais, ajudando sua equipe a manter as movimentações organizadas.",
+      "A entrada de mercadorias pode ser feita utilizando XML, reduzindo trabalho manual na rotina."
+    ],
+    "benefits": ["Organização das entradas e saídas", "Histórico de movimentações", "Integração com OS e vendas", "Apoio aos pedidos de compra"]
+  },
+  "beforeAfter": {
+    "headline": "Quando as informações se conectam, administrar fica mais simples",
+    "pairs": [
+      { "before": "Informações espalhadas", "after": "Dados centralizados" },
+      { "before": "OS em papel ou controles separados", "after": "Histórico organizado de serviços" },
+      { "before": "Estoque difícil de acompanhar", "after": "Movimentações integradas" },
+      { "before": "Financeiro sem visão consolidada", "after": "Relatórios e indicadores" },
+      { "before": "Dependência da memória", "after": "Informações registradas" },
+      { "before": "Problemas percebidos tarde", "after": "Mais visibilidade da operação" }
+    ]
+  },
+  "segments": {
+    "headline": "Feito para quem vive a rotina do setor automotivo",
+    "items": [
+      { "name": "Oficinas mecânicas", "icon": "clipboard-list", "text": "Organize OS, clientes, veículos, financeiro e gestão." },
+      { "name": "Auto centers", "icon": "store", "text": "Controle uma operação com mais serviços, produtos, estoque e equipe." },
+      { "name": "Centros automotivos", "icon": "building-2", "text": "Centralize as informações da operação e acompanhe os resultados." },
+      { "name": "Autoelétricas", "icon": "zap", "text": "Mantenha serviços, clientes, veículos e histórico organizados." },
+      { "name": "Funilarias", "icon": "paintbrush", "text": "Controle serviços, clientes, financeiro e acompanhamento da operação." }
+    ],
+    "qualifier": "O SiOfi faz especialmente sentido para empresas que já possuem uma operação em andamento e precisam de mais organização e controle para administrar o crescimento."
+  },
+  "switching": {
+    "headline": "Já usa outro sistema?",
+    "subheadline": "Trocar de sistema precisa trazer mais controle — não mais problemas.",
+    "text": "Se sua empresa já utiliza um software, a demonstração do SiOfi pode ser direcionada para comparar exatamente os pontos mais importantes da sua rotina. Avalie recursos, operação e possibilidades antes de tomar a decisão.",
+    "cta": "Quero avaliar o SiOfi"
+  },
+  "support": {
+    "headline": "Quando você precisa de ajuda, precisa falar com quem entende o sistema",
+    "text": "A F5 oferece suporte ao SiOfi por diferentes canais para auxiliar os clientes no uso do sistema e na rotina da operação.",
+    "channels": [
+      { "label": "Atendimento pessoal", "icon": "users-round" },
+      { "label": "Telefone", "icon": "phone" },
+      { "label": "E-mail", "icon": "mail" },
+      { "label": "Sistema de ticket", "icon": "ticket" },
+      { "label": "Acesso remoto", "icon": "screen-share" }
+    ],
+    "cta": "Falar com a equipe"
+  },
+  "testimonials": {
+    "_comment": "Vazio de propósito — nenhum depoimento real autorizado pela F5 ainda (copy §18, design system §29.1). A seção fica oculta até haver dados reais.",
+    "headline": "Quem usa o SiOfi na rotina",
+    "items": []
+  },
+  "faq": {
+    "headline": "Dúvidas frequentes",
+    "items": [
+      {
+        "question": "Para quais empresas o SiOfi é indicado?",
+        "answer": "O SiOfi foi desenvolvido para empresas do setor automotivo, como oficinas mecânicas, auto centers, autoelétricas, funilarias e centros automotivos."
+      },
+      {
+        "question": "O SiOfi possui ordem de serviço?",
+        "answer": "Sim. O sistema permite abertura e controle de ordens de serviço, além de histórico de veículos, clientes e acompanhamento de técnicos."
+      },
+      {
+        "question": "O SiOfi ajuda no controle financeiro?",
+        "answer": "Sim. O sistema possui recursos de contas a pagar e receber, caixa, cobrança, boletos, fluxo de caixa e relatórios gerenciais."
+      },
+      {
+        "question": "O sistema controla estoque?",
+        "answer": "Sim. O estoque é integrado às ordens de serviço, vendas e notas fiscais e permite, entre outros recursos, entrada de mercadorias via XML."
+      },
+      {
+        "question": "O SiOfi emite nota fiscal?",
+        "answer": "O material atual do produto informa emissão, transmissão e validação de NF-e, além do envio de XML e PDF por e-mail."
+      },
+      {
+        "question": "Posso conhecer o sistema antes de contratar?",
+        "answer": "Sim. Entre em contato para agendar uma demonstração e conhecer o SiOfi aplicado à rotina da sua empresa."
+      },
+      {
+        "question": "Como funciona o suporte?",
+        "answer": "A F5 oferece diferentes canais de suporte, incluindo atendimento por telefone, e-mail, sistema de ticket e acesso remoto."
+      }
+    ],
+    "_pendingComment": "Excluídas de propósito (copy §19, TODO F5, sem resposta validada): \"Como funciona a implantação?\" e \"Posso migrar dados do sistema que utilizo hoje?\" — não entram no accordion nem no FAQPage schema até aprovação."
+  },
+  "finalCta": {
+    "headline": "Veja como o SiOfi pode funcionar na sua oficina",
+    "text": "Agende uma demonstração e conheça os recursos mais importantes para a rotina da sua empresa.",
+    "buttonLabel": "Quero agendar uma demonstração",
+    "microcopy": "Ao enviar seus dados, nossa equipe entrará em contato para combinar a demonstração."
+  }
 }

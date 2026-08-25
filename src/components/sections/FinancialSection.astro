@@ -7,40 +7,26 @@ import Button from '../ui/Button.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
 import Chip from '../ui/Chip.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
-const HIGHLIGHTS = [
-  'Faturamento',
-  'Contas a pagar',
-  'Contas a receber',
-  'Fluxo de caixa',
-  'DRE',
-  'Balanço gerencial',
-  'Resultados do período',
-  'Ticket médio',
-  'Indicadores',
-];
+const { financial } = copy;
 ---
 
 <section id="financeiro" class="section section--dark on-dark" aria-labelledby="financeiro-heading">
   <div class="container split split--5-7">
     <div>
-      <p class="text-eyebrow reveal">[PLACEHOLDER — eyebrow, se houver]</p>
-      <h2 id="financeiro-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Sua oficina está cheia. Mas ela está dando resultado?]
-      </h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção financeiro, Tarefa 2]</p>
+      <h2 id="financeiro-heading" class="text-h2 reveal">{financial.headline}</h2>
+      {financial.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
 
       <div class="financial__chips reveal">
-        {HIGHLIGHTS.map((label) => <Chip onDark>{label}</Chip>)}
+        {financial.highlights.map((label) => <Chip onDark>{label}</Chip>)}
       </div>
 
-      <p class="financial__support-phrase reveal">
-        [PLACEHOLDER — frase de apoio: Menos achismo. Mais informação para decidir.]
-      </p>
+      <p class="financial__support-phrase reveal">{financial.supportPhrase}</p>
 
       <div class="reveal">
-        <Button variant="primary" href="#form" trackId="demo_cta_click">
-          Quero ter mais controle da minha oficina
+        <Button variant="primary" href="#form" trackId="demo_cta_click" section="financeiro">
+          {financial.cta}
         </Button>
       </div>
     </div>

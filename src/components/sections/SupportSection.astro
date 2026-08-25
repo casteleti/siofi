@@ -5,14 +5,9 @@
  */
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
 
-const CHANNELS = [
-  { icon: 'users-round', label: 'Atendimento pessoal' },
-  { icon: 'phone', label: 'Telefone' },
-  { icon: 'mail', label: 'E-mail' },
-  { icon: 'ticket', label: 'Sistema de ticket' },
-  { icon: 'screen-share', label: 'Acesso remoto' },
-];
+const { support } = copy;
 ---
 
 <section id="suporte" class="section" aria-labelledby="suporte-heading">
@@ -23,14 +18,12 @@ const CHANNELS = [
     </div>
 
     <div>
-      <h2 id="suporte-heading" class="text-h2 reveal">
-        [PLACEHOLDER — headline: Quando você precisa de ajuda, precisa falar com quem entende o sistema]
-      </h2>
-      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção suporte, Tarefa 2]</p>
+      <h2 id="suporte-heading" class="text-h2 reveal">{support.headline}</h2>
+      <p class="text-body-lg reveal">{support.text}</p>
 
       <ul class="support__channels reveal">
         {
-          CHANNELS.map((channel) => (
+          support.channels.map((channel) => (
             <li>
               <Icon name={channel.icon} size={20} />
               <span>{channel.label}</span>
@@ -40,8 +33,8 @@ const CHANNELS = [
       </ul>
 
       <div class="reveal">
-        <Button variant="secondary" href="#form" trackId="secondary_cta_click">
-          Falar com a equipe
+        <Button variant="secondary" href="#form" trackId="secondary_cta_click" section="suporte">
+          {support.cta}
         </Button>
       </div>
     </div>
