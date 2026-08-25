@@ -1,0 +1,169 @@
+/**
+ * Design tokens — espelho exato de docs/siofi-landing-visual-design-system.md §20.
+ * Fonte única de verdade para valores visuais. Não adicionar, arredondar ou
+ * "melhorar" nenhum valor aqui sem atualizar o design system primeiro.
+ */
+
+:root {
+  /* ---- Cores ---- */
+  --color-brand-blue: #1B75DB;
+  --color-primary: #1565C0;
+  --color-primary-dark: #0F4FA8;
+  --color-primary-deep: #0B3D82;
+  --color-primary-deeper: #082E63;
+  --color-primary-light: #E8F2FC;
+  --color-primary-light-active: #D6E7F9;
+  --color-primary-soft: #8CCBF5;
+  --color-secondary: #4A5563;
+
+  --color-neutral-50: #F7F9FC;
+  --color-neutral-100: #F1F4F8;
+  --color-neutral-200: #E3E8EF;
+  --color-neutral-300: #CBD2DC;
+  --color-neutral-500: #6B7280;
+  --color-neutral-700: #4A5563;
+  --color-neutral-900: #1F2933;
+  --color-white: #FFFFFF;
+
+  --color-success: #1E8E5A;
+  --color-error: #C8342B;
+  --color-whatsapp: #25D366;
+
+  /* Semânticos */
+  --color-bg: var(--color-white);
+  --color-bg-alt: var(--color-neutral-50);
+  --color-bg-dark: var(--color-primary-deep);
+  --color-surface: var(--color-white);
+  --color-surface-alt: var(--color-neutral-50);
+  --color-surface-dark: rgba(255, 255, 255, 0.06);
+  --color-border: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+  --color-border-dark: rgba(255, 255, 255, 0.12);
+  --color-text-primary: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-700);
+  --color-text-muted: var(--color-neutral-500);
+  --color-text-on-dark: #FFFFFF;
+  --color-text-on-dark-secondary: #DCE6F5;
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primary-dark);
+  --color-focus-ring: var(--color-primary-soft);
+  --color-icon: var(--color-primary-dark);
+  --color-icon-bg: var(--color-primary-light);
+  --color-icon-on-dark: var(--color-primary-soft);
+  --color-eyebrow: var(--color-primary);
+
+  /* ---- Tipografia ---- */
+  --font-display: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-xl: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --text-3xl: clamp(2.125rem, 1.6rem + 2.4vw, 3.5rem);
+  --text-metric: clamp(1.875rem, 1.5rem + 1.6vw, 2.5rem);
+
+  --leading-tight: 1.08;
+  --leading-heading: 1.15;
+  --leading-h3: 1.3;
+  --leading-body: 1.6;
+  --leading-sub: 1.55;
+
+  --tracking-display: -0.02em;
+  --tracking-heading: -0.015em;
+  --tracking-h3: -0.005em;
+  --tracking-eyebrow: 0.08em;
+  --tracking-button: 0.01em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* ---- Espaçamento ---- */
+  --space-1: 4px;  --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px; --space-6: 24px;  --space-8: 32px;  --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+  --space-28: 112px; --space-32: 128px;
+
+  --section-py: var(--space-28);
+  --section-py-md: 88px;
+  --section-py-sm: 72px;
+  --card-p: var(--space-8);
+  --card-p-sm: var(--space-6);
+  --header-h: 72px;
+  --header-h-sm: 64px;
+
+  /* ---- Layout ---- */
+  --container: 1200px;
+  --container-wide: 1440px;
+  --container-narrow: 720px;
+  --container-form: 480px;
+  --gutter: 24px;
+  --gutter-md: 20px;
+  --gutter-sm: 16px;
+  --page-px: 32px;
+  --page-px-md: 24px;
+  --page-px-sm: 20px;
+  --split-gap: 64px;
+  --split-gap-md: 40px;
+
+  /* ---- Radius ---- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* ---- Sombras ---- */
+  --shadow-xs: 0 1px 2px rgba(15, 35, 70, 0.06);
+  --shadow-sm: 0 2px 6px rgba(15, 35, 70, 0.08);
+  --shadow-md: 0 8px 24px -8px rgba(15, 35, 70, 0.18), 0 2px 6px rgba(15, 35, 70, 0.06);
+  --shadow-lg: 0 24px 48px -16px rgba(15, 35, 70, 0.24), 0 4px 12px rgba(15, 35, 70, 0.08);
+  --focus-ring: 0 0 0 3px rgba(27, 117, 219, 0.20);
+
+  /* ---- Componentes ---- */
+  --btn-h: 52px;
+  --btn-h-sm: 44px;
+  --btn-px: 28px;
+  --input-h: 52px;
+  --input-px: 16px;
+  --icon-sm: 20px;
+  --icon-md: 24px;
+  --icon-lg: 28px;
+  --icon-box: 44px;
+  --icon-stroke: 1.75;
+  --touch-min: 44px;
+  --frame-bar-h: 36px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-enter: 320ms;
+  --enter-distance: 16px;
+  --stagger: 80ms;
+
+  /* ---- Breakpoints (referência; media queries não leem custom properties) ---- */
+  /* sm 480 · md 768 · lg 1024 · xl 1280 · 2xl 1536 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 1ms; --dur-base: 1ms; --dur-enter: 1ms; --enter-distance: 0px; --stagger: 0ms; }
+}
+
+/* ---- Classes tipográficas de referência (§20.1) ---- */
+.text-display { font: var(--weight-extrabold) var(--text-3xl)/var(--leading-tight) var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-text-primary); max-width: 640px; }
+.text-h2      { font: var(--weight-extrabold) var(--text-2xl)/var(--leading-heading) var(--font-display); letter-spacing: var(--tracking-heading); max-width: 720px; }
+.text-h3      { font: var(--weight-bold) var(--text-xl)/var(--leading-h3) var(--font-display); letter-spacing: var(--tracking-h3); }
+.text-sub     { font: var(--weight-regular) var(--text-lg)/var(--leading-sub) var(--font-body); color: var(--color-text-secondary); max-width: 560px; }
+.text-body-lg { font: var(--weight-regular) var(--text-md)/var(--leading-body) var(--font-body); color: var(--color-text-secondary); max-width: 62ch; }
+.text-body    { font: var(--weight-regular) var(--text-base)/var(--leading-body) var(--font-body); color: var(--color-text-secondary); max-width: 62ch; }
+.text-small   { font: var(--weight-regular) var(--text-sm)/1.5 var(--font-body); color: var(--color-text-muted); }
+.text-eyebrow { font: var(--weight-semibold) var(--text-xs)/1.2 var(--font-body); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-eyebrow); }
+.text-metric  { font: var(--weight-extrabold) var(--text-metric)/1 var(--font-display); letter-spacing: var(--tracking-display); font-feature-settings: "tnum"; }

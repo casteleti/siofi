@@ -1,0 +1,101 @@
+---
+/**
+ * Layout base — casca HTML comum a todas as páginas (§6/§7/§9 da spec técnica).
+ * Não faz parte do Claude Code Implementation Map (§68) como arquivo nomeado,
+ * mas é infraestrutura necessária para não duplicar <html>/<head> em cada página.
+ */
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import FloatingWhatsApp from '../components/global/FloatingWhatsApp.astro';
+import StickyMobileCTA from '../components/global/StickyMobileCTA.astro';
+import organizationSchema from '../schemas/organization.json';
+import { buildSoftwareApplicationSchema } from '../schemas/software-application';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  indexable?: boolean;
+  includeSoftwareApplicationSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  indexable = true,
+  includeSoftwareApplicationSchema = false,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonicalUrl = `${siteUrl}${canonical}`;
+const robotsContent = indexable ? 'index, follow' : 'noindex, follow';
+
+const softwareApplicationSchema = includeSoftwareApplicationSchema
+  ? buildSoftwareApplicationSchema(siteUrl)
+  : null;
+---
+
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robotsContent} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="pt_BR" />
+    {/* [PLACEHOLDER — og:image, pendente de asset real §29 design system] */}
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
+    {
+      softwareApplicationSchema && (
+        <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema)} is:inline />
+      )
+    }
+
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+    <FloatingWhatsApp />
+    <StickyMobileCTA />
+
+    <script>
+      // IntersectionObserver único para animações .reveal (§18 design system).
+      const revealTargets = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && revealTargets.length > 0) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 },
+        );
+        revealTargets.forEach((el) => observer.observe(el));
+      } else {
+        revealTargets.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

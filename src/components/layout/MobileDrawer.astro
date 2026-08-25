@@ -1,0 +1,124 @@
+---
+/**
+ * Drawer mobile (design system §17.2): abre a partir da base, radius-lg no topo,
+ * 4 links + CTA primário full-width + link WhatsApp. Foco preso e `Esc` fecha.
+ */
+import Button from '../ui/Button.astro';
+
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  links: NavLink[];
+}
+
+const { links } = Astro.props;
+---
+
+<div id="mobile-drawer" class="drawer" hidden>
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <nav class="drawer__panel" aria-label="Menu mobile">
+    <ul class="drawer__links">
+      {links.map((link) => (
+        <li><a href={link.href} data-drawer-close>{link.label}</a></li>
+      ))}
+    </ul>
+    <Button variant="primary" href="#form" fullWidth trackId="hero_cta_click">
+      Agendar uma demonstração
+    </Button>
+    <a class="drawer__whatsapp" href="#" data-track="whatsapp_click">
+      Falar com um especialista
+    </a>
+  </nav>
+</div>
+
+<style>
+  .drawer[hidden] {
+    display: none;
+  }
+
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+  }
+
+  .drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 35, 70, 0.4);
+  }
+
+  .drawer__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-white);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: var(--space-8) var(--page-px-sm) var(--space-10);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .drawer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .drawer__links a {
+    display: block;
+    font: var(--weight-medium) 17px var(--font-body);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    padding-block: var(--space-2);
+  }
+
+  .drawer__whatsapp {
+    text-align: center;
+    font: var(--weight-medium) var(--text-sm) var(--font-body);
+    color: var(--color-primary);
+  }
+</style>
+
+<script>
+  const drawer = document.getElementById('mobile-drawer');
+  const toggle = document.getElementById('drawer-toggle');
+
+  function openDrawer() {
+    if (!drawer || !toggle) return;
+    drawer.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    if (!drawer || !toggle) return;
+    drawer.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    toggle.focus();
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeDrawer() : openDrawer();
+  });
+
+  drawer?.querySelectorAll('[data-drawer-close]').forEach((el) => {
+    el.addEventListener('click', closeDrawer);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && drawer && !drawer.hidden) {
+      closeDrawer();
+    }
+  });
+</script>

@@ -1,0 +1,15 @@
+# Redirects — Cloudflare Pages (spec técnica §4/§45).
+# Domínio canônico e variação www/non-www ainda não definidos pela F5.
+
+# HTTP → HTTPS e normalização de www são resolvidos pelo próprio Cloudflare Pages
+# (SSL/TLS "Always Use HTTPS") — não duplicar aqui.
+
+# [TBD — DEFINIR DOMÍNIO CANÔNICO]: 301 de www para non-www (ou vice-versa)
+# https://www.[TBD].com.br/* https://[TBD].com.br/:splat 301!
+
+# Slugs antigos de anúncios sem o prefixo /siofi, caso existam campanhas ativas
+/oficina           /siofi/oficina-mecanica   301
+/auto-center       /siofi/auto-center        301
+
+# Trailing slash → sem trailing slash (spec técnica §4)
+/siofi/            /siofi                    301

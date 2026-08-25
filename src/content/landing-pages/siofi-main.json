@@ -1,0 +1,25 @@
+{
+  "slug": "siofi",
+  "h1": "Sua oficina trabalha muito. Mas você sabe quanto realmente sobra?",
+  "metaTitle": "Sistema para Oficina Mecânica e Auto Center | SiOfi",
+  "metaDescription": "Gerencie ordens de serviço, financeiro, estoque, clientes e resultados da sua oficina ou auto center com o SiOfi. Agende uma demonstração.",
+  "indexable": true,
+  "canonical": "/siofi",
+  "sections": [
+    "hero",
+    "trust-bar",
+    "pain",
+    "value-proposition",
+    "feature-pillars",
+    "work-order",
+    "financial",
+    "inventory",
+    "before-after",
+    "segments",
+    "switching",
+    "support",
+    "testimonials",
+    "faq",
+    "final-cta"
+  ]
+}

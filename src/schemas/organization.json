@@ -1,0 +1,19 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "F5 Software de Gestão",
+  "url": "[TBD — DEFINIR DOMÍNIO CANÔNICO]",
+  "logo": "[TBD — DEFINIR DOMÍNIO CANÔNICO]/assets/logo/siofi-logo-square.png",
+  "sameAs": [
+    "[TBD — URL Instagram]",
+    "[TBD — URL Facebook]",
+    "[TBD — URL LinkedIn]"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "[TBD — TELEFONE F5]",
+    "contactType": "sales",
+    "areaServed": "BR",
+    "availableLanguage": "Portuguese"
+  }
+}

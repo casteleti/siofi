@@ -1,0 +1,74 @@
+---
+/**
+ * Financeiro e resultados (Section Map §25 #7, id #financeiro). Uma das duas
+ * seções primary-deep (design system §16.1). Split 5/7, ProductFrame DRE + chips.
+ */
+import Button from '../ui/Button.astro';
+import ProductFrame from '../ui/ProductFrame.astro';
+import Callout from '../ui/Callout.astro';
+import Chip from '../ui/Chip.astro';
+
+const HIGHLIGHTS = [
+  'Faturamento',
+  'Contas a pagar',
+  'Contas a receber',
+  'Fluxo de caixa',
+  'DRE',
+  'Balanço gerencial',
+  'Resultados do período',
+  'Ticket médio',
+  'Indicadores',
+];
+---
+
+<section id="financeiro" class="section section--dark on-dark" aria-labelledby="financeiro-heading">
+  <div class="container split split--5-7">
+    <div>
+      <p class="text-eyebrow reveal">[PLACEHOLDER — eyebrow, se houver]</p>
+      <h2 id="financeiro-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Sua oficina está cheia. Mas ela está dando resultado?]
+      </h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção financeiro, Tarefa 2]</p>
+
+      <div class="financial__chips reveal">
+        {HIGHLIGHTS.map((label) => <Chip onDark>{label}</Chip>)}
+      </div>
+
+      <p class="financial__support-phrase reveal">
+        [PLACEHOLDER — frase de apoio: Menos achismo. Mais informação para decidir.]
+      </p>
+
+      <div class="reveal">
+        <Button variant="primary" href="#form" trackId="demo_cta_click">
+          Quero ter mais controle da minha oficina
+        </Button>
+      </div>
+    </div>
+
+    <div class="split__media reveal">
+      <ProductFrame label="DRE" ratio="16:9">
+        Tela de DRE e resultados do período no SiOfi
+      </ProductFrame>
+      <Callout icon="bar-chart-3" style="top: -16px; right: 24px;">Resultado líquido</Callout>
+    </div>
+  </div>
+</section>
+
+<style>
+  .financial__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block: var(--space-6);
+  }
+
+  .financial__support-phrase {
+    font: var(--weight-bold) 24px var(--font-display);
+    color: var(--color-white);
+    margin-bottom: var(--space-8);
+  }
+
+  .split__media {
+    position: relative;
+  }
+</style>

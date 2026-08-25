@@ -1,0 +1,66 @@
+---
+/**
+ * Estoque e compras (Section Map §25 #8). Split 7/5 invertido, ProductFrame + checklist.
+ */
+import Icon from '../ui/Icon.astro';
+import ProductFrame from '../ui/ProductFrame.astro';
+import Callout from '../ui/Callout.astro';
+
+const BENEFITS = [
+  'Organização das entradas e saídas',
+  'Histórico de movimentações',
+  'Integração com OS e vendas',
+  'Apoio aos pedidos de compra',
+];
+---
+
+<section id="inventory" class="section" aria-labelledby="inventory-heading">
+  <div class="container split split--7-5">
+    <div class="split__media reveal">
+      <ProductFrame label="Estoque" ratio="16:10">
+        Tela de consulta de estoque e importação de XML no SiOfi
+      </ProductFrame>
+      <Callout icon="file-code-2" style="top: -16px; left: 24px;">Importação de XML</Callout>
+    </div>
+
+    <div>
+      <h2 id="inventory-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Saiba o que entra, o que sai e o que precisa comprar]
+      </h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção estoque, Tarefa 2]</p>
+
+      <ul class="inventory__checklist reveal">
+        {
+          BENEFITS.map((benefit) => (
+            <li>
+              <Icon name="check" size={16} />
+              <span>{benefit}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .split__media {
+    position: relative;
+  }
+
+  .inventory__checklist {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .inventory__checklist li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-primary);
+  }
+</style>

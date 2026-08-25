@@ -1,0 +1,37 @@
+---
+/**
+ * CTA final + formulário (Section Map §25 #15, id #form). Segunda seção
+ * primary-deep. Split 6/6, LeadForm em card branco (design system §12/§25).
+ */
+import LeadForm from '../form/LeadForm';
+---
+
+<section id="form" class="section section--dark on-dark" aria-labelledby="final-cta-heading">
+  <div class="container split split--6-6">
+    <div>
+      <h2 id="final-cta-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Veja como o SiOfi pode funcionar na sua oficina]
+      </h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto do CTA final, Tarefa 2]</p>
+    </div>
+
+    <div class="final-cta__form-card reveal">
+      <LeadForm client:visible />
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta__form-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-8);
+  }
+
+  @media (max-width: 767px) {
+    .final-cta__form-card {
+      padding: var(--space-6);
+    }
+  }
+</style>

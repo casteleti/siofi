@@ -1,0 +1,147 @@
+---
+/**
+ * Header sticky (design system §17.2/§25). Logo flat + nav + CTA no desktop;
+ * logo + CTA compacto + botão de menu no mobile (abre MobileDrawer).
+ * Logo em SVG ainda não fornecido pela F5 (§29.1) — usa wordmark textual como placeholder.
+ */
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import MobileDrawer from './MobileDrawer.astro';
+
+const NAV_LINKS = [
+  { href: '#pilares', label: 'Pilares' },
+  { href: '#os', label: 'Ordem de serviço' },
+  { href: '#financeiro', label: 'Financeiro' },
+  { href: '#faq', label: 'Dúvidas' },
+];
+---
+
+<header class="header" id="site-header">
+  <div class="container header__inner">
+    <a href="/siofi" class="header__logo" aria-label="SiOfi — página inicial">
+      {/* [PLACEHOLDER — logo SVG oficial do SiOfi, pendente da F5 §29.1] */}
+      SiOfi
+    </a>
+
+    <nav class="header__nav" aria-label="Principal">
+      <ul>
+        {NAV_LINKS.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <Button variant="primary" href="#form" trackId="hero_cta_click" class="header__cta">
+        Agendar uma demonstração
+      </Button>
+      <button
+        type="button"
+        id="drawer-toggle"
+        class="header__menu-btn"
+        aria-expanded="false"
+        aria-controls="mobile-drawer"
+        aria-label="Abrir menu"
+      >
+        <Icon name="menu" size={24} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileDrawer links={NAV_LINKS} />
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    background: var(--color-white);
+    border-bottom: 1px solid transparent;
+    transition: box-shadow var(--dur-base) ease-out, height var(--dur-base) ease-out;
+  }
+
+  .header.is-scrolled {
+    box-shadow: var(--shadow-xs);
+    border-bottom-color: var(--color-border);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    width: 100%;
+  }
+
+  .header__logo {
+    font: var(--weight-extrabold) 22px var(--font-display);
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .header__nav ul {
+    display: flex;
+    gap: var(--space-8);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__nav a {
+    font: var(--weight-medium) 15px var(--font-body);
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .header__menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-min);
+    height: var(--touch-min);
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+
+  @media (max-width: 1023px) {
+    .header {
+      height: var(--header-h-sm);
+    }
+
+    .header__nav {
+      display: none;
+    }
+
+    .header__cta {
+      display: none;
+    }
+
+    .header__menu-btn {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+
+  const updateScrolledState = () => {
+    if (!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 24);
+  };
+
+  updateScrolledState();
+  window.addEventListener('scroll', updateScrolledState, { passive: true });
+</script>

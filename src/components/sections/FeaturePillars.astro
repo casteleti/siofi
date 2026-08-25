@@ -1,0 +1,67 @@
+---
+/**
+ * Pilares do SiOfi (Section Map §25 #5, id #pilares). Grid 3×2, 6 FeatureCards com chips.
+ */
+import Icon from '../ui/Icon.astro';
+import Card from '../ui/Card.astro';
+import Chip from '../ui/Chip.astro';
+
+const PILLARS = [
+  { icon: 'clipboard-list', name: 'Oficina', features: ['Abertura e controle de OS', 'Histórico de veículos', 'Histórico de clientes', 'Produtividade de mecânicos'] },
+  { icon: 'wallet', name: 'Financeiro', features: ['Contas a pagar', 'Contas a receber', 'Cobrança', 'Boletos', 'Fluxo de caixa'] },
+  { icon: 'bar-chart-3', name: 'Gestão', features: ['DRE', 'Balanço gerencial', 'Resultados do período', 'Relatórios gerenciais'] },
+  { icon: 'package', name: 'Estoque', features: ['Consulta de produtos', 'Entrada de notas', 'Importação de XML', 'Movimentações'] },
+  { icon: 'shopping-cart', name: 'Compras', features: ['Pedido de compra', 'Sugestão de compra'] },
+  { icon: 'file-check-2', name: 'Fiscal', features: ['Emissão de NF-e', 'Transmissão e validação', 'Envio de XML e PDF por e-mail'] },
+];
+---
+
+<section id="pilares" class="section" aria-labelledby="pilares-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <h2 id="pilares-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: O que você precisa acompanhar, em um só lugar]
+      </h2>
+    </div>
+
+    <div class="card-grid card-grid--3">
+      {
+        PILLARS.map((pillar, i) => (
+          <Card variant="feature" class="reveal" style={`--i:${i}`}>
+            <span class="pillar-card__icon">
+              <Icon name={pillar.icon} size={28} />
+            </span>
+            <p class="text-h3">[PLACEHOLDER — Pilar {pillar.name}: título, Tarefa 2]</p>
+            <p class="text-body">[PLACEHOLDER — texto do pilar, Tarefa 2]</p>
+            <div class="pillar-card__chips">
+              {pillar.features.map((feature) => (
+                <Chip>{feature}</Chip>
+              ))}
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pillar-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    border-radius: var(--radius-md);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    margin-bottom: var(--space-5);
+  }
+
+  .pillar-card__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+/**
+ * Card genérico (design system §13). Variantes: flat, feature, highlight, elevated, testimonial.
+ * Usado apenas nas 4 seções com grade de cards (Dores, Pilares, Segmentos, Prova social)
+ * mais o card do formulário no CTA final — nunca como padrão default de layout.
+ */
+interface Props {
+  variant?: 'flat' | 'feature' | 'highlight' | 'elevated' | 'testimonial';
+  class?: string;
+  style?: string;
+}
+
+const { variant = 'flat', class: className, style } = Astro.props;
+const classes = ['card', `card--${variant}`, className].filter(Boolean).join(' ');
+---
+
+<div class={classes} style={style}>
+  <slot />
+</div>
+
+<style>
+  .card {
+    border-radius: var(--radius-md);
+    padding: var(--card-p);
+  }
+
+  .card--flat {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+  }
+
+  .card--feature {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    padding-block-end: 36px;
+  }
+
+  .card--feature:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card--highlight {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    border: none;
+  }
+
+  .card--elevated {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card--testimonial {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+</style>

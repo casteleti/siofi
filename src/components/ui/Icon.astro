@@ -1,0 +1,97 @@
+---
+/**
+ * Wrapper de ícone Lucide (design system §10 / §28 Icon Map).
+ * Lê o SVG bruto de `lucide-static` via `import.meta.glob` (resolvido por Vite
+ * em build time) — funciona tanto no build Node quanto no runtime Cloudflare
+ * Workers usado pelo adapter, ao contrário de leitura com `node:fs` em runtime.
+ *
+ * A lista abaixo cobre apenas os ícones efetivamente usados no projeto
+ * (Icon Map §28); adicionar um ícone novo requer adicionar a linha correspondente.
+ */
+interface Props {
+  name: string;
+  size?: 16 | 20 | 24 | 28;
+  strokeWidth?: number;
+  class?: string;
+  'aria-label'?: string;
+}
+
+const {
+  name,
+  size = 24,
+  strokeWidth = 1.75,
+  class: className,
+  'aria-label': ariaLabel,
+} = Astro.props;
+
+const rawIcons = import.meta.glob(
+  [
+    '../../../node_modules/lucide-static/icons/arrow-right.svg',
+    '../../../node_modules/lucide-static/icons/arrow-right-left.svg',
+    '../../../node_modules/lucide-static/icons/bar-chart-3.svg',
+    '../../../node_modules/lucide-static/icons/building-2.svg',
+    '../../../node_modules/lucide-static/icons/car-front.svg',
+    '../../../node_modules/lucide-static/icons/check.svg',
+    '../../../node_modules/lucide-static/icons/check-circle-2.svg',
+    '../../../node_modules/lucide-static/icons/chevron-down.svg',
+    '../../../node_modules/lucide-static/icons/clipboard-list.svg',
+    '../../../node_modules/lucide-static/icons/eye-off.svg',
+    '../../../node_modules/lucide-static/icons/file-check-2.svg',
+    '../../../node_modules/lucide-static/icons/file-code-2.svg',
+    '../../../node_modules/lucide-static/icons/file-text.svg',
+    '../../../node_modules/lucide-static/icons/layers.svg',
+    '../../../node_modules/lucide-static/icons/mail.svg',
+    '../../../node_modules/lucide-static/icons/menu.svg',
+    '../../../node_modules/lucide-static/icons/minus.svg',
+    '../../../node_modules/lucide-static/icons/package.svg',
+    '../../../node_modules/lucide-static/icons/package-search.svg',
+    '../../../node_modules/lucide-static/icons/paintbrush.svg',
+    '../../../node_modules/lucide-static/icons/phone.svg',
+    '../../../node_modules/lucide-static/icons/play-circle.svg',
+    '../../../node_modules/lucide-static/icons/quote.svg',
+    '../../../node_modules/lucide-static/icons/route.svg',
+    '../../../node_modules/lucide-static/icons/screen-share.svg',
+    '../../../node_modules/lucide-static/icons/shield-check.svg',
+    '../../../node_modules/lucide-static/icons/shopping-cart.svg',
+    '../../../node_modules/lucide-static/icons/store.svg',
+    '../../../node_modules/lucide-static/icons/target.svg',
+    '../../../node_modules/lucide-static/icons/ticket.svg',
+    '../../../node_modules/lucide-static/icons/trending-up.svg',
+    '../../../node_modules/lucide-static/icons/user-round.svg',
+    '../../../node_modules/lucide-static/icons/user-round-cog.svg',
+    '../../../node_modules/lucide-static/icons/users-round.svg',
+    '../../../node_modules/lucide-static/icons/wallet.svg',
+    '../../../node_modules/lucide-static/icons/wrench.svg',
+    '../../../node_modules/lucide-static/icons/zap.svg',
+  ],
+  { eager: true, query: '?raw', import: 'default' },
+) as Record<string, string>;
+
+const rawEntry = Object.entries(rawIcons).find(([filePath]) => filePath.endsWith(`/${name}.svg`));
+const raw = rawEntry ? rawEntry[1] : '';
+
+const extraAttrs = [
+  `width="${size}"`,
+  `height="${size}"`,
+  `stroke-width="${strokeWidth}"`,
+  className ? `class="${className}"` : '',
+  ariaLabel ? `role="img" aria-label="${ariaLabel}"` : 'aria-hidden="true"',
+]
+  .filter(Boolean)
+  .join(' ');
+
+const svg = raw ? raw.replace('<svg', `<svg ${extraAttrs}`) : '';
+---
+
+{
+  svg ? (
+    <Fragment set:html={svg} />
+  ) : (
+    <span
+      class="icon-missing"
+      data-icon={name}
+      style={`display:inline-block;width:${size}px;height:${size}px;`}
+      aria-hidden="true"
+    />
+  )
+}

@@ -1,0 +1,67 @@
+---
+/**
+ * Suporte (Section Map §25 #12, id #suporte). Split 5/7, foto real da equipe F5
+ * (pendente — fallback em painel de canais, design system §14).
+ */
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+
+const CHANNELS = [
+  { icon: 'users-round', label: 'Atendimento pessoal' },
+  { icon: 'phone', label: 'Telefone' },
+  { icon: 'mail', label: 'E-mail' },
+  { icon: 'ticket', label: 'Sistema de ticket' },
+  { icon: 'screen-share', label: 'Acesso remoto' },
+];
+---
+
+<section id="suporte" class="section" aria-labelledby="suporte-heading">
+  <div class="container split split--5-7">
+    <div class="split__media placeholder-block reveal" style="aspect-ratio: 4 / 3; border-radius: var(--radius-lg);">
+      [PLACEHOLDER — foto real da equipe de suporte F5, pendente (§29.1 design system).
+      Fallback: painel de canais em ícones.]
+    </div>
+
+    <div>
+      <h2 id="suporte-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Quando você precisa de ajuda, precisa falar com quem entende o sistema]
+      </h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção suporte, Tarefa 2]</p>
+
+      <ul class="support__channels reveal">
+        {
+          CHANNELS.map((channel) => (
+            <li>
+              <Icon name={channel.icon} size={20} />
+              <span>{channel.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="reveal">
+        <Button variant="secondary" href="#form" trackId="secondary_cta_click">
+          Falar com a equipe
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .support__channels {
+    list-style: none;
+    margin: var(--space-6) 0 var(--space-8);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .support__channels li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-primary);
+  }
+</style>

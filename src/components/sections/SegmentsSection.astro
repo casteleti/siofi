@@ -1,0 +1,68 @@
+---
+/**
+ * Para quem é (Section Map §25 #10). 5 cards (segmentos) + bloco de qualificação (highlight).
+ */
+import Icon from '../ui/Icon.astro';
+import Card from '../ui/Card.astro';
+
+const SEGMENTS = [
+  { icon: 'clipboard-list', name: 'Oficinas mecânicas' },
+  { icon: 'store', name: 'Auto centers' },
+  { icon: 'building-2', name: 'Centros automotivos' },
+  { icon: 'zap', name: 'Autoelétricas' },
+  { icon: 'paintbrush', name: 'Funilarias' },
+];
+---
+
+<section id="segments" class="section" aria-labelledby="segments-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <h2 id="segments-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Feito para quem vive a rotina do setor automotivo]
+      </h2>
+    </div>
+
+    <div class="card-grid card-grid--5">
+      {
+        SEGMENTS.map((segment, i) => (
+          <Card variant="flat" class="reveal" style={`--i:${i}`}>
+            <span class="segment-card__icon">
+              <Icon name={segment.icon} size={24} />
+            </span>
+            <p class="text-h3">{segment.name}</p>
+            <p class="text-body">[PLACEHOLDER — texto do segmento, Tarefa 2]</p>
+          </Card>
+        ))
+      }
+    </div>
+
+    <Card variant="highlight" class="segments__qualifier reveal">
+      <Icon name="target" size={28} />
+      <p class="text-body">
+        [PLACEHOLDER — texto de qualificação: "O SiOfi faz especialmente sentido para..."]
+      </p>
+    </Card>
+  </div>
+</section>
+
+<style>
+  .segment-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    border-radius: var(--radius-md);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    margin-bottom: var(--space-5);
+  }
+
+  .segments__qualifier {
+    margin-top: var(--space-10);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--color-primary-deep);
+  }
+</style>

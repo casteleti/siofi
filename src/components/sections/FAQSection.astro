@@ -1,0 +1,90 @@
+---
+/**
+ * FAQ (Section Map §25 #14, id #faq). Narrow 720px, <details>/<summary> nativo
+ * (zero JS, acessível por padrão — spec técnica §12). As duas perguntas
+ * marcadas TODO F5 na copy (implantação, migração) ficam ocultas até resposta aprovada.
+ */
+import Icon from '../ui/Icon.astro';
+
+const FAQ_ITEMS = [
+  'Para quais empresas o SiOfi é indicado?',
+  'O SiOfi possui ordem de serviço?',
+  'O SiOfi ajuda no controle financeiro?',
+  'O sistema controla estoque?',
+  'O SiOfi emite nota fiscal?',
+  'Posso conhecer o sistema antes de contratar?',
+  'Como funciona o suporte?',
+];
+---
+
+<section id="faq" class="section" aria-labelledby="faq-heading">
+  <div class="container container-narrow">
+    <div class="section-header section-header--center">
+      <h2 id="faq-heading" class="text-h2 reveal">[PLACEHOLDER — headline: Dúvidas frequentes]</h2>
+    </div>
+
+    <div class="faq-accordion reveal">
+      {
+        FAQ_ITEMS.map((question, i) => (
+          <details class="faq-item" open={i === 0}>
+            <summary class="faq-item__question">
+              <span>{question}</span>
+              <Icon name="chevron-down" size={20} class="faq-item__chevron" />
+            </summary>
+            <div class="faq-item__answer">
+              <p class="text-body">[PLACEHOLDER — resposta validada, Tarefa 2: content/copy → faq]</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="text-small">
+      [PLACEHOLDER OCULTO — "Como funciona a implantação?" e "Posso migrar dados do sistema que
+      utilizo hoje?" ficam fora do FAQPage/JSON-LD e do accordion até resposta aprovada pela F5
+      (copy §19, TODO F5).]
+    </p>
+  </div>
+</section>
+
+<style>
+  .faq-accordion {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-4);
+  }
+
+  .faq-item__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 56px;
+    cursor: pointer;
+    font: var(--weight-semibold) 17px var(--font-body);
+    color: var(--color-text-primary);
+    list-style: none;
+  }
+
+  .faq-item__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__chevron {
+    flex-shrink: 0;
+    color: var(--color-secondary);
+    transition: transform var(--dur-base) ease;
+  }
+
+  .faq-item[open] .faq-item__chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-item__answer {
+    padding-top: var(--space-3);
+  }
+</style>

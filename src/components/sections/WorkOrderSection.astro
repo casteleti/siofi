@@ -1,0 +1,52 @@
+---
+/**
+ * Ordem de serviço (Section Map §25 #6, id #os). Timeline + split 5/7 com ProductFrame.
+ */
+import Button from '../ui/Button.astro';
+import ProductFrame from '../ui/ProductFrame.astro';
+import Callout from '../ui/Callout.astro';
+import WorkOrderTimeline from '../ui/WorkOrderTimeline.astro';
+---
+
+<section id="os" class="section" aria-labelledby="os-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 id="os-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Do orçamento à entrega, acompanhe cada serviço]
+      </h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto da seção OS, Tarefa 2]</p>
+    </div>
+
+    <div class="work-order__timeline reveal">
+      <WorkOrderTimeline />
+    </div>
+
+    <div class="split split--5-7">
+      <div>
+        <p class="text-body">[PLACEHOLDER — texto de apoio adicional, se houver]</p>
+        <div class="reveal">
+          <Button variant="secondary" href="#os" trackId="secondary_cta_click" icon="play-circle" iconPosition="left">
+            Ver o SiOfi funcionando
+          </Button>
+        </div>
+      </div>
+      <div class="split__media reveal">
+        <ProductFrame label="Ordem de serviço" ratio="16:10">
+          Tela de ordem de serviço do SiOfi com cliente, veículo, peças e total
+        </ProductFrame>
+        <Callout icon="package" style="top: -16px; left: 24px;">Peças e serviços</Callout>
+        <Callout icon="file-text" style="bottom: -16px; right: 24px;">Total</Callout>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work-order__timeline {
+    margin-bottom: var(--space-16);
+  }
+
+  .split__media {
+    position: relative;
+  }
+</style>

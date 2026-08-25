@@ -1,0 +1,108 @@
+---
+/**
+ * Timeline da Ordem de Serviço (design system §16/§25):
+ * Cliente → Veículo → Orçamento → Ordem de Serviço → Peças → Técnico → Fechamento
+ * Horizontal no desktop, vertical no mobile (via CSS, mesma marcação).
+ */
+import Icon from './Icon.astro';
+
+const STEPS = [
+  { label: 'Cliente', icon: 'user-round', emphasis: false },
+  { label: 'Veículo', icon: 'car-front', emphasis: false },
+  { label: 'Orçamento', icon: 'file-text', emphasis: false },
+  { label: 'Ordem de Serviço', icon: 'clipboard-list', emphasis: true },
+  { label: 'Peças', icon: 'package', emphasis: false },
+  { label: 'Técnico', icon: 'wrench', emphasis: false },
+  { label: 'Fechamento', icon: 'check-circle-2', emphasis: false },
+] as const;
+---
+
+<ol class="wo-timeline">
+  {
+    STEPS.map((step, i) => (
+      <li class={['wo-timeline__step', step.emphasis ? 'wo-timeline__step--emphasis' : ''].filter(Boolean).join(' ')} style={`--i:${i}`}>
+        <span class="wo-timeline__node">
+          <Icon name={step.icon} size={20} />
+        </span>
+        <span class="wo-timeline__label">{step.label}</span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .wo-timeline {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-4);
+  }
+
+  .wo-timeline__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    text-align: center;
+    position: relative;
+  }
+
+  .wo-timeline__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: var(--color-border);
+    z-index: 0;
+  }
+
+  .wo-timeline__node {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+  }
+
+  .wo-timeline__step--emphasis .wo-timeline__node {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .wo-timeline__label {
+    font: var(--weight-semibold) var(--text-sm) var(--font-body);
+    color: var(--color-text-secondary);
+  }
+
+  .wo-timeline__step--emphasis .wo-timeline__label {
+    color: var(--color-primary-dark);
+  }
+
+  @media (max-width: 767px) {
+    .wo-timeline {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-6);
+      padding-left: var(--space-4);
+      border-left: 2px solid var(--color-border);
+    }
+
+    .wo-timeline__step {
+      flex-direction: row;
+      text-align: left;
+    }
+
+    .wo-timeline__step:not(:last-child)::after {
+      display: none;
+    }
+  }
+</style>

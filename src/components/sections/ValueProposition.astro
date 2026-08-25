@@ -1,0 +1,65 @@
+---
+/**
+ * Virada / proposta de valor (Section Map §25 #4). Bloco centralizado 720px,
+ * linha de conexão com 5 nós (design system §16).
+ */
+import Button from '../ui/Button.astro';
+---
+
+<section id="value-proposition" class="section" aria-labelledby="value-proposition-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <h2 id="value-proposition-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Mais do que informatizar a oficina. É ter controle do negócio.]
+      </h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto da virada, Tarefa 2]</p>
+    </div>
+
+    <div class="value-proposition__nodes reveal" aria-hidden="true">
+      {Array.from({ length: 5 }).map(() => <span class="value-proposition__node"></span>)}
+    </div>
+
+    <div class="value-proposition__cta reveal">
+      <Button variant="primary" href="#pilares" trackId="secondary_cta_click">
+        Quero conhecer o SiOfi
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .value-proposition__nodes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-6);
+    max-width: var(--container-narrow);
+    margin: var(--space-8) auto;
+    position: relative;
+  }
+
+  .value-proposition__nodes::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: var(--color-border);
+    z-index: 0;
+  }
+
+  .value-proposition__node {
+    position: relative;
+    z-index: 1;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-primary);
+  }
+
+  .value-proposition__cta {
+    display: flex;
+    justify-content: center;
+  }
+</style>

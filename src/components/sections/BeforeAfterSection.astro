@@ -1,0 +1,93 @@
+---
+/**
+ * Antes × Com o SiOfi (Section Map §25 #9). Nunca uma <table> visual —
+ * cards pareados (design system §17.2). 6 pares, conforme copy §14.
+ */
+import Icon from '../ui/Icon.astro';
+
+const PAIRS = [
+  { before: 'Informações espalhadas', after: 'Dados centralizados' },
+  { before: 'OS em papel ou controles separados', after: 'Histórico organizado de serviços' },
+  { before: 'Estoque difícil de acompanhar', after: 'Movimentações integradas' },
+  { before: 'Financeiro sem visão consolidada', after: 'Relatórios e indicadores' },
+  { before: 'Dependência da memória', after: 'Informações registradas' },
+  { before: 'Problemas percebidos tarde', after: 'Mais visibilidade da operação' },
+];
+---
+
+<section id="before-after" class="section section--alt" aria-labelledby="before-after-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <h2 id="before-after-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Quando as informações se conectam, administrar fica mais simples]
+      </h2>
+    </div>
+
+    <div class="before-after__list">
+      {
+        PAIRS.map((pair, i) => (
+          <div class="before-after__row reveal" style={`--i:${i}`}>
+            <span class="before-after__item before-after__item--before">
+              <Icon name="minus" size={16} />
+              <span>{pair.before}</span>
+            </span>
+            <Icon name="arrow-right" size={20} class="before-after__arrow" />
+            <span class="before-after__item before-after__item--after">
+              <Icon name="check" size={16} />
+              <span>{pair.after}</span>
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .before-after__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .before-after__row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-4);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .before-after__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .before-after__item--before {
+    color: var(--color-text-muted);
+  }
+
+  .before-after__item--after {
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .before-after__arrow {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 767px) {
+    .before-after__row {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .before-after__arrow {
+      display: none;
+    }
+  }
+</style>

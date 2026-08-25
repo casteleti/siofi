@@ -1,0 +1,36 @@
+---
+/**
+ * Pílula de callout sobre um ProductFrame (design system §15.1).
+ * Até 3 por screenshot — é HTML, nunca parte da imagem.
+ */
+interface Props {
+  icon?: string;
+  style?: string; // posicionamento inline (top/left/right/bottom), decidido por cada uso
+  class?: string;
+}
+
+import Icon from './Icon.astro';
+
+const { icon, style, class: className } = Astro.props;
+---
+
+<span class={['callout', className].filter(Boolean).join(' ')} style={style}>
+  {icon && <Icon name={icon} size={16} />}
+  <span><slot /></span>
+</span>
+
+<style>
+  .callout {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-xs);
+    padding: var(--space-2) var(--space-3);
+    font: var(--weight-medium) var(--text-sm) var(--font-body);
+    color: var(--color-primary);
+  }
+</style>

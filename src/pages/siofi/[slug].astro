@@ -1,0 +1,54 @@
+---
+/**
+ * Template dinâmico para variantes de campanha futuras (spec técnica §4/§67,
+ * copy §28): oficina-mecanica, auto-center, ordem-de-servico, trocar-sistema,
+ * gestao-oficina. Nesta tarefa não há nenhuma variante cadastrada — a rota
+ * precisa apenas não quebrar para um slug qualquer (ver critério de aceite).
+ */
+export const prerender = false;
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const { slug } = Astro.params;
+
+const landingPages = await getCollection('landing-pages');
+const entry = landingPages.find((page) => page.data.slug === slug);
+
+if (!entry) {
+  Astro.response.status = 404;
+}
+---
+
+<BaseLayout
+  title={entry ? entry.data.metaTitle : 'Página não encontrada | SiOfi'}
+  description={
+    entry
+      ? entry.data.metaDescription
+      : 'Esta variante de campanha do SiOfi ainda não foi cadastrada.'
+  }
+  canonical={entry ? entry.data.canonical : `/siofi/${slug}`}
+  indexable={entry ? entry.data.indexable : false}
+>
+  {
+    entry ? (
+      <section class="section">
+        <div class="container">
+          <h1 class="text-display">
+            [PLACEHOLDER — variante de campanha "{slug}" registrada em content/landing-pages,
+            aguardando implementação de conteúdo (tarefa futura, §67 spec técnica / §28 copy).]
+          </h1>
+        </div>
+      </section>
+    ) : (
+      <section class="section">
+        <div class="container" style="text-align: center;">
+          <h1 class="text-h2">Página não encontrada</h1>
+          <p class="text-body">
+            Esta variante de campanha ainda não existe. <a href="/siofi">Voltar para o SiOfi</a>.
+          </p>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

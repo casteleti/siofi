@@ -1,0 +1,56 @@
+---
+/**
+ * Página principal /siofi (spec técnica §4: versão canônica do produto).
+ */
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+import Hero from '../../components/sections/Hero.astro';
+import TrustBar from '../../components/sections/TrustBar.astro';
+import PainSection from '../../components/sections/PainSection.astro';
+import ValueProposition from '../../components/sections/ValueProposition.astro';
+import FeaturePillars from '../../components/sections/FeaturePillars.astro';
+import WorkOrderSection from '../../components/sections/WorkOrderSection.astro';
+import FinancialSection from '../../components/sections/FinancialSection.astro';
+import InventorySection from '../../components/sections/InventorySection.astro';
+import BeforeAfterSection from '../../components/sections/BeforeAfterSection.astro';
+import SegmentsSection from '../../components/sections/SegmentsSection.astro';
+import SwitchingSection from '../../components/sections/SwitchingSection.astro';
+import SupportSection from '../../components/sections/SupportSection.astro';
+import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
+import FAQSection from '../../components/sections/FAQSection.astro';
+import FinalCTA from '../../components/sections/FinalCTA.astro';
+
+// Nota: o campo `slug` no JSON é tratado pelo glob loader do Astro como
+// override do id da entrada — por isso o id real é "siofi" (valor de `slug`),
+// não "siofi-main" (nome do arquivo).
+const entry = await getEntry('landing-pages', 'siofi');
+if (!entry) {
+  throw new Error('Content collection entry "siofi" não encontrada em src/content/landing-pages.');
+}
+const page = entry.data;
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  canonical={page.canonical}
+  indexable={page.indexable}
+  includeSoftwareApplicationSchema
+>
+  <Hero h1={page.h1} />
+  <TrustBar />
+  <PainSection />
+  <ValueProposition />
+  <FeaturePillars />
+  <WorkOrderSection />
+  <FinancialSection />
+  <InventorySection />
+  <BeforeAfterSection />
+  <SegmentsSection />
+  <SwitchingSection />
+  <SupportSection />
+  <TestimonialsSection />
+  <FAQSection />
+  <FinalCTA />
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+/**
+ * Página de obrigado (spec técnica §36): noindex, sem re-disparar conversão em
+ * reload/acesso direto. Nesta tarefa é apenas a casca — lógica de exibição
+ * condicional por lead_id/referrer é Tarefa 3/4.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Recebemos seus dados | SiOfi"
+  description="Sua solicitação de demonstração do SiOfi foi recebida. Nossa equipe entrará em contato."
+  canonical="/siofi/obrigado"
+  indexable={false}
+>
+  <section class="section obrigado">
+    <div class="container container-narrow" style="text-align: center;">
+      <h1 class="text-h2">Recebemos seus dados</h1>
+      <p class="text-body-lg">
+        [PLACEHOLDER — mensagem pós-envio definitiva, Tarefa 2/4: design system §12
+        marca esta mensagem como `[TBD — DEFINIR MENSAGEM PÓS-ENVIO]`.]
+      </p>
+      <p class="text-body">
+        <a href="/siofi">Voltar para a página do SiOfi</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

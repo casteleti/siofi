@@ -1,0 +1,66 @@
+---
+/**
+ * CTA sticky mobile (design system §17.2/§25): aparece após o hero, some
+ * quando o formulário final (#form) entra na viewport. Só monta < 1024px.
+ */
+import Button from '../ui/Button.astro';
+---
+
+<div class="sticky-cta" id="sticky-mobile-cta" hidden>
+  <Button variant="primary" href="#form" fullWidth trackId="demo_cta_click">
+    Agendar demonstração
+  </Button>
+</div>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding-inline: var(--page-px-sm);
+    background: var(--color-white);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -8px 24px -8px rgba(15, 35, 70, 0.12);
+  }
+
+  .sticky-cta[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .sticky-cta {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const stickyCta = document.getElementById('sticky-mobile-cta');
+  const hero = document.getElementById('hero');
+  const form = document.getElementById('form');
+
+  if (stickyCta && hero && 'IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        stickyCta.hidden = entry.isIntersecting;
+      },
+      { threshold: 0 },
+    );
+    heroObserver.observe(hero);
+
+    if (form) {
+      const formObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) stickyCta.hidden = true;
+        },
+        { threshold: 0.1 },
+      );
+      formObserver.observe(form);
+    }
+  }
+</script>

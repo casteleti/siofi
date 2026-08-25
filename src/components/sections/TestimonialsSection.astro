@@ -1,0 +1,48 @@
+---
+/**
+ * Prova social (Section Map §25 #13, neutral-50). Grid 3, TestimonialCards.
+ * Regra MUST (copy §18): apenas depoimentos reais e autorizados — nenhum
+ * exemplo é renderizado nesta tarefa, apenas o placeholder estrutural.
+ */
+import Icon from '../ui/Icon.astro';
+import Card from '../ui/Card.astro';
+---
+
+<section id="testimonials" class="section section--alt" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <h2 id="testimonials-heading" class="text-h2 reveal">
+        [PLACEHOLDER — headline: Quem usa o SiOfi na rotina]
+      </h2>
+    </div>
+
+    <div class="card-grid card-grid--3">
+      {
+        Array.from({ length: 3 }).map((_, i) => (
+          <Card variant="testimonial" class="reveal" style={`--i:${i}`}>
+            <Icon name="quote" size={24} class="testimonial-card__quote-icon" />
+            <p class="text-body-lg">
+              [PLACEHOLDER — depoimento real #{i + 1}: "Antes do SiOfi, [problema real]. Hoje,
+              [resultado/benefício real percebido]." Pendente de autorização (§18 copy, §29.1 design system).]
+            </p>
+            <p class="testimonial-card__name">[PLACEHOLDER — Nome do cliente]</p>
+            <p class="text-small">[PLACEHOLDER — Empresa — Cidade/UF]</p>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonial-card__quote-icon {
+    color: var(--color-primary-soft);
+    margin-bottom: var(--space-4);
+  }
+
+  .testimonial-card__name {
+    font: var(--weight-semibold) var(--text-base) var(--font-body);
+    color: var(--color-text-primary);
+    margin-top: var(--space-4);
+  }
+</style>

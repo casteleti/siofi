@@ -1,0 +1,81 @@
+---
+/**
+ * Hero (Section Map §25 #1). Split 5/7, painel primary-light com ProductFrame
+ * do dashboard + callouts. H1 vem de content/landing-pages (título aprovado);
+ * subheadline/microcopy aguardam Tarefa 2 (content/copy).
+ */
+import Button from '../ui/Button.astro';
+import ProductFrame from '../ui/ProductFrame.astro';
+import Callout from '../ui/Callout.astro';
+
+interface Props {
+  h1: string;
+}
+
+const { h1 } = Astro.props;
+---
+
+<section id="hero" class="hero">
+  <div class="container split split--5-7">
+    <div class="hero__text">
+      <p class="text-eyebrow reveal">Sistema de gestão para oficinas e auto centers</p>
+      <h1 class="text-display reveal">{h1}</h1>
+      <p class="text-sub reveal">
+        [PLACEHOLDER — subheadline do hero, Tarefa 2: content/copy → hero]
+      </p>
+      <div class="hero__ctas reveal">
+        <Button variant="primary" href="#form" trackId="hero_cta_click">
+          Agendar uma demonstração
+        </Button>
+        <Button variant="secondary" href="#pilares" trackId="secondary_cta_click">
+          Conhecer o SiOfi
+        </Button>
+      </div>
+      <p class="text-small reveal">
+        [PLACEHOLDER — microcopy abaixo do CTA, Tarefa 2]
+      </p>
+    </div>
+
+    <div class="hero__media reveal">
+      <ProductFrame label="Indicadores" ratio="16:10" size="lg">
+        Tela de indicadores do SiOfi mostrando faturamento e resultado do período
+      </ProductFrame>
+      <Callout icon="bar-chart-3" style="top: -16px; right: 24px;">Resultado do período</Callout>
+      <Callout icon="trending-up" style="bottom: -16px; left: 24px;">Faturamento</Callout>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: 96px 80px;
+    background: var(--color-white);
+  }
+
+  .hero__ctas {
+    display: flex;
+    gap: var(--space-4);
+    margin-block: var(--space-8);
+  }
+
+  .hero__media {
+    position: relative;
+    background: var(--color-primary-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-10);
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      padding-block: 48px 56px;
+    }
+
+    .hero__ctas {
+      flex-direction: column;
+    }
+
+    .hero__ctas :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

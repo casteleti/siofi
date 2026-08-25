@@ -1,0 +1,53 @@
+---
+/**
+ * Identificação da dor (Section Map §25 #3). neutral-50, header centralizado + 4 PainCards.
+ * Ícones do Icon Map §28.
+ */
+import Icon from '../ui/Icon.astro';
+import Card from '../ui/Card.astro';
+
+const PAIN_CARDS = [
+  { icon: 'eye-off', titlePlaceholder: 'Muito movimento, pouca clareza' },
+  { icon: 'layers', titlePlaceholder: 'Informação espalhada' },
+  { icon: 'package-search', titlePlaceholder: 'Estoque difícil de acompanhar' },
+  { icon: 'user-round-cog', titlePlaceholder: 'Tudo depende do dono' },
+];
+---
+
+<section id="pain" class="section section--alt" aria-labelledby="pain-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="text-eyebrow reveal">[PLACEHOLDER — eyebrow, se houver]</p>
+      <h2 id="pain-heading" class="text-h2 reveal">[PLACEHOLDER — headline: Sua oficina cresceu. A gestão acompanhou?]</h2>
+      <p class="text-body-lg reveal">[PLACEHOLDER — texto de introdução da seção, Tarefa 2]</p>
+    </div>
+
+    <div class="card-grid card-grid--4">
+      {
+        PAIN_CARDS.map((card, i) => (
+          <Card variant="flat" class="reveal" style={`--i:${i}`}>
+            <span class="pain-card__icon">
+              <Icon name={card.icon} size={24} />
+            </span>
+            <p class="text-h3">[PLACEHOLDER — {card.titlePlaceholder}]</p>
+            <p class="text-body">[PLACEHOLDER — texto do card, Tarefa 2]</p>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pain-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    border-radius: var(--radius-md);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    margin-bottom: var(--space-5);
+  }
+</style>

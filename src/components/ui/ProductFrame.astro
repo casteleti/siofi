@@ -1,0 +1,91 @@
+---
+/**
+ * "Product Frame" (design system §15.1) — moldura própria que substitui a
+ * barra de título original do SiOfi. Nesta tarefa não há screenshots reais
+ * (ver README, checklist de assets §29.1 do design system); renderiza um
+ * placeholder com as dimensões corretas para não gerar layout shift quando
+ * a imagem real entrar na Tarefa 2/5.
+ */
+interface Props {
+  label: string;
+  ratio?: '16:10' | '16:9' | '4:3' | '4:5';
+  size?: 'md' | 'lg';
+  class?: string;
+}
+
+const RATIO_MAP: Record<NonNullable<Props['ratio']>, string> = {
+  '16:10': '16 / 10',
+  '16:9': '16 / 9',
+  '4:3': '4 / 3',
+  '4:5': '4 / 5',
+};
+
+const { label, ratio = '16:10', size = 'md', class: className } = Astro.props;
+const aspectRatio = RATIO_MAP[ratio];
+---
+
+<figure class={['product-frame', `product-frame--${size}`, className].filter(Boolean).join(' ')}>
+  <div class="product-frame__bar">
+    <span class="product-frame__dots" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
+    <span class="product-frame__label">{label}</span>
+  </div>
+  <div class="product-frame__body" style={`aspect-ratio: ${aspectRatio};`}>
+    <p>[PLACEHOLDER — screenshot: {label}. Aguardando asset real da F5 (§29.1 design system).]</p>
+  </div>
+  <figcaption class="visually-hidden"><slot /></figcaption>
+</figure>
+
+<style>
+  .product-frame {
+    margin: 0;
+    background: var(--color-white);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .product-frame--lg {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .product-frame__bar {
+    height: var(--frame-bar-h);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-inline: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .product-frame__dots {
+    display: inline-flex;
+    gap: var(--space-2);
+  }
+
+  .product-frame__dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-neutral-300);
+  }
+
+  .product-frame__label {
+    margin-inline-start: auto;
+    font: var(--weight-regular) 12px var(--font-body);
+    color: var(--color-text-muted);
+  }
+
+  .product-frame__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-neutral-100);
+    color: var(--color-text-muted);
+    font: var(--weight-regular) var(--text-sm) var(--font-body);
+    padding: var(--space-4);
+    text-align: center;
+  }
+</style>
