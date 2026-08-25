@@ -6,6 +6,12 @@
 
 :root {
   /* ---- Cores ---- */
+  /* --color-brand-blue: reservado para o símbolo/logo, ícones grandes,
+     gráficos e o HexPattern decorativo (design system §27 Color Map) —
+     NUNCA em texto pequeno ou UI padrão (contraste 4,55:1, abaixo do AA
+     para texto normal). --color-primary é o azul oficial de toda a UI
+     interativa (botões, links, ícones, foco) — decisão registrada em
+     diagnostico.html DS-02. */
   --color-brand-blue: #1B75DB;
   --color-primary: #1565C0;
   --color-primary-dark: #0F4FA8;
@@ -140,6 +146,11 @@
   --icon-stroke: 1.75;
   --touch-min: 44px;
   --frame-bar-h: 36px;
+  /* --sticky-cta-h não está no §20 original — é uma variável de conveniência
+     (MOB-02) para não duplicar o valor "64px" da barra sticky mobile (já
+     definido em prosa no §17.2) entre StickyMobileCTA.astro e
+     FloatingWhatsApp.astro. Mesmo número da spec, não é um valor novo. */
+  --sticky-cta-h: 64px;
 
   /* ---- Motion ---- */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -159,8 +170,11 @@
 
 /* ---- Classes tipográficas de referência (§20.1) ---- */
 .text-display { font: var(--weight-extrabold) var(--text-3xl)/var(--leading-tight) var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-text-primary); max-width: 640px; }
-.text-h2      { font: var(--weight-extrabold) var(--text-2xl)/var(--leading-heading) var(--font-display); letter-spacing: var(--tracking-heading); max-width: 720px; }
-.text-h3      { font: var(--weight-bold) var(--text-xl)/var(--leading-h3) var(--font-display); letter-spacing: var(--tracking-h3); }
+/* color explícita em h2/h3 (DS-04): a tabela de cores do design system §4.2/§5.2
+   já manda "Headings (H1–H3): neutral-900" — sem isso, herdavam o cinza
+   secundário do body e perdiam hierarquia sobre o texto de apoio. */
+.text-h2      { font: var(--weight-extrabold) var(--text-2xl)/var(--leading-heading) var(--font-display); letter-spacing: var(--tracking-heading); color: var(--color-text-primary); max-width: 720px; }
+.text-h3      { font: var(--weight-bold) var(--text-xl)/var(--leading-h3) var(--font-display); letter-spacing: var(--tracking-h3); color: var(--color-text-primary); }
 .text-sub     { font: var(--weight-regular) var(--text-lg)/var(--leading-sub) var(--font-body); color: var(--color-text-secondary); max-width: 560px; }
 .text-body-lg { font: var(--weight-regular) var(--text-md)/var(--leading-body) var(--font-body); color: var(--color-text-secondary); max-width: 62ch; }
 .text-body    { font: var(--weight-regular) var(--text-base)/var(--leading-body) var(--font-body); color: var(--color-text-secondary); max-width: 62ch; }

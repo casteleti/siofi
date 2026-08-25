@@ -26,7 +26,7 @@ const NAV_LINKS = [
     <nav class="header__nav" aria-label="Principal">
       <ul>
         {NAV_LINKS.map((link) => (
-          <li><a href={link.href}>{link.label}</a></li>
+          <li><a href={link.href} data-nav-link={link.href.slice(1)}>{link.label}</a></li>
         ))}
       </ul>
     </nav>
@@ -92,9 +92,36 @@ const NAV_LINKS = [
   }
 
   .header__nav a {
+    position: relative;
     font: var(--weight-medium) 15px var(--font-body);
     color: var(--color-text-primary);
     text-decoration: none;
+    padding-bottom: 2px;
+  }
+
+  /* FX-04: sublinhado animado — cresce da esquerda no hover/foco, fica fixo
+     enquanto a seção correspondente está visível (.is-active). */
+  .header__nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .header__nav a:hover::after,
+  .header__nav a:focus-visible::after,
+  .header__nav a.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .header__nav a.is-active {
+    color: var(--color-primary-dark);
   }
 
   .header__actions {
@@ -144,4 +171,32 @@ const NAV_LINKS = [
 
   updateScrolledState();
   window.addEventListener('scroll', updateScrolledState, { passive: true });
+
+  // FX-04: scroll-spy simples — marca o link correspondente à seção mais
+  // visível no momento (nenhum valor do design system é afetado por isso).
+  const navLinks = document.querySelectorAll('[data-nav-link]');
+  if (navLinks.length > 0 && 'IntersectionObserver' in window) {
+    const sectionIds = Array.from(navLinks).map((link) => link.getAttribute('data-nav-link'));
+    const sections = sectionIds
+      .map((id) => (id ? document.getElementById(id) : null))
+      .filter((el) => el !== null);
+
+    const setActive = (id: string) => {
+      navLinks.forEach((link) => {
+        link.classList.toggle('is-active', link.getAttribute('data-nav-link') === id);
+      });
+    };
+
+    const spy = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length === 0) return;
+        const topMost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b));
+        setActive(topMost.target.id);
+      },
+      { rootMargin: '-40% 0px -50% 0px', threshold: 0 },
+    );
+
+    sections.forEach((section) => spy.observe(section));
+  }
 </script>

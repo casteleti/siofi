@@ -1,6 +1,10 @@
 ---
 /**
- * Para quem é (Section Map §25 #10). 5 cards (segmentos) + bloco de qualificação (highlight).
+ * Para quem é (Section Map §25 #10). Responsivo conforme a spec (§6 Grid /
+ * §17.2 design system): 5 colunas no desktop → 3 colunas com as 2 últimas
+ * centralizadas no tablet → carrossel horizontal com scroll-snap e
+ * indicadores de posição no mobile (CARD-03/MOB-05: o grid genérico usado
+ * antes deixava um card órfão no tablet, que não é o comportamento pedido).
  */
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
@@ -15,10 +19,10 @@ const { segments } = copy;
       <h2 id="segments-heading" class="text-h2 reveal">{segments.headline}</h2>
     </div>
 
-    <div class="card-grid card-grid--5">
+    <div class="segments-grid reveal" id="segments-grid">
       {
-        segments.items.map((segment, i) => (
-          <Card variant="flat" class="reveal" style={`--i:${i}`}>
+        segments.items.map((segment) => (
+          <Card variant="flat" class="segments-grid__item">
             <span class="segment-card__icon">
               <Icon name={segment.icon} size={24} />
             </span>
@@ -27,6 +31,10 @@ const { segments } = copy;
           </Card>
         ))
       }
+    </div>
+
+    <div class="segments-dots" id="segments-dots" aria-hidden="true">
+      {segments.items.map((_, i) => <span class="segments-dots__dot" data-index={i}></span>)}
     </div>
 
     <Card variant="highlight" class="segments__qualifier reveal">
@@ -49,6 +57,74 @@ const { segments } = copy;
     margin-bottom: var(--space-5);
   }
 
+  .segments-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--gutter);
+  }
+
+  .segments-dots {
+    display: none;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .segments-dots__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-border-strong);
+    transition: background-color var(--dur-fast) ease-out;
+  }
+
+  .segments-dots__dot.is-active {
+    background: var(--color-primary);
+  }
+
+  /* Tablet: 3 colunas visuais, com os 2 últimos cards centralizados na
+     segunda linha — grid de 6 faixas internas para permitir centralização
+     exata (cada card "largo" ocupa 2 faixas). */
+  @media (max-width: 1023px) and (min-width: 768px) {
+    .segments-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .segments-grid__item:nth-child(1) { grid-column: 1 / span 2; }
+    .segments-grid__item:nth-child(2) { grid-column: 3 / span 2; }
+    .segments-grid__item:nth-child(3) { grid-column: 5 / span 2; }
+    .segments-grid__item:nth-child(4) { grid-column: 2 / span 2; }
+    .segments-grid__item:nth-child(5) { grid-column: 4 / span 2; }
+  }
+
+  /* Mobile: carrossel horizontal com scroll-snap (§6/§17.2), não grid. */
+  @media (max-width: 767px) {
+    .segments-grid {
+      display: flex;
+      grid-template-columns: none;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: var(--gutter-sm);
+      margin-inline: calc(var(--page-px-sm) * -1);
+      padding-inline: var(--page-px-sm);
+      padding-bottom: var(--space-2);
+      scrollbar-width: none;
+    }
+
+    .segments-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .segments-grid__item {
+      flex: 0 0 260px;
+      scroll-snap-align: start;
+    }
+
+    .segments-dots {
+      display: flex;
+    }
+  }
+
   .segments__qualifier {
     margin-top: var(--space-10);
     display: flex;
@@ -57,3 +133,23 @@ const { segments } = copy;
     color: var(--color-primary-deep);
   }
 </style>
+
+<script>
+  // Indicadores de posição do carrossel mobile (§17.2) — só relevante
+  // quando o layout vira flex/scroll (<768px), inofensivo nos demais.
+  const grid = document.getElementById('segments-grid');
+  const dots = Array.from(document.querySelectorAll('#segments-dots .segments-dots__dot'));
+
+  if (grid && dots.length > 0) {
+    const setActiveDot = () => {
+      const firstItem = grid.querySelector('.segments-grid__item');
+      if (!firstItem) return;
+      const itemWidth = (firstItem as HTMLElement).offsetWidth + 12; // + gap aproximado
+      const index = Math.round(grid.scrollLeft / itemWidth);
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === Math.min(index, dots.length - 1)));
+    };
+
+    setActiveDot();
+    grid.addEventListener('scroll', setActiveDot, { passive: true });
+  }
+</script>

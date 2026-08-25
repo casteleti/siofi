@@ -47,7 +47,11 @@ const href = getWhatsappHref();
 
   @media (max-width: 1023px) {
     .floating-whatsapp {
-      bottom: 88px; /* acima da StickyMobileCTA */
+      /* MOB-02: calculado a partir da mesma variável de altura da
+         StickyMobileCTA (§17.2: 24px de vão acima da barra) em vez de um
+         valor fixo duplicado — se a barra crescer por quebra de texto, o
+         botão acompanha automaticamente. */
+      bottom: calc(var(--sticky-cta-h, 64px) + 24px);
     }
   }
 </style>

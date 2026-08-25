@@ -76,10 +76,16 @@ const { beforeAfter } = copy;
     .before-after__row {
       grid-template-columns: 1fr;
       gap: var(--space-2);
+      position: relative;
     }
 
+    /* FX-06: em vez de simplesmente sumir, a seta gira 90° e fica entre as
+       duas linhas empilhadas — mantém o reforço visual de transformação
+       sem precisar de texto novo (a copy não define um rótulo pra isso). */
     .before-after__arrow {
-      display: none;
+      display: block;
+      margin-inline: auto;
+      transform: rotate(90deg);
     }
   }
 </style>

@@ -19,11 +19,17 @@ const { featurePillars } = copy;
     <div class="card-grid card-grid--3">
       {
         featurePillars.pillars.map((pillar, i) => (
-          <Card variant="feature" class="reveal" style={`--i:${i}`}>
-            <span class="pillar-card__icon">
-              <Icon name={pillar.icon} size={28} />
-            </span>
-            <p class="text-h3">{pillar.title}</p>
+          // CARD-04: o pilar "Gestão" (índice 2) quebra o padrão repetido de
+          // ícone-acima-do-título nos outros 5 — ícone ao lado do título,
+          // ainda no canto superior esquerdo do card (§10: nunca centralizado).
+          <Card variant="feature" class={`reveal${i === 2 ? ' pillar-card--emphasis' : ''}`} style={`--i:${i}`}>
+            <div class="pillar-card__head">
+              <span class="pillar-card__icon">
+                <Icon name={pillar.icon} size={28} />
+              </span>
+              {i === 2 && <p class="text-h3 pillar-card__head-title">{pillar.title}</p>}
+            </div>
+            {i !== 2 && <p class="text-h3">{pillar.title}</p>}
             <p class="text-body">{pillar.text}</p>
             <div class="pillar-card__chips">
               {pillar.features.map((feature) => (
@@ -42,12 +48,32 @@ const { featurePillars } = copy;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: var(--icon-box);
     height: var(--icon-box);
     border-radius: var(--radius-md);
     background: var(--color-icon-bg);
     color: var(--color-icon);
     margin-bottom: var(--space-5);
+  }
+
+  .pillar-card__head {
+    display: contents;
+  }
+
+  .pillar-card--emphasis .pillar-card__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-card--emphasis .pillar-card__icon {
+    margin-bottom: 0;
+  }
+
+  .pillar-card__head-title {
+    margin: 0;
   }
 
   .pillar-card__chips {

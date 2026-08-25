@@ -274,6 +274,7 @@ export default function LeadForm({ buttonLabel, microcopy }: Props) {
       )}
 
       <button type="submit" class="lead-form__submit" disabled={status === 'submitting'}>
+        {status === 'submitting' && <span class="lead-form__spinner" aria-hidden="true" />}
         {status === 'submitting' ? 'Enviando…' : buttonLabel}
       </button>
 
@@ -309,6 +310,10 @@ export default function LeadForm({ buttonLabel, microcopy }: Props) {
           display: none;
         }
         .lead-form__submit {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--space-2);
           height: var(--btn-h);
           border-radius: var(--radius-sm);
           border: none;
@@ -316,6 +321,22 @@ export default function LeadForm({ buttonLabel, microcopy }: Props) {
           color: var(--color-white);
           font: var(--weight-semibold) var(--text-base) var(--font-body);
           cursor: pointer;
+        }
+        .lead-form__spinner {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.4);
+          border-top-color: var(--color-white);
+          animation: lead-form-spin 700ms linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .lead-form__spinner {
+            animation: none;
+          }
+        }
+        @keyframes lead-form-spin {
+          to { transform: rotate(360deg); }
         }
         .lead-form__submit:hover {
           background: var(--color-primary-dark);

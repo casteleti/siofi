@@ -33,9 +33,11 @@ const classes = ['card', `card--${variant}`, className].filter(Boolean).join(' '
     background: var(--color-surface-alt);
     border: 1px solid var(--color-border);
     padding-block-end: 36px;
+    transition: border-color var(--dur-fast) ease-out, box-shadow var(--dur-fast) ease-out;
   }
 
-  .card--feature:hover {
+  .card--feature:hover,
+  .card--feature:active {
     border-color: var(--color-border-strong);
     box-shadow: var(--shadow-sm);
   }

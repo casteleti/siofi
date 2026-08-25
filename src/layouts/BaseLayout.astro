@@ -104,7 +104,10 @@ const faqPageSchema = buildFaqPageSchema(faqItems);
               }
             });
           },
-          { threshold: 0.15 },
+          // FX-02: rootMargin positivo antecipa o disparo em ~300px antes do
+          // elemento entrar na viewport — evita título/CTA em branco por mais
+          // de uma fração de segundo durante rolagem rápida.
+          { threshold: 0.05, rootMargin: '0px 0px 300px 0px' },
         );
         revealTargets.forEach((el) => observer.observe(el));
       } else {

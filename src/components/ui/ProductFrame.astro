@@ -45,10 +45,35 @@ const aspectRatio = RATIO_MAP[ratio];
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     overflow: hidden;
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
   }
 
   .product-frame--lg {
     box-shadow: var(--shadow-lg);
+  }
+
+  /* FX-03: único efeito de destaque permitido pela spec (§16/§18 proíbem
+     flutuação contínua e glow/gradiente atrás do card) — zoom sutil no
+     hover (desktop) e no :active (toque), sem loop nem autoplay. */
+  @media (hover: hover) {
+    .product-frame:hover {
+      transform: scale(1.02);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  .product-frame:active {
+    transform: scale(1.01);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-frame {
+      transition: none;
+    }
+    .product-frame:hover,
+    .product-frame:active {
+      transform: none;
+    }
   }
 
   .product-frame__bar {

@@ -1,0 +1,636 @@
+<title>Diagnóstico SiOfi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#eef1f5;
+    --bg-band:#0e2e52;
+    --band-line:rgba(255,255,255,0.14);
+    --surface:#ffffff;
+    --surface-2:#e4e9ef;
+    --surface-3:#dbe2ea;
+    --ink:#101826;
+    --ink-soft:#4b5768;
+    --ink-faint:#7c8797;
+    --line:#d7dee6;
+    --line-strong:#c1cbd6;
+    --blue:#1b4f8c;
+    --blue-deep:#0e2e52;
+    --blue-tint:#e3ecf6;
+    --amber:#b8631a;
+    --amber-tint:#faeee0;
+    --critical:#a8291d;
+    --critical-tint:#fbe8e5;
+    --high:#b8631a;
+    --high-tint:#faeee0;
+    --medium:#1b4f8c;
+    --medium-tint:#e3ecf6;
+    --low:#54606f;
+    --low-tint:#e7eaee;
+    --good:#276b45;
+    --good-tint:#e4f0e8;
+    --shadow-card:0 1px 2px rgba(16,24,38,0.06), 0 8px 20px -12px rgba(16,24,38,0.12);
+    --shadow-band:0 12px 28px -18px rgba(14,46,82,0.55);
+    --radius:12px;
+    --radius-sm:7px;
+    --font-display:'Archivo Expanded', 'Arial Narrow', sans-serif;
+    --font-body:'Public Sans', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#11151b;
+      --bg-band:#0a1f38;
+      --band-line:rgba(255,255,255,0.14);
+      --surface:#1a2028;
+      --surface-2:#222a34;
+      --surface-3:#2a3340;
+      --ink:#e9edf3;
+      --ink-soft:#aab4c2;
+      --ink-faint:#7c8797;
+      --line:#2e3844;
+      --line-strong:#3a4552;
+      --blue:#6fa3dd;
+      --blue-deep:#0a1f38;
+      --blue-tint:#1b2a3c;
+      --amber:#e0a15e;
+      --amber-tint:#3a2e1e;
+      --critical:#e2685a;
+      --critical-tint:#3a2220;
+      --high:#e0a15e;
+      --high-tint:#3a2e1e;
+      --medium:#6fa3dd;
+      --medium-tint:#1b2a3c;
+      --low:#9aa5b3;
+      --low-tint:#242b33;
+      --good:#6fbf8f;
+      --good-tint:#1c2e22;
+      --shadow-card:0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -12px rgba(0,0,0,0.45);
+      --shadow-band:0 12px 28px -18px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11151b;
+    --bg-band:#0a1f38;
+    --band-line:rgba(255,255,255,0.14);
+    --surface:#1a2028;
+    --surface-2:#222a34;
+    --surface-3:#2a3340;
+    --ink:#e9edf3;
+    --ink-soft:#aab4c2;
+    --ink-faint:#7c8797;
+    --line:#2e3844;
+    --line-strong:#3a4552;
+    --blue:#6fa3dd;
+    --blue-deep:#0a1f38;
+    --blue-tint:#1b2a3c;
+    --amber:#e0a15e;
+    --amber-tint:#3a2e1e;
+    --critical:#e2685a;
+    --critical-tint:#3a2220;
+    --high:#e0a15e;
+    --high-tint:#3a2e1e;
+    --medium:#6fa3dd;
+    --medium-tint:#1b2a3c;
+    --low:#9aa5b3;
+    --low-tint:#242b33;
+    --good:#6fbf8f;
+    --good-tint:#1c2e22;
+    --shadow-card:0 1px 2px rgba(0,0,0,0.3), 0 8px 20px -12px rgba(0,0,0,0.45);
+    --shadow-band:0 12px 28px -18px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue);}
+  ::selection{background:var(--blue-tint);}
+
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Masthead ---------- */
+  .band{
+    background:
+      linear-gradient(180deg, var(--bg-band), color-mix(in srgb, var(--bg-band) 85%, black));
+    color:#fff;
+    box-shadow:var(--shadow-band);
+    position:relative;
+    overflow:hidden;
+  }
+  .band::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--band-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--band-line) 1px, transparent 1px);
+    background-size:34px 34px;
+    opacity:0.5;
+    mask-image:linear-gradient(180deg, black, transparent 85%);
+  }
+  .band__inner{position:relative;padding:44px 24px 30px;}
+  .band__eyebrow{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:#a9c3e6;
+    display:flex;align-items:center;gap:10px;
+    margin:0 0 14px;
+  }
+  .band__eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#e0a15e;flex:none;}
+  .band h1{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(2rem, 1.6rem + 1.8vw, 3rem);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    margin:0 0 14px;
+    text-wrap:balance;
+  }
+  .band p.lede{
+    max-width:60ch;
+    color:#cfdcee;
+    font-size:1.05rem;
+    margin:0 0 30px;
+  }
+  .band__meta{
+    display:flex;flex-wrap:wrap;gap:10px 28px;
+    font-size:13.5px;
+    color:#9fb6d4;
+    border-top:1px solid var(--band-line);
+    padding-top:18px;
+  }
+  .band__meta strong{color:#e8eef8;font-weight:600;}
+  .band__meta code{font-family:var(--font-mono);color:#cfdcee;}
+
+  /* ---------- Summary stat strip ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin:-26px auto 0;
+    max-width:1040px;
+    box-shadow:var(--shadow-card);
+    position:relative;
+  }
+  .stat{
+    background:var(--surface);
+    padding:16px 14px 14px;
+    text-align:left;
+  }
+  .stat__n{
+    font-family:var(--font-mono);
+    font-variant-numeric:tabular-nums;
+    font-size:1.9rem;
+    font-weight:600;
+    line-height:1;
+    display:block;
+  }
+  .stat__label{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    display:block;
+  }
+  .stat--critical .stat__n{color:var(--critical);}
+  .stat--high .stat__n{color:var(--high);}
+  .stat--medium .stat__n{color:var(--medium);}
+  .stat--low .stat__n{color:var(--low);}
+  .stat--good .stat__n{color:var(--good);}
+
+  @media (max-width:700px){
+    .stats{grid-template-columns:repeat(3,1fr);margin-top:-18px;}
+    .stat:nth-child(4),.stat:nth-child(5){border-top:1px solid var(--line);}
+  }
+
+  /* ---------- Intro / how-to ---------- */
+  .intro{padding:40px 0 8px;}
+  .intro h2{font-family:var(--font-display);font-size:1.05rem;letter-spacing:0.02em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+  .intro p{max-width:70ch;color:var(--ink-soft);margin:0 0 10px;}
+  .intro p strong{color:var(--ink);}
+
+  /* ---------- Filters ---------- */
+  .filters{
+    position:sticky;top:0;z-index:20;
+    background:color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:12px 0;
+    margin-top:28px;
+  }
+  .filters__row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .filters__label{font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);letter-spacing:0.06em;text-transform:uppercase;margin-right:4px;}
+  .chip-btn{
+    font-family:var(--font-body);
+    font-size:13.5px;font-weight:600;
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    padding:7px 14px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .chip-btn .n{font-family:var(--font-mono);font-variant-numeric:tabular-nums;opacity:0.65;font-weight:500;}
+  .chip-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .chip-btn.active{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+  .chip-btn.active .n{opacity:0.7;}
+  .progress-mini{margin-left:auto;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-faint);white-space:nowrap;}
+
+  /* ---------- Sections ---------- */
+  .cat{padding:46px 0 6px;border-top:1px solid var(--line);}
+  .cat:first-of-type{border-top:none;}
+  .cat__head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap;}
+  .cat__index{font-family:var(--font-mono);color:var(--ink-faint);font-size:14px;}
+  .cat h2{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.5rem;
+    margin:0;
+    letter-spacing:-0.005em;
+  }
+  .cat__desc{color:var(--ink-soft);max-width:68ch;margin:6px 0 26px;font-size:14.5px;}
+
+  .finding{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0 18px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:4px solid var(--sev-color, var(--line-strong));
+    border-radius:var(--radius-sm);
+    padding:16px 18px 17px;
+    margin-bottom:12px;
+    box-shadow:var(--shadow-card);
+    transition:opacity .2s ease;
+  }
+  .finding.done{opacity:0.5;}
+  .finding.done .finding__title{text-decoration:line-through;text-decoration-color:var(--ink-faint);}
+  .finding--critical{--sev-color:var(--critical);}
+  .finding--high{--sev-color:var(--high);}
+  .finding--medium{--sev-color:var(--medium);}
+  .finding--low{--sev-color:var(--low);}
+  .finding--good{--sev-color:var(--good);}
+
+  .finding__check{
+    display:flex;align-items:flex-start;padding-top:2px;
+  }
+  .finding__check input{
+    width:19px;height:19px;
+    accent-color:var(--ink);
+    cursor:pointer;
+    margin:0;
+  }
+  .finding__top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:7px;}
+  .code{
+    font-family:var(--font-mono);
+    font-size:12px;font-weight:600;
+    letter-spacing:0.02em;
+    color:var(--ink-faint);
+  }
+  .sev{
+    font-family:var(--font-mono);
+    font-size:11px;font-weight:600;
+    letter-spacing:0.05em;text-transform:uppercase;
+    padding:2px 8px;border-radius:999px;
+    color:var(--sev-color);
+    background:var(--sev-tint);
+  }
+  .finding--critical .sev{background:var(--critical-tint);}
+  .finding--high .sev{background:var(--high-tint);}
+  .finding--medium .sev{background:var(--medium-tint);}
+  .finding--low .sev{background:var(--low-tint);}
+  .finding--good .sev{background:var(--good-tint);}
+
+  .tag-mobile{
+    font-size:11px;font-weight:600;letter-spacing:0.03em;
+    color:var(--blue);background:var(--blue-tint);
+    padding:2px 8px;border-radius:999px;
+    display:inline-flex;align-items:center;gap:4px;
+  }
+
+  .finding__title{font-weight:700;font-size:15.5px;margin:0 0 6px;color:var(--ink);}
+  .finding__body p{margin:0 0 8px;color:var(--ink-soft);font-size:14.5px;}
+  .finding__body p:last-child{margin-bottom:0;}
+  .finding__body .rec{color:var(--ink);}
+  .finding__body .rec b{color:var(--ink);font-weight:700;}
+
+  @media (max-width:600px){
+    .finding{grid-template-columns:1fr;gap:8px;}
+    .finding__check{padding-top:0;}
+  }
+
+  /* ---------- Roadmap ---------- */
+  .roadmap{padding:50px 0 10px;border-top:1px solid var(--line);}
+  .roadmap h2{font-family:var(--font-display);font-size:1.6rem;margin:0 0 6px;}
+  .roadmap > p{color:var(--ink-soft);max-width:65ch;margin:0 0 26px;}
+  .road-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:760px){.road-grid{grid-template-columns:1fr;}}
+  .road-col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 20px;box-shadow:var(--shadow-card);}
+  .road-col h3{
+    font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.06em;text-transform:uppercase;
+    margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:8px;
+  }
+  .road-col--1 h3{color:var(--critical);}
+  .road-col--2 h3{color:var(--high);}
+  .road-col--3 h3{color:var(--medium);}
+  .road-col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .road-col li{font-size:14px;color:var(--ink-soft);display:flex;gap:8px;align-items:flex-start;}
+  .road-col li code{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);flex:none;padding-top:1px;}
+
+  /* ---------- Closing ---------- */
+  .closing{padding:50px 0 60px;}
+  .closing__box{
+    background:var(--good-tint);
+    border:1px solid color-mix(in srgb, var(--good) 30%, transparent);
+    border-radius:var(--radius);
+    padding:22px 24px;
+  }
+  .closing__box h2{font-family:var(--font-display);font-size:1.1rem;color:var(--good);margin:0 0 10px;}
+  .closing__box ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:14.5px;}
+  .closing__box li{margin-bottom:6px;}
+  .closing__foot{margin-top:22px;font-size:13px;color:var(--ink-faint);}
+
+  ::-webkit-scrollbar{height:10px;width:10px;}
+  ::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:6px;}
+
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+</style>
+
+<div class="band">
+  <div class="wrap band__inner">
+    <p class="band__eyebrow"><span class="dot"></span> RELATÓRIO DE INSPEÇÃO · UI / UX / DESIGN</p>
+    <h1>Diagnóstico de refinamento — Landing Page SiOfi</h1>
+    <p class="lede">Varredura criteriosa da primeira versão publicada, com foco no que falta para sair do "funcional" e chegar no "acabado": diagramação, acabamento de componentes, efeitos e comportamento em mobile.</p>
+    <div class="band__meta">
+      <span>Página avaliada: <code>/siofi</code></span>
+      <span>Método: <strong>inspeção de layout + leitura do CSS/design tokens em produção</strong></span>
+      <span>Itens levantados: <strong id="meta-total">—</strong></span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="stats" id="stats">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<div class="wrap intro">
+  <h2>Como usar esta lista</h2>
+  <p><strong>Cada item tem um código</strong> (ex.: <code style="font-family:var(--font-mono)">BTN-01</code>) para vocês referenciarem em conversa ou no board de tarefas. Marque a caixinha ao lado de cada item conforme for implementando — o progresso fica salvo neste navegador. Os itens com a tag <span class="tag-mobile">📱 mobile</span> pedem atenção específica na experiência de toque, não só em telas menores.</p>
+  <p>A prioridade de cada item segue a cor da barra à esquerda: <span style="color:var(--critical);font-weight:700">crítico</span> (compromete a credibilidade ou quebra em algum cenário real), <span style="color:var(--high);font-weight:700">alto</span> (é o que mais "resolve" a sensação de inacabado), <span style="color:var(--medium);font-weight:700">médio</span> (refinamento perceptível) e <span style="color:var(--low);font-weight:700">baixo</span> (polimento fino). Itens verdes são pontos que já estão bem resolvidos — não mexer.</p>
+</div>
+
+<div class="filters">
+  <div class="wrap filters__row" id="filters">
+    <!-- filled by JS -->
+    <span class="progress-mini" id="progress-mini"></span>
+  </div>
+</div>
+
+<div class="wrap" id="categories">
+  <!-- filled by JS -->
+</div>
+
+<div class="wrap roadmap">
+  <h2>Ordem de execução sugerida</h2>
+  <p>Se o objetivo é sair rápido do "grosseiro" sem se perder nos 30+ itens, essa é a sequência de maior retorno por esforço.</p>
+  <div class="road-grid">
+    <div class="road-col road-col--1">
+      <h3>① Antes de divulgar</h3>
+      <ul>
+        <li><code>LAY-01</code> Trocar todos os placeholders "[PLACEHOLDER — screenshot...]" por prints reais ou mocks estáticos de alta fidelidade.</li>
+        <li><code>MOB-01</code> Validar a barra fixa inferior do mobile (sticky CTA) contra o rodapé e o formulário final.</li>
+        <li><code>FX-02</code> Confirmar que nenhuma seção fica com título/CTA invisível ao rolar rápido ou ao entrar direto por link com âncora.</li>
+      </ul>
+    </div>
+    <div class="road-col road-col--2">
+      <h3>② Maior ganho de percepção</h3>
+      <ul>
+        <li><code>CARD-01</code> Sombra sutil em repouso nos cards e nos mockups (o token já existe, só não é usado).</li>
+        <li><code>BTN-01</code> / <code>BTN-02</code> Unificar e reforçar o hover dos botões (lift + sombra em todas as variantes).</li>
+        <li><code>FX-03</code> Efeito de destaque nos mockups (float sutil, glow, zoom no hover).</li>
+        <li><code>FX-04</code> Indicador ativo no menu (scroll-spy + sublinhado animado).</li>
+      </ul>
+    </div>
+    <div class="road-col road-col--3">
+      <h3>③ Polimento fino</h3>
+      <ul>
+        <li><code>DS-02</code> / <code>DS-03</code> Consolidar tokens de azul e usar toda a escala de raio (pills, cantos maiores nos mockups).</li>
+        <li><code>MOB-03</code> / <code>MOB-04</code> Chips com min-height e stepper de 7 passos revisado para mobile.</li>
+        <li><code>CARD-03</code> Resolver o card órfão do grid de 5 segmentos.</li>
+        <li><code>FX-06</code> Substituir a seta escondida do comparativo por um rótulo textual no mobile.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="wrap closing">
+  <div class="closing__box">
+    <h2>O que já está bem resolvido (não mexer)</h2>
+    <ul>
+      <li>Existe um sistema de design tokens completo e bem pensado (cores, espaçamento, raio, sombra, tipografia fluida, duração de transição) — o problema não é falta de sistema, é aplicação inconsistente dele nos componentes.</li>
+      <li>Acessibilidade de teclado já implementada: skip-link, <code style="font-family:var(--font-mono)">:focus-visible</code> com contorno próprio e anel de foco nos campos de formulário.</li>
+      <li>Contraste de texto validado (cinza dos títulos H2 sobre branco ≈ 7,6:1) — a leitura de "clean" que passa hoje não é acaso.</li>
+      <li>Header, menu mobile (drawer) e empilhamento dos CTAs em coluna no mobile já seguem boas práticas de toque.</li>
+      <li><code style="font-family:var(--font-mono)">prefers-reduced-motion</code> já é respeitado nas animações.</li>
+    </ul>
+    <p class="closing__foot">Feito a partir de inspeção da página em produção (DOM, CSS computado e tokens do design system) em viewport desktop; os itens de mobile foram derivados das media queries reais do código, já que não foi possível emular um viewport de toque nesta sessão — vale uma conferência visual rápida no responsive mode do navegador antes de fechar os ajustes marcados como 📱.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var DATA = {
+    "ds": {
+      title: "Sistema de design (tokens)",
+      index: "01",
+      desc: "A base de cores, espaçamento, raio e sombra já existe e é sólida. O ajuste aqui é de aplicação e consolidação, não de criação.",
+      items: [
+        {code:"DS-01", sev:"high", title:"Sombra existe no sistema mas quase não é usada em repouso", body:"<p>O token <b>--shadow-xs / --shadow-sm</b> só aparece aplicado nos estados de <code>:hover</code>. Em repouso, botões e cards ficam 100% chapados (<code>box-shadow: none</code>), o que é exatamente a sensação de \"grosseiro\" / sem acabamento que vocês notaram.</p><p class='rec'><b>Recomendação:</b> aplicar <code>--shadow-xs</code> em repouso nos cards de mockup (Indicadores, OS, DRE, Estoque) e <code>--shadow-sm</code> nos cards de pilares — mantendo o hover subindo para <code>--shadow-md</code>.</p>"},
+        {code:"DS-02", sev:"medium", title:"Dois tokens de azul quase idênticos", body:"<p><code>--color-brand-blue (#1B75DB)</code> e <code>--color-primary (#1565C0)</code> coexistem no sistema com uma diferença de tom mínima. Isso costuma indicar retrabalho (um token \"esquecido\" de uma iteração anterior).</p><p class='rec'><b>Recomendação:</b> decidir qual é o azul oficial da marca e remover ou redocumentar o outro (por exemplo, reservando um exclusivamente para o logotipo).</p>"},
+        {code:"DS-03", sev:"low", title:"Escala de raio subutilizada", body:"<p>O sistema define <code>--radius-xs</code> até <code>--radius-full</code> (6 valores), mas praticamente tudo na página usa só <code>--radius-sm (6px)</code> e <code>--radius-md (10px)</code>. <code>--radius-full</code> (pill) e <code>--radius-xl (20px)</code> parecem não ser usados em lugar nenhum.</p><p class='rec'><b>Recomendação:</b> usar <code>--radius-full</code> nos chips (viram \"pills\", ficam mais leves visualmente) e <code>--radius-lg/xl</code> nos cards de mockup para dar um ar mais premium e diferenciar essa peça das demais.</p>"},
+        {code:"DS-04", sev:"medium", title:"Cinza dos títulos H2 repetido em todas as seções", body:"<p>Todo título de seção (\"Sua oficina cresceu...\", \"Mais do que informatizar...\", \"O que você precisa acompanhar...\" etc.) usa o mesmo tom <code>#4A5563</code>. Funciona bem isoladamente, mas ao rolar a página inteira o efeito é monótono — nenhuma seção parece mais importante que a outra.</p><p class='rec'><b>Recomendação:</b> reservar o tom mais escuro do H1 (<code>#1F2933</code>) para 1–2 seções de maior peso de conversão (ex.: a seção financeira antes do CTA final) e manter o cinza nas demais, criando uma hierarquia de \"volume\" entre seções.</p>"}
+      ]
+    },
+    "btn": {
+      title: "Botões",
+      index: "02",
+      desc: "A base está certa (altura consistente, raio consistente, tipografia consistente). O que falta é reforçar o feedback de interação e cobrir estados que hoje não existem.",
+      items: [
+        {code:"BTN-01", sev:"high", title:"Hover do botão primário é sutil demais", body:"<p>Hoje o hover do <code>.btn--primary</code> é <code>translateY(-1px)</code> + <code>--shadow-sm</code> — correto na direção, mas quase imperceptível num botão de 52px de altura.</p><p class='rec'><b>Recomendação:</b> subir para <code>translateY(-2px)</code> com <code>--shadow-md</code> e uma leve variação de cor de fundo (para <code>--color-primary-dark</code>), deixando o botão \"responder\" de forma mais nítida ao passar o mouse.</p>"},
+        {code:"BTN-02", sev:"high", title:"Botão secundário (outline) não segue a mesma linguagem de hover", body:"<p>O <code>.btn--secondary:hover</code> só troca a cor de fundo; não tem o mesmo <i>lift</i> nem sombra do botão primário. Como os dois aparecem lado a lado no herói (\"Agendar uma demonstração\" + \"Conhecer o SiOfi\"), a diferença de comportamento fica perceptível.</p><p class='rec'><b>Recomendação:</b> padronizar: todo botão clicável sobe 2px e ganha sombra no hover, independente da variante visual (primário, secundário, ghost).</p>"},
+        {code:"BTN-03", sev:"medium", title:"Sem feedback de toque (:active) diferenciado", body:"<p>O estado <code>:active</code> hoje só desfaz o <i>lift</i> do hover (<code>translateY(0)</code>). Em touch, onde não existe hover, isso significa que o botão praticamente não dá feedback nenhum ao ser tocado.</p><p class='rec'><b>Recomendação:</b> no <code>:active</code>, aplicar <code>scale(0.97)</code> e escurecer levemente o fundo — esse é o principal \"efeito\" que vale pensar para mobile, já que hover não existe lá.</p>", mobile:true},
+        {code:"BTN-04", sev:"medium", title:"Sem estado de carregamento/desabilitado no botão de envio do formulário", body:"<p>O CTA final (\"Quero agendar uma demonstração\") não tem, aparentemente, um estado visual de \"enviando\" nem de desabilitado durante o envio — isso deixa margem para clique duplo e para o usuário não saber se o clique funcionou.</p><p class='rec'><b>Recomendação:</b> adicionar um estado de <i>loading</i> (spinner + texto \"Enviando...\") e desabilitar o botão durante a submissão.</p>"},
+        {code:"BTN-05", sev:"low", title:"Botão \"ghost\" (link com sublinhado) some do radar do usuário", body:"<p>O <code>.btn--ghost:hover</code> muda só o sublinhado — funciona, mas em botões pequenos (como \"Falar com a equipe\") o efeito é quase invisível.</p><p class='rec'><b>Recomendação:</b> combinar o sublinhado com uma leve mudança de cor no texto para reforçar o feedback.</p>"}
+      ]
+    },
+    "card": {
+      title: "Cards e componentes",
+      index: "03",
+      desc: "Cards, mockups de produto e badges decorativos — a estrutura é consistente, mas está achatada e alguns arranjos de grid deixam sobras.",
+      items: [
+        {code:"CARD-01", sev:"high", title:"Cards e mockups sem nenhuma sombra em repouso", body:"<p>Igual ao DS-01, mas no nível do componente: os cards de recurso (\"Acompanhe cada serviço\", \"Saiba o que entra...\") e os cards de mockup (Indicadores, OS, DRE, Estoque) usam só borda de 1px para se separar do fundo. Sem elevação, tudo fica na mesma \"camada\" visual.</p><p class='rec'><b>Recomendação:</b> sombra sutil (<code>--shadow-xs</code>) em repouso nos cards de recurso e uma sombra um pouco mais presente (<code>--shadow-sm/md</code>) nos cards de mockup, já que eles representam \"telas\" e merecem se destacar mais do fundo.</p>"},
+        {code:"CARD-02", sev:"medium", title:"Badges flutuantes ao redor dos mockups precisam de conferência quando os prints reais entrarem", body:"<p>Os rótulos flutuantes (\"Resultado do período\", \"Faturamento\", \"Peças e serviços\", \"Total\", \"Resultado líquido\", \"Importação de XML\") hoje flutuam sobre uma caixa cinza vazia (o placeholder). Isso torna difícil avaliar se o deslocamento (offset) deles está de fato idêntico nas 4 instâncias (Indicadores / OS / DRE / Estoque).</p><p class='rec'><b>Recomendação:</b> ao inserir os prints reais da F5, validar que o offset desses badges é o mesmo em pixels nas 4 seções — isso é o tipo de detalhe que, se inconsistente, o olho percebe como \"desalinhado\" mesmo sem saber apontar o porquê.</p>"},
+        {code:"CARD-03", sev:"medium", title:"Grid de 5 segmentos deixa um card órfão em telas médias", body:"<p>A seção \"Feito para quem vive a rotina do setor automotivo\" tem 5 cards (Oficinas mecânicas, Auto centers, Centros automotivos, Autoelétricas, Funilarias). No breakpoint de tablet o grid vira 2 colunas — 5 itens em 2 colunas deixa o último card sozinho, alinhado à esquerda, com um buraco visual ao lado.</p><p class='rec'><b>Recomendação:</b> nesse breakpoint, fazer o 5º card ocupar a largura cheia (<code>grid-column: span 2</code>) ou centralizá-lo — ou considerar 3 colunas nesse intervalo específico em vez de 2.</p>", mobile:true},
+        {code:"CARD-04", sev:"low", title:"Layout dos pillar-cards é repetitivo ao longo de 6 seções seguidas", body:"<p>Os 6 cards de recursos (OS, Financeiro, Relatórios, Estoque, Compras, Fiscal) seguem sempre o mesmo padrão: ícone no topo à esquerda, título, texto, chips. Em sequência, isso cansa visualmente antes de chegar no fim da lista.</p><p class='rec'><b>Recomendação:</b> variar a composição em pelo menos 1 desses cards (por exemplo, ícone ao lado do título em vez de acima) para quebrar o padrão e sinalizar que aquele item tem um peso diferente.</p>"}
+      ]
+    },
+    "lay": {
+      title: "Diagramação e alinhamento",
+      index: "04",
+      desc: "O espaçamento entre seções é rigorosamente consistente (isso é um ponto forte). Os problemas de diagramação encontrados são pontuais, não sistêmicos.",
+      items: [
+        {code:"LAY-01", sev:"critical", title:"Placeholders de desenvolvimento visíveis na página publicada", body:"<p>Em 5 pontos da página aparece literalmente o texto <code>[PLACEHOLDER — screenshot: X. Aguardando asset real da F5 (§29.1 design system)]</code> dentro de uma caixa cinza (seções Indicadores, Ordem de serviço, DRE, Estoque, e a foto da equipe de suporte).</p><p class='rec'><b>Recomendação:</b> este é o item de maior impacto na percepção de \"inacabado\" de toda a página — mais do que qualquer ajuste de sombra ou hover. Prioridade máxima antes de qualquer divulgação, mesmo que o substituto inicial seja um mock estático e não o print real ainda.</p>"},
+        {code:"LAY-02", sev:"low", title:"Confirmar a medida de leitura dos parágrafos em telas estreitas", body:"<p>No desktop, os parágrafos de apoio (ex.: \"Quanto mais veículos, peças, clientes...\") ficam numa medida confortável de leitura. Vale confirmar que isso se mantém em telas pequenas, já que o <code>line-height</code> de 1.6 definido no token <code>--leading-body</code> é generoso e pode parecer \"solto\" em colunas muito estreitas.</p><p class='rec'><b>Recomendação:</b> checar visualmente em 360–390px de largura; se o texto parecer \"arejado demais\", reduzir levemente o <code>line-height</code> só nesse breakpoint.</p>", mobile:true},
+        {code:"LAY-03", sev:"medium", title:"Emenda abrupta entre a seção branca e a seção financeira escura", body:"<p>A transição do bloco branco para a seção financeira de fundo azul-escuro (<code>#0B3D82</code>) acontece num corte reto, sem nenhuma respiração — na inspeção, os chips decorativos da seção anterior (\"Ticket médio\", \"Indicadores\") aparecem parcialmente cortados bem na linha de virada entre as duas seções.</p><p class='rec'><b>Recomendação:</b> revisar o espaçamento/overlap exatamente nessa emenda — um respiro maior antes da seção escura, ou um leve gradiente de transição, evita esse corte que hoje parece acidental.</p>"},
+        {code:"LAY-04", sev:"good", title:"Ritmo vertical entre seções é consistente", body:"<p>Todas as seções principais usam exatamente <code>112px</code> de respiro em cima e embaixo (<code>--section-py</code>). Esse é um dos pontos mais fortes da página hoje — o espaçamento vertical não é o problema de diagramação, é a ausência de profundidade (sombra) e a falta de variação de hierarquia entre seções.</p><p class='rec'><b>Manter como está.</b></p>"}
+      ]
+    },
+    "fx": {
+      title: "Efeitos e motion",
+      index: "05",
+      desc: "Já existe infraestrutura de animação (duração, easing, stagger, respeito ao prefers-reduced-motion). O que falta é calibrar o que já existe e acrescentar 1–2 efeitos de destaque nos pontos certos — sem exagerar.",
+      items: [
+        {code:"FX-01", sev:"medium", title:"Animação de entrada no herói pode atrasar a primeira impressão", body:"<p>Título, texto e botões do herói entram com <code>opacity + translateY</code> em 320ms a cada carregamento de página. Como esse é o maior bloco de texto da página (LCP), qualquer atraso aqui é o que o usuário mais percebe antes de qualquer outra coisa.</p><p class='rec'><b>Recomendação:</b> remover a animação de entrada do H1 do herói (ou reduzir para ~150ms sem <code>transform</code>), mantendo o efeito de revelação só para o que está abaixo da dobra.</p>"},
+        {code:"FX-02", sev:"critical", title:"Revelação em scroll pode demorar mais que o esperado em telas mais abaixo", body:"<p>Em testes de rolagem programada, o grid de 5 segmentos (\"Feito para quem vive a rotina...\") levou visivelmente mais tempo que o esperado pelo próprio token de stagger (<code>--stagger: 80ms</code>, ou seja, ~320-640ms para todos os cards) para ficar 100% visível — em alguns pontos ficou perceptível por quase 2 segundos com cards em branco.</p><p class='rec'><b>Recomendação:</b> testar a página com rolagem rápida (arrastar a barra de rolagem, tecla Fim/Page Down, ou um \"flick\" de trackpad) e confirmar que nenhuma seção fica com título ou CTA invisível por mais que uma fração de segundo. Se confirmado, ajustar o <code>rootMargin</code> do observer de scroll para disparar a animação um pouco antes do elemento entrar na tela.</p>", mobile:true},
+        {code:"FX-03", sev:"high", title:"Nenhum efeito de destaque nos mockups de produto", body:"<p>Os 4 cards de mockup (Indicadores, OS, DRE, Estoque) são hoje estáticos — aparecem e ficam parados. É justamente o elemento mais \"produto\" da página, e também o que mais se beneficiaria de um efeito sutil.</p><p class='rec'><b>Recomendação (3 opções, pode combinar):</b> (1) flutuação contínua muito sutil (translateY entre -4px e 4px em loop suave); (2) leve zoom (<code>scale(1.02)</code>) ao passar o mouse, no desktop; (3) brilho suave atrás do card (gradiente radial) sincronizado com os badges flutuantes. Usar as durações e o easing que já existem no token (<code>--dur-base</code>, <code>--ease-out</code>) para manter consistência.</p>"},
+        {code:"FX-04", sev:"high", title:"Menu principal sem indicação de seção ativa", body:"<p>Os links do menu (Pilares, Ordem de serviço, Financeiro, Dúvidas) não parecem reagir enquanto o usuário rola a página — não há destaque indicando em qual seção ele está.</p><p class='rec'><b>Recomendação:</b> sublinhado animado ao passar o mouse (underline que cresce da esquerda pra direita) + \"scroll-spy\" simples que marca o item do menu correspondente à seção visível no momento. É um efeito de baixo custo e alto retorno em sensação de acabamento.</p>"},
+        {code:"FX-05", sev:"low", title:"Ícones dos pillar-cards são estáticos", body:"<p>Os ícones dentro do círculo azul-claro (em cada card de recurso) não reagem a nada — nem hover, nem entrada.</p><p class='rec'><b>Recomendação:</b> um leve \"bounce\" ou giro de poucos graus no ícone ao passar o mouse no card inteiro (não só no ícone) reforça que o card é uma unidade clicável/navegável, mesmo quando não é um link.</p>"},
+        {code:"FX-06", sev:"medium", title:"Seta do comparativo \"antes → depois\" some no mobile sem substituto", body:"<p>Na seção \"Quando as informações se conectam...\", cada linha tem um problema à esquerda e a solução à direita, ligados por uma seta. No mobile essa seta é escondida (<code>display:none</code>) e as duas colunas empilham em uma só — a relação de causa/efeito perde o reforço visual que tinha no desktop.</p><p class='rec'><b>Recomendação:</b> substituir a seta por um rótulo textual curto entre as duas frases quando empilhado (ex.: \"vira →\") ou por um ícone de seta apontando para baixo, mantendo a leitura de transformação.</p>", mobile:true},
+        {code:"FX-07", sev:"medium", title:"Todo efeito hoje depende de :hover, que não existe em toque", body:"<p>Lift dos botões, sombra dos cards e mudança de borda no hover — tudo isso é invisível em celular/tablet, já que touch não tem hover. Nenhum desses efeitos é essencial para entender a página, mas a experiência em mobile acaba sendo mais \"seca\" que a de desktop.</p><p class='rec'><b>Recomendação:</b> garantir que cada efeito de hover relevante tenha um equivalente em <code>:active</code> (toque) — não precisa ser idêntico, só precisa dar algum feedback tátil imediato.</p>", mobile:true},
+        {code:"FX-08", sev:"good", title:"prefers-reduced-motion já é respeitado", body:"<p>O código já trata a preferência de redução de movimento do sistema operacional do usuário — um detalhe de acessibilidade que muita página nem considera.</p><p class='rec'><b>Manter como está.</b></p>"}
+      ]
+    },
+    "mob": {
+      title: "Experiência mobile",
+      index: "06",
+      desc: "Levantado a partir das media queries reais do código (não foi possível emular um viewport de toque nesta sessão) — vale uma conferência visual rápida no responsive mode do navegador.",
+      items: [
+        {code:"MOB-01", sev:"critical", title:"Barra fixa inferior (CTA) e botão de WhatsApp dividem o mesmo espaço", body:"<p>Existe uma barra fixa de CTA (\"Agendar demonstração\") que fica escondida por padrão e aparece só no mobile, e o botão flutuante do WhatsApp sobe de 16px para 88px do rodapé exatamente nesse mesmo intervalo de tela — sinal de que a intenção é abrir espaço entre os dois. Os dois elementos, porém, dividem o mesmo <code>z-index</code>.</p><p class='rec'><b>Recomendação:</b> validar visualmente em um celular real (ou responsive mode) que: (1) a barra some quando o formulário final/rodapé está visível, para não competir com o botão de envio; (2) a distância entre a barra e o botão do WhatsApp é confortável em todas as alturas de tela comuns (667–932px).</p>", mobile:true},
+        {code:"MOB-02", sev:"low", title:"Distância entre WhatsApp e a barra de CTA pode variar", body:"<p>O deslocamento do botão de WhatsApp (88px) foi aparentemente calibrado para a altura da barra de CTA, mas essa altura pode variar dependendo de quebras de texto em telas muito estreitas (320px).</p><p class='rec'><b>Recomendação:</b> testar especificamente em 320–360px de largura (os menores Android/iPhone SE ainda em uso).</p>", mobile:true},
+        {code:"MOB-03", sev:"medium", title:"Chips com altura fixa podem cortar textos longos em telas estreitas", body:"<p>Os chips (\"Movimentação financeira\", \"Entradas e saídas avulsas\", \"Produtividade de mecânicos\") usam <code>height: 44px</code> fixo. Em telas muito estreitas, se o texto quebrar em duas linhas, o conteúdo pode ficar cortado verticalmente em vez de expandir o chip.</p><p class='rec'><b>Recomendação:</b> trocar <code>height</code> fixo por <code>min-height: 44px</code> (mantém o toque confortável de 44px como mínimo, mas permite crescer se o texto quebrar).</p>", mobile:true},
+        {code:"MOB-04", sev:"medium", title:"Stepper de 7 passos vira uma lista vertical longa no mobile", body:"<p>O rastreador \"Cliente → Veículo → Orçamento → Ordem de Serviço → Peças → Técnico → Fechamento\" (7 etapas) empilha verticalmente no mobile, o que pode gerar uma rolagem longa só para essa seção.</p><p class='rec'><b>Recomendação:</b> considerar um carrossel horizontal com scroll (mantendo a sensação de \"jornada\") em vez da lista vertical, ou agrupar os 7 passos em 2 linhas mais compactas.</p>", mobile:true},
+        {code:"MOB-05", sev:"medium", title:"Grid de 5 segmentos deixa card órfão também no mobile/tablet", body:"<p>Mesmo problema do CARD-03, mas relevante especificamente na faixa de tablet (2 colunas) — é nessa largura que o card sozinho fica mais evidente.</p><p class='rec'><b>Recomendação:</b> ver CARD-03.</p>", mobile:true},
+        {code:"MOB-06", sev:"good", title:"CTAs do herói e header já viram full-width empilhado no mobile", body:"<p>Os dois botões do herói e o CTA do header já empilham em coluna e ocupam 100% da largura em telas ≤767px — um padrão correto para toque, já implementado.</p><p class='rec'><b>Manter como está.</b></p>"},
+        {code:"MOB-07", sev:"good", title:"Menu mobile (drawer) já segue boas práticas", body:"<p>O menu mobile já abre como painel lateral com fundo escurecido (backdrop), links e CTA principal em largura total dentro do próprio drawer — comportamento correto e já implementado.</p><p class='rec'><b>Manter como está.</b></p>"}
+      ]
+    },
+    "a11y": {
+      title: "Acessibilidade",
+      index: "07",
+      desc: "Melhor do que a média para uma primeira versão — vale reconhecer o que já está certo antes de listar o que falta confirmar.",
+      items: [
+        {code:"A11Y-01", sev:"good", title:"Base de acessibilidade de teclado já implementada", body:"<p>Skip-link para pular para o conteúdo, contorno de foco customizado (<code>:focus-visible</code>) e anel de foco nos campos de formulário já existem no código — muitas páginas em primeira versão nem chegam a considerar isso.</p><p class='rec'><b>Manter como está.</b></p>"},
+        {code:"A11Y-02", sev:"good", title:"Contraste dos títulos já está adequado", body:"<p>O cinza usado nos títulos H2 (<code>#4A5563</code>) sobre fundo branco tem contraste de aproximadamente 7,6:1 — bem acima do mínimo recomendado mesmo para texto grande. O ajuste sugerido em DS-04 é de hierarquia visual, não de legibilidade.</p><p class='rec'><b>Manter como está.</b></p>"},
+        {code:"A11Y-03", sev:"low", title:"Conferir contraste do texto secundário sobre o fundo escuro", body:"<p>Na seção financeira de fundo azul-escuro, o texto secundário usa um tom claro específico para fundos escuros — vale uma checagem pontual de contraste nessa combinação específica.</p><p class='rec'><b>Recomendação:</b> rodar essa combinação de cor por um verificador de contraste (ex.: WebAIM) para confirmar que passa em AA.</p>"},
+        {code:"A11Y-04", sev:"good", title:"Comparativo antes/depois não depende só de cor", body:"<p>A seção \"Quando as informações se conectam...\" já diferencia problema de solução por ícone (traço vs. check), não só por cor — importante para quem tem daltonismo ou usa leitor de tela.</p><p class='rec'><b>Manter como está.</b></p>"}
+      ]
+    }
+  };
+
+  var ORDER = ["ds","btn","card","lay","fx","mob","a11y"];
+  var SEV_LABEL = {critical:"Crítico", high:"Alto", medium:"Médio", low:"Baixo", good:"Ponto forte"};
+
+  var allItems = [];
+  ORDER.forEach(function(k){
+    DATA[k].items.forEach(function(it){ it.cat = k; allItems.push(it); });
+  });
+
+  document.getElementById("meta-total").textContent = allItems.length + " itens em " + ORDER.length + " frentes";
+
+  // ---- stats ----
+  var counts = {critical:0, high:0, medium:0, low:0, good:0};
+  allItems.forEach(function(it){ counts[it.sev] = (counts[it.sev]||0) + 1; });
+  var statsHTML = "";
+  [["critical","Crítico"], ["high","Alto"], ["medium","Médio"], ["low","Baixo"], ["good","Já resolvido"]].forEach(function(p){
+    statsHTML += '<div class="stat stat--'+p[0]+'"><span class="stat__n">'+counts[p[0]]+'</span><span class="stat__label">'+p[1]+'</span></div>';
+  });
+  document.getElementById("stats").innerHTML = statsHTML;
+
+  // ---- filters ----
+  var filtersHTML = '<span class="filters__label">Filtrar</span>';
+  filtersHTML += '<button class="chip-btn active" data-filter="all">Tudo <span class="n">'+allItems.length+'</span></button>';
+  ORDER.forEach(function(k){
+    filtersHTML += '<button class="chip-btn" data-filter="'+k+'">'+DATA[k].title+' <span class="n">'+DATA[k].items.length+'</span></button>';
+  });
+  document.getElementById("filters").insertAdjacentHTML("afterbegin", filtersHTML);
+
+  // ---- categories ----
+  var catsHTML = "";
+  ORDER.forEach(function(k){
+    var cat = DATA[k];
+    catsHTML += '<section class="cat" data-cat="'+k+'">';
+    catsHTML += '<div class="cat__head"><span class="cat__index">'+cat.index+'</span><h2>'+cat.title+'</h2></div>';
+    catsHTML += '<p class="cat__desc">'+cat.desc+'</p>';
+    cat.items.forEach(function(it){
+      catsHTML += '<article class="finding finding--'+it.sev+'" data-code="'+it.code+'">';
+      catsHTML += '<div class="finding__check"><input type="checkbox" aria-label="Marcar '+it.code+' como concluído" data-code="'+it.code+'"></div>';
+      catsHTML += '<div>';
+      catsHTML += '<div class="finding__top"><span class="code">'+it.code+'</span><span class="sev">'+SEV_LABEL[it.sev]+'</span>';
+      if (it.mobile) catsHTML += '<span class="tag-mobile">📱 mobile</span>';
+      catsHTML += '</div>';
+      catsHTML += '<p class="finding__title">'+it.title+'</p>';
+      catsHTML += '<div class="finding__body">'+it.body+'</div>';
+      catsHTML += '</div></article>';
+    });
+    catsHTML += '</section>';
+  });
+  document.getElementById("categories").innerHTML = catsHTML;
+
+  // ---- checkbox persistence ----
+  var STORAGE_KEY = "siofi-audit-done-v1";
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch(e) { done = {}; }
+
+  function updateProgress(){
+    var n = Object.keys(done).filter(function(k){ return done[k]; }).length;
+    document.getElementById("progress-mini").textContent = n + " / " + allItems.length + " concluídos";
+  }
+
+  document.querySelectorAll('input[type="checkbox"][data-code]').forEach(function(cb){
+    var code = cb.getAttribute("data-code");
+    cb.checked = !!done[code];
+    var article = cb.closest(".finding");
+    if (cb.checked) article.classList.add("done");
+    cb.addEventListener("change", function(){
+      done[code] = cb.checked;
+      article.classList.toggle("done", cb.checked);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); } catch(e){}
+      updateProgress();
+    });
+  });
+  updateProgress();
+
+  // ---- filtering ----
+  document.querySelectorAll(".chip-btn[data-filter]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll(".chip-btn[data-filter]").forEach(function(b){ b.classList.remove("active"); });
+      btn.classList.add("active");
+      var f = btn.getAttribute("data-filter");
+      document.querySelectorAll(".cat").forEach(function(cat){
+        cat.style.display = (f === "all" || cat.getAttribute("data-cat") === f) ? "" : "none";
+      });
+    });
+  });
+})();
+</script>

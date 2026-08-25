@@ -31,8 +31,11 @@ const classes = [
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    height: var(--btn-h-sm);
-    padding: 0 var(--space-4);
+    /* MOB-03: min-height em vez de height fixo — texto longo em telas
+       estreitas pode quebrar em 2 linhas sem cortar conteúdo, mantendo
+       44px como o mínimo exigido pelo touch target (§7/§18). */
+    min-height: var(--btn-h-sm);
+    padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-sm);
     border: 1px solid var(--color-border-strong);
     font: var(--weight-medium) var(--text-sm) var(--font-body);
