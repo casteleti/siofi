@@ -6,8 +6,15 @@
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
+import { CONTACT, CITY_STATE, getMapsHref } from '../../lib/contact';
 
 const { support } = copy;
+
+/** Canais com link funcional quando há dado real correspondente (Telefone/E-mail). */
+const CHANNEL_LINKS: Record<string, { href: string; trackId: string } | undefined> = {
+  Telefone: { href: CONTACT.phone.href, trackId: 'phone_click' },
+  'E-mail': { href: `mailto:${CONTACT.emails.contact}`, trackId: '' },
+};
 ---
 
 <section id="suporte" class="section" aria-labelledby="suporte-heading">
@@ -23,19 +30,32 @@ const { support } = copy;
 
       <ul class="support__channels reveal">
         {
-          support.channels.map((channel) => (
-            <li>
-              <Icon name={channel.icon} size={20} />
-              <span>{channel.label}</span>
-            </li>
-          ))
+          support.channels.map((channel) => {
+            const link = CHANNEL_LINKS[channel.label];
+            return (
+              <li>
+                <Icon name={channel.icon} size={20} />
+                {link ? (
+                  <a href={link.href} data-track={link.trackId || undefined} data-section="suporte">
+                    {channel.label}
+                  </a>
+                ) : (
+                  <span>{channel.label}</span>
+                )}
+              </li>
+            );
+          })
         }
       </ul>
 
-      <div class="reveal">
+      <div class="support__footer reveal">
         <Button variant="secondary" href="#form" trackId="secondary_cta_click" section="suporte">
           {support.cta}
         </Button>
+        <a class="support__location" href={getMapsHref()} target="_blank" rel="noopener">
+          <Icon name="map-pin" size={16} />
+          {CITY_STATE}
+        </a>
       </div>
     </div>
   </div>
@@ -56,5 +76,35 @@ const { support } = copy;
     align-items: center;
     gap: var(--space-3);
     color: var(--color-text-primary);
+  }
+
+  .support__channels li a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .support__channels li a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .support__footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .support__location {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font: var(--weight-regular) var(--text-sm) var(--font-body);
+    text-decoration: none;
+  }
+
+  .support__location:hover {
+    color: var(--color-primary);
   }
 </style>

@@ -9,9 +9,18 @@
     "[TBD — URL Facebook]",
     "[TBD — URL LinkedIn]"
   ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "R. Floriano Peixoto, 907, Sala 07 e 08 - Centro",
+    "addressLocality": "Jaboticabal",
+    "addressRegion": "SP",
+    "postalCode": "14870-370",
+    "addressCountry": "BR"
+  },
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "[TBD — TELEFONE F5]",
+    "telephone": "+55-16-3203-4341",
+    "email": "falecom@f5sg.com.br",
     "contactType": "sales",
     "areaServed": "BR",
     "availableLanguage": "Portuguese"

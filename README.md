@@ -191,10 +191,10 @@ visuais ou arquitetura de tracking/backend, só a forma como o stack é montado:
 ### Bloqueante para lançamento
 - Logo SiOfi em SVG (lockup colorido flat, lockup negativo, símbolo isolado) — `public/assets/logo`.
 - 4 screenshots recapturados em alta resolução (dashboard, OS, DRE, estoque/XML) — `public/assets/screens`.
-- Fontes Manrope (700/800) e Inter (400/500/600) em WOFF2 self-hosted — `public/fonts`.
+- ~~Fontes Manrope/Inter~~ — resolvido via Google Fonts CDN (alternativa aceita pela spec §15) enquanto os arquivos self-hosted não chegam; `public/fonts` continua vazio, é `SHOULD`, não bloqueante.
 - Domínio canônico definitivo (`PUBLIC_SITE_URL`, `astro.config.mjs`, `robots.txt`, `_redirects`, `wrangler.jsonc` se precisar de rota customizada).
 - Confirmação das modalidades fiscais suportadas (a página exibe apenas NF-e até validação).
-- Telefone, WhatsApp, e-mail, endereço e CNPJ da F5 (`Footer.astro`, `src/lib/whatsapp.ts`, `organization.json`).
+- ~~Telefone, e-mail, endereço~~ — preenchidos (`src/lib/contact.ts`, `Footer.astro`, `SupportSection.astro`, `organization.json`). Ainda faltam **WhatsApp** (`src/lib/whatsapp.ts`) e **CNPJ** (`organization.json`, footer).
 - URL da política de privacidade (`Footer.astro`, `ConsentBanner.astro`).
 - CRM escolhido (`CRM_ENDPOINT`/`CRM_API_KEY`) e mecanismo de fila/retry para indisponibilidade.
 - IDs reais de GTM/GA4/Meta Pixel/Google Ads (`.env.example`/`.dev.vars.example`) e configuração das tags dentro do painel do GTM.
