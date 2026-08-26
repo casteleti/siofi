@@ -11,6 +11,7 @@ interface Props {
   ratio?: '16:10' | '16:9' | '4:3' | '4:5';
   size?: 'md' | 'lg';
   class?: string;
+  src?: string;
 }
 
 const RATIO_MAP: Record<NonNullable<Props['ratio']>, string> = {
@@ -20,7 +21,7 @@ const RATIO_MAP: Record<NonNullable<Props['ratio']>, string> = {
   '4:5': '4 / 5',
 };
 
-const { label, ratio = '16:10', size = 'md', class: className } = Astro.props;
+const { label, ratio = '16:10', size = 'md', class: className, src } = Astro.props;
 const aspectRatio = RATIO_MAP[ratio];
 ---
 
@@ -32,7 +33,13 @@ const aspectRatio = RATIO_MAP[ratio];
     <span class="product-frame__label">{label}</span>
   </div>
   <div class="product-frame__body" style={`aspect-ratio: ${aspectRatio};`}>
-    <p>[PLACEHOLDER — screenshot: {label}. Aguardando asset real da F5 (§29.1 design system).]</p>
+    {
+      src ? (
+        <img src={src} alt="" class="product-frame__img" loading="eager" />
+      ) : (
+        <p>[PLACEHOLDER — screenshot: {label}. Aguardando asset real da F5 (§29.1 design system).]</p>
+      )
+    }
   </div>
   <figcaption class="visually-hidden"><slot /></figcaption>
 </figure>
@@ -112,5 +119,13 @@ const aspectRatio = RATIO_MAP[ratio];
     font: var(--weight-regular) var(--text-sm) var(--font-body);
     padding: var(--space-4);
     text-align: center;
+    overflow: hidden;
+  }
+
+  .product-frame__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
   }
 </style>

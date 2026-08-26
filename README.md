@@ -190,7 +190,7 @@ visuais ou arquitetura de tracking/backend, só a forma como o stack é montado:
 
 ### Bloqueante para lançamento
 - Logo SiOfi em SVG (lockup colorido flat, lockup negativo, símbolo isolado) — `public/assets/logo`.
-- 4 screenshots recapturados em alta resolução (dashboard, OS, DRE, estoque/XML) — `public/assets/screens`.
+- ~~Screenshot do dashboard (Indicadores)~~ — aplicado (`public/assets/screens/indicadores.jpg`, `docs/img-hero.jpg`), mas é um print legado de baixa resolução (686×429, sistema desktop antigo); recapturar em alta resolução do sistema atual quando possível. Ainda faltam **OS, DRE e estoque/XML** — `public/assets/screens`.
 - ~~Fontes Manrope/Inter~~ — resolvido via Google Fonts CDN (alternativa aceita pela spec §15) enquanto os arquivos self-hosted não chegam; `public/fonts` continua vazio, é `SHOULD`, não bloqueante.
 - Domínio canônico definitivo (`PUBLIC_SITE_URL`, `astro.config.mjs`, `robots.txt`, `_redirects`, `wrangler.jsonc` se precisar de rota customizada).
 - Confirmação das modalidades fiscais suportadas (a página exibe apenas NF-e até validação).
