@@ -4,6 +4,7 @@
  * quando houver dados validados pela F5 — copy §7: "não inserir números
  * fictícios". Vazio hoje (design system: seções condicionais ocultas quando vazias).
  */
+import Icon from '../ui/Icon.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 interface TrustLogo {
@@ -17,7 +18,10 @@ const hasLogos = logos.length > 0;
 ---
 
 <section id="trust-bar" class="trust-bar">
-  <div class="container">
+  <div class="container trust-bar__inner">
+    <span class="trust-bar__icon" aria-hidden="true">
+      <Icon name="shield-check" size={20} />
+    </span>
     <p class="text-body trust-bar__phrase reveal">{trustBar.phrase}</p>
     {
       hasLogos && (
@@ -33,13 +37,35 @@ const hasLogos = logos.length > 0;
 
 <style>
   .trust-bar {
-    padding-block: var(--space-12);
-    background: var(--color-white);
+    padding-block: var(--space-10);
+    background: var(--color-surface-alt);
     border-block: 1px solid var(--color-border);
+  }
+
+  .trust-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .trust-bar__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
   }
 
   .trust-bar__phrase {
     text-align: center;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
   }
 
   .trust-bar__logos {

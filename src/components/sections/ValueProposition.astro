@@ -1,12 +1,24 @@
 ---
 /**
- * Virada / proposta de valor (Section Map §25 #4). Bloco centralizado 720px,
- * linha de conexão com 5 nós (design system §16).
+ * Virada / proposta de valor (Section Map §25 #4). Bloco centralizado 720px
+ * + diagrama de fluxo com os módulos reais citados na copy (§16 design
+ * system pedia uma "linha de conexão com 5 nós" — aqui os 5 nós carregam
+ * ícone + rótulo dos módulos citados no parágrafo, em vez de bolinhas
+ * puramente decorativas sem informação nenhuma).
  */
 import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { valueProposition } = copy;
+
+const MODULES = [
+  { icon: 'user-round', label: 'Atendimento' },
+  { icon: 'clipboard-list', label: 'Ordem de serviço' },
+  { icon: 'wallet', label: 'Financeiro' },
+  { icon: 'package', label: 'Estoque' },
+  { icon: 'bar-chart-3', label: 'Gestão' },
+];
 ---
 
 <section id="value-proposition" class="section" aria-labelledby="value-proposition-heading">
@@ -16,8 +28,24 @@ const { valueProposition } = copy;
       {valueProposition.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
     </div>
 
-    <div class="value-proposition__nodes reveal" aria-hidden="true">
-      {Array.from({ length: 5 }).map(() => <span class="value-proposition__node"></span>)}
+    <div class="value-proposition__flow reveal">
+      {
+        MODULES.map((mod, i) => (
+          <Fragment>
+            <div class="value-proposition__node" style={`--i:${i}`}>
+              <span class="value-proposition__node-icon">
+                <Icon name={mod.icon} size={24} />
+              </span>
+              <span class="value-proposition__node-label">{mod.label}</span>
+            </div>
+            {i < MODULES.length - 1 && (
+              <span class="value-proposition__connector" aria-hidden="true">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            )}
+          </Fragment>
+        ))
+      }
     </div>
 
     <div class="value-proposition__cta reveal">
@@ -29,34 +57,69 @@ const { valueProposition } = copy;
 </section>
 
 <style>
-  .value-proposition__nodes {
+  .value-proposition__flow {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    gap: var(--space-6);
-    max-width: var(--container-narrow);
-    margin: var(--space-8) auto;
-    position: relative;
-  }
-
-  .value-proposition__nodes::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 2px;
-    background: var(--color-border);
-    z-index: 0;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    max-width: var(--container);
+    margin: var(--space-12) auto;
   }
 
   .value-proposition__node {
-    position: relative;
-    z-index: 1;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    width: 108px;
+    text-align: center;
+  }
+
+  .value-proposition__node-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    border-radius: var(--radius-full);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    border: 1px solid var(--color-primary-light-active);
+    box-shadow: var(--shadow-xs);
+    transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .value-proposition__node:hover .value-proposition__node-icon {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .value-proposition__node-label {
+    font: var(--weight-semibold) var(--text-sm) var(--font-body);
+    color: var(--color-text-secondary);
+  }
+
+  .value-proposition__connector {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-border-strong);
+    margin-top: calc(var(--icon-box) / 2 - 8px);
+  }
+
+  @media (max-width: 767px) {
+    .value-proposition__flow {
+      gap: var(--space-2) var(--space-1);
+    }
+
+    .value-proposition__connector {
+      display: none;
+    }
+
+    .value-proposition__node {
+      width: 84px;
+    }
   }
 
   .value-proposition__cta {

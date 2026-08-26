@@ -13,10 +13,21 @@ const whatsappHref = getWhatsappHref();
     <div class="footer__brand">
       {/* [PLACEHOLDER — logo negativo SVG do SiOfi, pendente da F5 §29.1] */}
       <p class="logo-wordmark logo-wordmark--on-dark footer__logo">SiOfi</p>
-      <p>F5 Software de Gestão</p>
+      <p class="footer__tagline">Software de gestão para o setor automotivo</p>
     </div>
 
+    <nav class="footer__nav" aria-label="Links rápidos">
+      <p class="footer__col-title">Recursos</p>
+      <ul>
+        <li><a href="#pilares">Pilares</a></li>
+        <li><a href="#os">Ordem de serviço</a></li>
+        <li><a href="#financeiro">Financeiro</a></li>
+        <li><a href="#faq">Dúvidas</a></li>
+      </ul>
+    </nav>
+
     <div class="footer__contact">
+      <p class="footer__col-title">Contato</p>
       <p>
         Telefone: <a href={CONTACT.phone.href} data-track="phone_click" data-section="footer">{CONTACT.phone.display}</a>
       </p>
@@ -35,6 +46,7 @@ const whatsappHref = getWhatsappHref();
     </div>
 
     <div class="footer__legal">
+      <p class="footer__col-title">Legal</p>
       <a href="[TBD — URL POLÍTICA DE PRIVACIDADE]">Política de privacidade</a>
     </div>
   </div>
@@ -61,8 +73,50 @@ const whatsappHref = getWhatsappHref();
     margin-bottom: var(--space-2);
   }
 
+  .footer__tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-on-dark-secondary);
+    max-width: 220px;
+  }
+
+  .footer__col-title {
+    font: var(--weight-semibold) var(--text-xs) var(--font-body);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-primary-soft);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer__nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer p {
+    margin: 0 0 var(--space-1);
+  }
+
+  .footer__contact p {
+    margin: 0 0 var(--space-3);
+  }
+
   .footer a {
     color: var(--color-white);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .footer__bottom {
@@ -75,6 +129,7 @@ const whatsappHref = getWhatsappHref();
   @media (max-width: 767px) {
     .footer__grid {
       grid-template-columns: 1fr;
+      gap: var(--space-10);
     }
   }
 </style>
