@@ -22,7 +22,7 @@ const { faq } = copy;
         faq.items.map((item, i) => (
           <details class="faq-item" open={i === 0} data-track="faq_open" data-faq-question={item.question}>
             <summary class="faq-item__question">
-              <span>{item.question}</span>
+              <h3 class="faq-item__question-text">{item.question}</h3>
               <Icon name="chevron-down" size={20} class="faq-item__chevron" />
             </summary>
             <div class="faq-item__answer">
@@ -60,6 +60,15 @@ const { faq } = copy;
 
   .faq-item__question::-webkit-details-marker {
     display: none;
+  }
+
+  /* Reset do <h3> — a pergunta é semanticamente um subtópico (§8 spec
+     técnica), mas visualmente segue o mesmo tratamento do texto que tinha
+     antes (herda peso/tamanho/cor de .faq-item__question). */
+  .faq-item__question-text {
+    margin: 0;
+    font: inherit;
+    color: inherit;
   }
 
   .faq-item__chevron {

@@ -5,16 +5,17 @@
  */
 interface Props {
   icon?: string;
-  style?: string; // posicionamento inline (top/left/right/bottom), decidido por cada uso
+  /** Canto de ancoragem sobre o ProductFrame — as 4 combinações usadas no projeto. */
+  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
   class?: string;
 }
 
 import Icon from './Icon.astro';
 
-const { icon, style, class: className } = Astro.props;
+const { icon, position = 'top-right', class: className } = Astro.props;
 ---
 
-<span class={['callout', className].filter(Boolean).join(' ')} style={style}>
+<span class={['callout', `callout--${position}`, className].filter(Boolean).join(' ')}>
   {icon && <Icon name={icon} size={16} />}
   <span><slot /></span>
 </span>
@@ -32,5 +33,25 @@ const { icon, style, class: className } = Astro.props;
     padding: var(--space-2) var(--space-3);
     font: var(--weight-medium) var(--text-sm) var(--font-body);
     color: var(--color-primary);
+  }
+
+  .callout--top-right {
+    top: calc(var(--space-4) * -1);
+    right: var(--space-6);
+  }
+
+  .callout--top-left {
+    top: calc(var(--space-4) * -1);
+    left: var(--space-6);
+  }
+
+  .callout--bottom-right {
+    bottom: calc(var(--space-4) * -1);
+    right: var(--space-6);
+  }
+
+  .callout--bottom-left {
+    bottom: calc(var(--space-4) * -1);
+    left: var(--space-6);
   }
 </style>

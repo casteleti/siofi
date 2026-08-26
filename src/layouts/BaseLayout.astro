@@ -64,6 +64,20 @@ const faqPageSchema = buildFaqPageSchema(faqItems);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
+    {/*
+      Fonte real via Google Fonts CDN — alternativa explicitamente aceita pela
+      spec técnica (§15: "alternativa aceitável... Google Fonts CDN com
+      preconnect, se a equipe preferir não gerenciar os arquivos") enquanto os
+      arquivos self-hosted (public/fonts/*.woff2) não são fornecidos pela F5.
+      Sem isso, a página inteira renderiza em fonte de sistema (fallback) —
+      efeito visual "genérico" que nenhum ajuste de token resolve sozinho.
+      Os @font-face self-hosted em global.css continuam declarados e assumem
+      o lugar automaticamente assim que os arquivos reais existirem.
+    */}
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
     {

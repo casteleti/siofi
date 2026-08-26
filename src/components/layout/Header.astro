@@ -18,7 +18,7 @@ const NAV_LINKS = [
 
 <header class="header" id="site-header">
   <div class="container header__inner">
-    <a href="/siofi" class="header__logo" aria-label="SiOfi — página inicial">
+    <a href="/siofi" class="logo-wordmark header__logo" aria-label="SiOfi — página inicial">
       {/* [PLACEHOLDER — logo SVG oficial do SiOfi, pendente da F5 §29.1] */}
       SiOfi
     </a>
@@ -32,7 +32,7 @@ const NAV_LINKS = [
     </nav>
 
     <div class="header__actions">
-      <Button variant="primary" href="#form" trackId="demo_cta_click" section="header" class="header__cta">
+      <Button variant="primary" size="sm" href="#form" trackId="demo_cta_click" section="header" class="header__cta">
         Agendar uma demonstração
       </Button>
       <button
@@ -78,8 +78,6 @@ const NAV_LINKS = [
   }
 
   .header__logo {
-    font: var(--weight-extrabold) 22px var(--font-display);
-    color: var(--color-text-primary);
     text-decoration: none;
   }
 

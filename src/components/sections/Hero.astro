@@ -18,7 +18,7 @@ const { hero } = copy;
 ---
 
 <section id="hero" class="hero">
-  <div class="container split split--5-7">
+  <div class="container-wide split split--5-7">
     <div class="hero__text">
       {/* Sem .reveal no eyebrow/H1 (FX-01): o H1 é o candidato a LCP (spec técnica
           §10) e não pode nascer com opacity:0 esperando o IntersectionObserver —
@@ -41,8 +41,8 @@ const { hero } = copy;
       <ProductFrame label="Indicadores" ratio="16:10" size="lg">
         Tela de indicadores do SiOfi mostrando faturamento e resultado do período
       </ProductFrame>
-      <Callout icon="bar-chart-3" style="top: -16px; right: 24px;">Resultado do período</Callout>
-      <Callout icon="trending-up" style="bottom: -16px; left: 24px;">Faturamento</Callout>
+      <Callout icon="bar-chart-3" position="top-right">Resultado do período</Callout>
+      <Callout icon="trending-up" position="bottom-left">Faturamento</Callout>
     </div>
   </div>
 </section>

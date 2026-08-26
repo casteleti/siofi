@@ -27,9 +27,9 @@ const { featurePillars } = copy;
               <span class="pillar-card__icon">
                 <Icon name={pillar.icon} size={28} />
               </span>
-              {i === 2 && <p class="text-h3 pillar-card__head-title">{pillar.title}</p>}
+              {i === 2 && <h3 class="text-h3 pillar-card__head-title">{pillar.title}</h3>}
             </div>
-            {i !== 2 && <p class="text-h3">{pillar.title}</p>}
+            {i !== 2 && <h3 class="text-h3">{pillar.title}</h3>}
             <p class="text-body">{pillar.text}</p>
             <div class="pillar-card__chips">
               {pillar.features.map((feature) => (

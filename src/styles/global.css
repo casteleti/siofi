@@ -1,11 +1,20 @@
 @import './tokens.css';
 
 /**
- * Fontes self-hosted (design system §15 / spec técnica §15).
- * PENDENTE: os arquivos .woff2 abaixo ainda não existem em /public/fonts
- * (ver README — checklist de assets). Os nomes de arquivo já refletem a
- * convenção esperada para quando forem fornecidos.
- */
+ * Fontes self-hosted (design system §15 / spec técnica §15) — DESATIVADAS
+ * de propósito enquanto os arquivos .woff2 não existem em /public/fonts.
+ *
+ * Motivo de estarem comentadas em vez de só "penduradas" sem arquivo: várias
+ * @font-face para a MESMA família/peso não formam uma cadeia de fallback
+ * automática no CSS — a última declarada na cascata "ganha" e, se o arquivo
+ * dela falhar (404), a fonte falha por completo para aquele peso (a página
+ * não recua para a próxima @font-face, recua direto pro fallback de sistema
+ * do font-stack). Com essas regras ativas mas apontando pra arquivos
+ * inexistentes, corria o risco de ANULAR o Manrope/Inter carregados via
+ * Google Fonts (ver <link> em BaseLayout.astro), dependendo da ordem de
+ * concatenação do build. Reative este bloco (e remova o <link> do Google
+ * Fonts) assim que a F5 fornecer os arquivos reais.
+ *
 @font-face {
   font-family: 'Manrope';
   src: url('/fonts/manrope-700.woff2') format('woff2');
@@ -45,6 +54,7 @@
   font-style: normal;
   font-display: swap;
 }
+*/
 
 /* ---- Reset mínimo ---- */
 *,
@@ -122,9 +132,51 @@ p {
   .container { padding-inline: var(--page-px-sm); }
 }
 
+/* Container largo (§6 Grid): reservado para Hero e as seções de fundo
+   full-bleed (Financeiro, CTA final) — dá mais respiro à coluna de texto
+   nesses splits do que o container padrão de 1200px daria. */
+.container-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-px);
+}
+
+@media (max-width: 1023px) {
+  .container-wide { padding-inline: var(--page-px-md); }
+}
+
+@media (max-width: 767px) {
+  .container-wide { padding-inline: var(--page-px-sm); }
+}
+
 .container-narrow {
   max-width: var(--container-narrow);
   margin-inline: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Wordmark textual do logo (placeholder até o SVG oficial da F5, §29.1) —
+   compartilhado entre Header e Footer para não duplicar o mesmo valor. */
+.logo-wordmark {
+  font: var(--weight-extrabold) 22px var(--font-display);
+  color: var(--color-text-primary);
+}
+
+.logo-wordmark--on-dark {
+  color: var(--color-white);
+}
+
+/* Variante de destaque do .text-sub — subheadline que precisa de mais peso
+   visual que o padrão (ex.: Troca de sistema). Substitui um style inline
+   pontual por uma classe reaproveitável, caso outra seção precise do mesmo
+   tratamento. */
+.text-sub--emphasis {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-medium);
 }
 
 .visually-hidden {
@@ -221,15 +273,30 @@ p {
   }
 }
 
+/* SectionHeader → conteúdo: 56px desktop / 48px tablet / 40px mobile (§7). */
 .section-header {
-  margin-bottom: var(--space-14, 56px);
+  margin-bottom: var(--space-14);
 }
 
 .section-header--center {
   text-align: center;
   max-width: var(--container-narrow);
   margin-inline: auto;
-  margin-bottom: var(--space-14, 56px);
+  margin-bottom: var(--space-14);
+}
+
+@media (max-width: 1023px) {
+  .section-header,
+  .section-header--center {
+    margin-bottom: var(--space-12);
+  }
+}
+
+@media (max-width: 767px) {
+  .section-header,
+  .section-header--center {
+    margin-bottom: var(--space-10);
+  }
 }
 
 .section-header .text-eyebrow {

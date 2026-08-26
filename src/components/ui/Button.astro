@@ -7,6 +7,8 @@ import Icon from './Icon.astro';
 
 interface Props {
   variant?: 'primary' | 'secondary' | 'ghost';
+  /** md = 52px (padrão), sm = 44px (ex.: CTA compacto do header, §21.1). */
+  size?: 'md' | 'sm';
   as?: 'a' | 'button';
   href?: string;
   type?: 'button' | 'submit';
@@ -23,6 +25,7 @@ interface Props {
 
 const {
   variant = 'primary',
+  size = 'md',
   as = 'a',
   href,
   type = 'button',
@@ -40,6 +43,7 @@ const Tag = as;
 const classes = [
   'btn',
   `btn--${variant}`,
+  size === 'sm' ? 'btn--sm' : '',
   onDark ? 'btn--on-dark' : '',
   fullWidth ? 'btn--full' : '',
   className,
@@ -56,29 +60,35 @@ const classes = [
   data-track={trackId}
   data-section={section}
 >
-  {icon && iconPosition === 'left' && <Icon name={icon} size={20} />}
+  {icon && iconPosition === 'left' && <Icon name={icon} size={20} class="btn__icon" />}
   <span class="btn__label"><slot /></span>
-  {icon && iconPosition === 'right' && <Icon name={icon} size={20} />}
+  {icon && iconPosition === 'right' && <Icon name={icon} size={20} class="btn__icon" />}
 </Tag>
 
 <style>
   .btn {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    height: var(--btn-h);
-    padding: 0 var(--btn-px);
+    min-height: var(--btn-h);
+    padding: var(--space-2) var(--btn-px);
     border-radius: var(--radius-sm);
-    font: var(--weight-semibold) var(--text-base) var(--font-body);
+    font: var(--weight-semibold) var(--text-base)/1.25 var(--font-body);
     letter-spacing: var(--tracking-button);
     text-decoration: none;
+    text-align: center;
     cursor: pointer;
     border: none;
     transition:
       background-color var(--dur-fast) ease-out,
       transform var(--dur-fast) ease-out,
       box-shadow var(--dur-fast) ease-out;
+  }
+
+  .btn__icon {
+    flex-shrink: 0;
   }
 
   .btn--primary {
@@ -108,8 +118,8 @@ const classes = [
   }
 
   .btn--ghost {
-    height: var(--btn-h-sm);
-    padding: 0 var(--space-2);
+    min-height: var(--btn-h-sm);
+    padding: var(--space-1) var(--space-2);
     background: transparent;
     color: var(--color-primary);
   }
@@ -129,5 +139,10 @@ const classes = [
 
   .btn--full {
     width: 100%;
+  }
+
+  .btn--sm {
+    min-height: var(--btn-h-sm);
+    padding: var(--space-1) var(--space-5);
   }
 </style>

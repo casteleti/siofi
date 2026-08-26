@@ -13,7 +13,7 @@ const { financial } = copy;
 ---
 
 <section id="financeiro" class="section section--dark on-dark" aria-labelledby="financeiro-heading">
-  <div class="container split split--5-7">
+  <div class="container-wide split split--5-7">
     <div>
       <h2 id="financeiro-heading" class="text-h2 reveal">{financial.headline}</h2>
       {financial.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
@@ -35,7 +35,7 @@ const { financial } = copy;
       <ProductFrame label="DRE" ratio="16:9">
         Tela de DRE e resultados do período no SiOfi
       </ProductFrame>
-      <Callout icon="bar-chart-3" style="top: -16px; right: 24px;">Resultado líquido</Callout>
+      <Callout icon="bar-chart-3" position="top-right">Resultado líquido</Callout>
     </div>
   </div>
 </section>

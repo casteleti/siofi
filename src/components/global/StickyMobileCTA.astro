@@ -25,7 +25,9 @@ import Button from '../ui/Button.astro';
     padding-inline: var(--page-px-sm);
     background: var(--color-white);
     border-top: 1px solid var(--color-border);
-    box-shadow: 0 -8px 24px -8px rgba(15, 35, 70, 0.12);
+    /* Sombra invertida (aponta pra cima) — nenhum --shadow-* cobre essa
+       direção; alpha alinhado ao --shadow-sm (0.08) para consistência. */
+    box-shadow: 0 -8px 24px -8px rgba(15, 35, 70, 0.08);
   }
 
   .sticky-cta[hidden] {
