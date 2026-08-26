@@ -41,49 +41,83 @@
     "cta": "Quero conhecer o SiOfi"
   },
   "featurePillars": {
+    "eyebrow": "Gestão completa",
     "headline": "O que você precisa acompanhar, em um só lugar",
+    "subheadline": "Tenha controle total da sua oficina com uma gestão integrada, simples e completa.",
     "pillars": [
       {
         "name": "Oficina",
         "icon": "clipboard-list",
         "title": "Acompanhe cada serviço",
         "text": "Abra e acompanhe ordens de serviço, registre serviços, peças, técnicos e mantenha o histórico de clientes e veículos organizado.",
-        "features": ["Abertura e controle de OS", "Histórico de veículos", "Histórico de clientes", "Produtividade de mecânicos"]
+        "features": [
+          { "label": "Abertura e controle de OS", "icon": "clipboard-list" },
+          { "label": "Histórico de veículos", "icon": "car-front" },
+          { "label": "Histórico de clientes", "icon": "user-round" },
+          { "label": "Produtividade de mecânicos", "icon": "gauge" }
+        ]
       },
       {
         "name": "Financeiro",
         "icon": "wallet",
         "title": "Saiba o que entra, o que sai e o que precisa receber",
         "text": "Acompanhe contas a pagar e receber, caixa, cobranças, boletos e movimentações financeiras em uma única gestão.",
-        "features": ["Contas a pagar", "Contas a receber", "Cobrança", "Boletos", "Fluxo de caixa", "Movimentação financeira"]
+        "features": [
+          { "label": "Contas a pagar", "icon": "upload" },
+          { "label": "Contas a receber", "icon": "download" },
+          { "label": "Cobrança", "icon": "receipt-text" },
+          { "label": "Boletos", "icon": "barcode" },
+          { "label": "Fluxo de caixa", "icon": "activity" },
+          { "label": "Movimentação financeira", "icon": "refresh-ccw" }
+        ]
       },
       {
         "name": "Gestão",
         "icon": "bar-chart-3",
         "title": "Enxergue os resultados da empresa",
         "text": "Tenha relatórios e indicadores para acompanhar faturamento, resultados, ticket médio e outras informações importantes para a tomada de decisão.",
-        "features": ["DRE", "Balanço gerencial", "Resultados do período", "Resumos de venda", "Relatórios gerenciais"]
+        "features": [
+          { "label": "DRE", "icon": "file-text" },
+          { "label": "Balanço gerencial", "icon": "scale" },
+          { "label": "Resultados do período", "icon": "calendar-check" },
+          { "label": "Resumos de venda", "icon": "list-checks" },
+          { "label": "Relatórios gerenciais", "icon": "layers" }
+        ]
       },
       {
         "name": "Estoque",
         "icon": "package",
         "title": "Estoque integrado à operação",
         "text": "Acompanhe produtos, movimentações e entradas de mercadorias de forma integrada às vendas e ordens de serviço.",
-        "features": ["Consulta de produtos", "Entrada de notas", "Importação de XML", "Movimentações", "Entradas e saídas avulsas"]
+        "features": [
+          { "label": "Consulta de produtos", "icon": "search" },
+          { "label": "Entrada de notas", "icon": "file-input" },
+          { "label": "Importação de XML", "icon": "download" },
+          { "label": "Movimentações", "icon": "arrow-right-left" },
+          { "label": "Entradas e saídas avulsas", "icon": "repeat" }
+        ]
       },
       {
         "name": "Compras",
         "icon": "shopping-cart",
         "title": "Compre com mais informação",
         "text": "Organize pedidos e utilize as informações do sistema para apoiar as decisões de compra.",
-        "features": ["Pedido de compra", "Sugestão de compra"]
+        "features": [
+          { "label": "Pedido de compra", "icon": "package-search" },
+          { "label": "Sugestão de compra", "icon": "lightbulb" }
+        ]
       },
       {
         "name": "Fiscal",
         "icon": "file-check-2",
         "title": "Emissão fiscal integrada à rotina",
         "text": "Emita NF-e a partir do sistema e facilite o envio dos documentos fiscais ao cliente.",
-        "features": ["Emissão de NF-e", "Transmissão e validação", "Envio de XML e PDF por e-mail", "Cópia automática do XML"]
+        "features": [
+          { "label": "Emissão de NF-e", "icon": "file-text" },
+          { "label": "Transmissão e validação", "icon": "send" },
+          { "label": "Envio de XML e PDF por e-mail", "icon": "mail-check" },
+          { "label": "Cópia automática do XML", "icon": "file-code-2" }
+        ]
       }
     ]
   },
