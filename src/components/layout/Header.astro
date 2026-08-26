@@ -2,7 +2,6 @@
 /**
  * Header sticky (design system §17.2/§25). Logo flat + nav + CTA no desktop;
  * logo + CTA compacto + botão de menu no mobile (abre MobileDrawer).
- * Logo em SVG ainda não fornecido pela F5 (§29.1) — usa wordmark textual como placeholder.
  */
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
@@ -18,9 +17,8 @@ const NAV_LINKS = [
 
 <header class="header" id="site-header">
   <div class="container header__inner">
-    <a href="/siofi" class="logo-wordmark header__logo" aria-label="SiOfi — página inicial">
-      {/* [PLACEHOLDER — logo SVG oficial do SiOfi, pendente da F5 §29.1] */}
-      SiOfi
+    <a href="/siofi" class="header__logo" aria-label="SiOfi — página inicial">
+      <img src="/assets/logo/logo-siofi.png" alt="SiOfi" width="128" height="43" class="header__logo-img" />
     </a>
 
     <nav class="header__nav" aria-label="Principal">
@@ -78,7 +76,15 @@ const NAV_LINKS = [
   }
 
   .header__logo {
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
+  }
+
+  .header__logo-img {
+    display: block;
+    height: 32px;
+    width: auto;
   }
 
   .header__nav ul {
@@ -155,6 +161,10 @@ const NAV_LINKS = [
 
     .header__menu-btn {
       display: inline-flex;
+    }
+
+    .header__logo-img {
+      height: 28px;
     }
   }
 </style>
