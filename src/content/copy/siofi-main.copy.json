@@ -127,11 +127,11 @@
   "segments": {
     "headline": "Feito para quem vive a rotina do setor automotivo",
     "items": [
-      { "name": "Oficinas mecânicas", "icon": "clipboard-list", "text": "Organize OS, clientes, veículos, financeiro e gestão." },
-      { "name": "Auto centers", "icon": "store", "text": "Controle uma operação com mais serviços, produtos, estoque e equipe." },
-      { "name": "Centros automotivos", "icon": "building-2", "text": "Centralize as informações da operação e acompanhe os resultados." },
-      { "name": "Autoelétricas", "icon": "zap", "text": "Mantenha serviços, clientes, veículos e histórico organizados." },
-      { "name": "Funilarias", "icon": "paintbrush", "text": "Controle serviços, clientes, financeiro e acompanhamento da operação." }
+      { "name": "Oficinas mecânicas", "icon": "clipboard-list", "text": "Do orçamento à entrega, mantenha ordens de serviço, financeiro e histórico de clientes organizados no dia a dia." },
+      { "name": "Auto centers", "icon": "store", "text": "Dê conta do alto volume de trocas de óleo, pneus e revisões rápidas sem perder o controle do estoque e do caixa." },
+      { "name": "Centros automotivos", "icon": "building-2", "text": "Coordene múltiplos serviços e equipes em uma operação maior, com visão completa dos resultados." },
+      { "name": "Autoelétricas", "icon": "zap", "text": "Registre diagnósticos, controle peças específicas e tenha o histórico elétrico de cada veículo à mão." },
+      { "name": "Funilarias", "icon": "paintbrush", "text": "Acompanhe orçamentos, prazos e o andamento de cada reparo até a entrega ao cliente." }
     ],
     "qualifier": "O SiOfi faz especialmente sentido para empresas que já possuem uma operação em andamento e precisam de mais organização e controle para administrar o crescimento."
   },

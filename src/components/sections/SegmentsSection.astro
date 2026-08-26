@@ -38,8 +38,10 @@ const { segments } = copy;
     </div>
 
     <Card variant="highlight" class="segments__qualifier reveal">
-      <Icon name="target" size={28} />
-      <p class="text-body">{segments.qualifier}</p>
+      <span class="segments__qualifier-icon">
+        <Icon name="target" size={24} />
+      </span>
+      <p class="text-body-lg segments__qualifier-text">{segments.qualifier}</p>
     </Card>
   </div>
 </section>
@@ -126,11 +128,40 @@ const { segments } = copy;
   }
 
   .segments__qualifier {
-    margin-top: var(--space-10);
+    margin-top: var(--space-16);
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-6);
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-light-active) 100%);
+    border: 1px solid var(--color-primary-soft);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .segments__qualifier-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-white);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .segments__qualifier-text {
     color: var(--color-primary-deep);
+    font-weight: var(--weight-medium);
+    max-width: none;
+  }
+
+  @media (max-width: 767px) {
+    .segments__qualifier {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--space-4);
+    }
   }
 </style>
 

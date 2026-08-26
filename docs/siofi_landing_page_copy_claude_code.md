@@ -480,25 +480,36 @@ A entrada de mercadorias pode ser feita utilizando XML, reduzindo trabalho manua
 
 ## Cards / segmentos
 
+> Revisão pós-lançamento (registrada aqui para manter doc e código
+> sincronizados, §regra de fonte única de verdade): os 5 cards abaixo
+> usavam o mesmo banco de palavras embaralhado (Organize/Controle/
+> Centralize/Mantenha/Controle) e "Auto centers" e "Centros automotivos"
+> liam como sinônimos redundantes (o próprio §4 já os trata como um único
+> grupo "auto centers / centros automotivos"). Copy reescrita para
+> diferenciar os dois pelo ângulo real de operação (auto center = alto
+> volume/serviço rápido; centro automotivo = operação maior/multisserviço)
+> e variar o verbo de abertura de cada card, sem introduzir nenhum
+> recurso ou dado não coberto pelos pilares já documentados.
+
 ### Oficinas mecânicas
 
-Organize OS, clientes, veículos, financeiro e gestão.
+Do orçamento à entrega, mantenha ordens de serviço, financeiro e histórico de clientes organizados no dia a dia.
 
 ### Auto centers
 
-Controle uma operação com mais serviços, produtos, estoque e equipe.
+Dê conta do alto volume de trocas de óleo, pneus e revisões rápidas sem perder o controle do estoque e do caixa.
 
 ### Centros automotivos
 
-Centralize as informações da operação e acompanhe os resultados.
+Coordene múltiplos serviços e equipes em uma operação maior, com visão completa dos resultados.
 
 ### Autoelétricas
 
-Mantenha serviços, clientes, veículos e histórico organizados.
+Registre diagnósticos, controle peças específicas e tenha o histórico elétrico de cada veículo à mão.
 
 ### Funilarias
 
-Controle serviços, clientes, financeiro e acompanhamento da operação.
+Acompanhe orçamentos, prazos e o andamento de cada reparo até a entrega ao cliente.
 
 ## Texto de qualificação
 
