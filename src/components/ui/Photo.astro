@@ -1,0 +1,58 @@
+---
+/**
+ * Foto real de conteúdo (oficina, equipe). Substitui o `ImagePlaceholder`
+ * vermelho conforme as fotos chegam da F5 — mesma API de `ratio`/`class`,
+ * então trocar um pelo outro não mexe no layout ao redor.
+ *
+ * Recorte sempre `cover` + `object-position` configurável: os slots têm
+ * proporção fixa definida pelo layout (16:10, 4:3, 21:9) e as fotos chegam
+ * em proporções variadas, então o corte é inevitável — o que dá pra
+ * controlar é qual parte da foto sobrevive a ele.
+ *
+ * `width`/`height` são as dimensões REAIS do arquivo (evita CLS — MUST §13
+ * da spec técnica, mesma regra já aplicada em ProductFrame).
+ */
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  ratio?: string;
+  class?: string;
+  /** Ponto focal do recorte (padrão: centro). */
+  position?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  ratio = '4 / 3',
+  class: className,
+  position = 'center',
+  loading = 'lazy',
+} = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding="async"
+  class:list={['photo', className]}
+  style={`aspect-ratio: ${ratio}; object-position: ${position};`}
+/>
+
+<style>
+  .photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+</style>

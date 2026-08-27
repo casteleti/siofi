@@ -8,7 +8,7 @@
  */
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
-import ImagePlaceholder from '../ui/ImagePlaceholder.astro';
+import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { segments } = copy;
@@ -49,10 +49,13 @@ const { segments } = copy;
       /* Banda de foto opcional prevista pro design system p/ "Para quem é"
          (docs/siofi-landing-visual-design-system.md, ~linha 430). */
     }
-    <ImagePlaceholder
+    <Photo
       class="segments__photo-band"
       ratio="21 / 9"
-      label="Foto real de oficina/mecânicos em ação — banda 'Para quem é' — aguardando envio"
+      src="/assets/photos/oficina-parallax-03.webp"
+      width={2560}
+      height={888}
+      alt="Carros em atendimento no salão de uma oficina mecânica"
     />
   </div>
 </section>

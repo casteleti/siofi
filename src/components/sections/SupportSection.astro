@@ -5,6 +5,7 @@
  */
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
+import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 import { CONTACT, CITY_STATE, getMapsHref } from '../../lib/contact';
 
@@ -19,9 +20,14 @@ const CHANNEL_LINKS: Record<string, { href: string; trackId: string } | undefine
 
 <section id="suporte" class="section" aria-labelledby="suporte-heading">
   <div class="container split split--5-7">
-    <div class="split__media placeholder-block reveal" style="aspect-ratio: 4 / 3; border-radius: var(--radius-lg);">
-      [PLACEHOLDER — foto real da equipe de suporte F5, pendente (§29.1 design system).
-      Fallback: painel de canais em ícones.]
+    <div class="split__media reveal">
+      <Photo
+        ratio="4 / 3"
+        src="/assets/photos/equipe-suporte-f5.webp"
+        width={1448}
+        height={1086}
+        alt="Equipe de suporte da F5 atendendo clientes por telefone e computador"
+      />
     </div>
 
     <div>

@@ -6,7 +6,7 @@ import Button from '../ui/Button.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
 import WorkOrderTimeline from '../ui/WorkOrderTimeline.astro';
-import ImagePlaceholder from '../ui/ImagePlaceholder.astro';
+import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { workOrder } = copy;
@@ -28,10 +28,13 @@ const { workOrder } = copy;
         <Button variant="secondary" href="#os" trackId="secondary_cta_click" section="os" icon="play-circle" iconPosition="left">
           {workOrder.cta}
         </Button>
-        <ImagePlaceholder
+        <Photo
           class="work-order__photo"
           ratio="16 / 10"
-          label="Mecânico preenchendo a ordem de serviço no balcão — aguardando envio"
+          src="/assets/photos/mecanico-balcao-os.webp"
+          width={1536}
+          height={1024}
+          alt="Mecânico registrando a ordem de serviço no computador, na bancada da oficina"
         />
       </div>
       <div class="split__media reveal">

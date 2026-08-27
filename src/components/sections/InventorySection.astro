@@ -5,7 +5,7 @@
 import Icon from '../ui/Icon.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
-import ImagePlaceholder from '../ui/ImagePlaceholder.astro';
+import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { inventory } = copy;
@@ -35,10 +35,13 @@ const { inventory } = copy;
         }
       </ul>
 
-      <ImagePlaceholder
+      <Photo
         class="inventory__photo"
         ratio="16 / 10"
-        label="Mecânico conferindo peça recebida no estoque — aguardando envio"
+        src="/assets/photos/mecanico-estoque.webp"
+        width={1672}
+        height={941}
+        alt="Profissional conferindo o estoque de pneus com o sistema aberto no notebook"
       />
     </div>
   </div>

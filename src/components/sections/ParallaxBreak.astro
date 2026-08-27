@@ -6,10 +6,13 @@
  * Financeiro/CTA final — global.css:135) e a paleta --color-primary-deep
  * pro scrim, pra ficar no mesmo sistema visual do resto da página.
  *
- * Sem foto real ainda: o fundo usa o mesmo marcador vermelho hachurado do
- * `ImagePlaceholder` (em vez de uma imagem), só que como
- * background-image — assim o efeito de parallax já fica demonstrável e é
- * só trocar a URL por uma foto real depois (ver comentário no <style>).
+ * As fotos entregues pela F5 (2026-08-27) JÁ VÊM com o tratamento azul da
+ * marca aplicado no próprio arquivo. Por isso o scrim aqui é bem mais leve
+ * (0.38→0.22) do que os 0.82/0.86 originais: somar o scrim cheio a uma foto
+ * já tratada deixava a dobra praticamente preta, sem foto visível. O scrim
+ * continua existindo porque a parte superior das fotos é clara
+ * (telhado/parede) e o headline é branco — sem nenhum véu, o contraste do
+ * texto quebrava ali. Valor calibrado no browser contra as 2 fotos reais.
  *
  * Parallax implementado via transform no scroll (JS), não
  * `background-attachment: fixed` — essa técnica CSS é famosa por falhar
@@ -22,23 +25,25 @@
 interface Props {
   eyebrow?: string;
   headline: string;
-  placeholderLabel?: string;
+  /** Foto de fundo (já tratada com o azul da marca — ver nota acima). */
+  image: string;
 }
 
-const {
-  eyebrow,
-  headline,
-  placeholderLabel = 'Foto de oficina mecânica (parallax) — aguardando envio',
-} = Astro.props;
+const { eyebrow, headline, image } = Astro.props;
 ---
 
 <section class="parallax-break">
-  <div class="parallax-break__bg" role="presentation" aria-hidden="true"></div>
+  <div
+    class="parallax-break__bg"
+    role="presentation"
+    aria-hidden="true"
+    style={`background-image: url('${image}');`}
+  >
+  </div>
   <div class="parallax-break__scrim" aria-hidden="true"></div>
   <div class="container-wide parallax-break__content">
     {eyebrow && <span class="text-eyebrow parallax-break__eyebrow">{eyebrow}</span>}
     <p class="parallax-break__headline">{headline}</p>
-    <span class="parallax-break__note">[IMAGEM — {placeholderLabel}]</span>
   </div>
 </section>
 
@@ -96,25 +101,19 @@ const {
     inset: -18% 0;
     z-index: 0;
     will-change: transform;
-    /* Trocar por: background-image: url('/assets/photos/oficina-01.jpg');
-       quando a foto real chegar — manter background-position/size. */
-    background-color: var(--color-error);
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.14) 0,
-      rgba(255, 255, 255, 0.14) 18px,
-      transparent 18px,
-      transparent 36px
-    );
+    /* background-image vem inline (prop `image`); cor de base = azul da marca
+       pro caso da foto ainda não ter pintado. */
+    background-color: var(--color-primary-deeper);
     background-position: center;
     background-size: cover;
+    background-repeat: no-repeat;
   }
 
   .parallax-break__scrim {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(8, 46, 99, 0.82) 0%, rgba(11, 61, 130, 0.86) 100%);
+    background: linear-gradient(180deg, rgba(8, 46, 99, 0.38) 0%, rgba(11, 61, 130, 0.22) 100%);
   }
 
   .parallax-break__content {
@@ -139,11 +138,4 @@ const {
     margin-inline: auto;
   }
 
-  .parallax-break__note {
-    display: block;
-    margin-top: var(--space-6);
-    font: var(--weight-medium) var(--text-sm) var(--font-body);
-    color: var(--color-text-on-dark-secondary);
-    opacity: 0.85;
-  }
 </style>
