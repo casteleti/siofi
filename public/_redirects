@@ -1,11 +1,16 @@
 # Redirects — Cloudflare Pages (spec técnica §4/§45).
-# Domínio canônico e variação www/non-www ainda não definidos pela F5.
+# Domínio canônico definido em 2026-08-26 (auditoria SEO): f5sg.com.br.
 
-# HTTP → HTTPS e normalização de www são resolvidos pelo próprio Cloudflare Pages
-# (SSL/TLS "Always Use HTTPS") — não duplicar aqui.
+# HTTP → HTTPS é resolvido pelo próprio Cloudflare Pages (SSL/TLS "Always Use
+# HTTPS") — não duplicar aqui.
 
-# [TBD — DEFINIR DOMÍNIO CANÔNICO]: 301 de www para non-www (ou vice-versa)
-# https://www.[TBD].com.br/* https://[TBD].com.br/:splat 301!
+# www → non-www (non-www é o canônico usado em canonical/OG/schema/sitemap):
+# `_redirects` do Cloudflare Pages só aceita paths relativos — uma regra de
+# host pra host (www.f5sg.com.br → f5sg.com.br) tentada aqui FALHA o build
+# ("Only relative URLs are allowed", confirmado rodando `astro build` na
+# auditoria SEO de 2026-08-26). Configurar em Cloudflare → domínio →
+# Regras de redirecionamento (Redirect Rules) ou Bulk Redirects, no nível de
+# zona/DNS, não neste arquivo.
 
 # Slugs antigos de anúncios sem o prefixo /siofi, caso existam campanhas ativas
 /oficina           /siofi/oficina-mecanica   301

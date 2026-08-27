@@ -8,6 +8,7 @@
  */
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
+import ImagePlaceholder from '../ui/ImagePlaceholder.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { segments } = copy;
@@ -43,6 +44,16 @@ const { segments } = copy;
       </span>
       <p class="text-body-lg segments__qualifier-text">{segments.qualifier}</p>
     </Card>
+
+    {
+      /* Banda de foto opcional prevista pro design system p/ "Para quem é"
+         (docs/siofi-landing-visual-design-system.md, ~linha 430). */
+    }
+    <ImagePlaceholder
+      class="segments__photo-band"
+      ratio="21 / 9"
+      label="Foto real de oficina/mecânicos em ação — banda 'Para quem é' — aguardando envio"
+    />
   </div>
 </section>
 
@@ -162,6 +173,11 @@ const { segments } = copy;
       text-align: center;
       gap: var(--space-4);
     }
+  }
+
+  .segments__photo-band {
+    margin-top: var(--space-10);
+    min-height: 220px;
   }
 </style>
 

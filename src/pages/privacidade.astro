@@ -1,0 +1,83 @@
+---
+/**
+ * Política de privacidade (LGPD) — antes o link existia (Footer + banner de
+ * cookies) mas apontava pra um placeholder quebrado (`[TBD — URL POLÍTICA
+ * DE PRIVACIDADE]`); a página em si nunca tinha sido criada (auditoria SEO
+ * 2026-08-26). Conteúdo reflete exatamente o que o site faz hoje — nada de
+ * texto genérico de template: campos do formulário (LeadForm.tsx), scripts
+ * de terceiros (AnalyticsBootstrap.astro + CSP em public/_headers) e dados
+ * de contato reais da F5 (src/lib/contact.ts).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT, ADDRESS_ONE_LINE } from '../lib/contact';
+---
+
+<BaseLayout
+  title="Política de Privacidade | SiOfi"
+  description="Como o SiOfi/F5 Software de Gestão coleta, usa e protege os dados de quem visita esta página e preenche o formulário de demonstração."
+  canonical="/privacidade"
+  indexable={true}
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <h1 class="text-h2">Política de Privacidade</h1>
+      <p class="text-small privacy__updated">Última atualização: 26 de agosto de 2026.</p>
+
+      <p class="text-body-lg">
+        Esta página descreve como a <strong>F5 Software de Gestão</strong>, empresa responsável pelo
+        SiOfi, trata os dados de quem visita este site, em conformidade com a Lei Geral de Proteção
+        de Dados (Lei nº 13.709/2018 — LGPD).
+      </p>
+
+      <h2 class="text-h3 privacy__heading">Empresa responsável</h2>
+      <p class="text-body">
+        F5 Software de Gestão<br />
+        {ADDRESS_ONE_LINE}<br />
+        Telefone: {CONTACT.phone.display} · E-mail: <a href={`mailto:${CONTACT.emails.contact}`}>{CONTACT.emails.contact}</a>
+      </p>
+
+      <h2 class="text-h3 privacy__heading">Quais dados coletamos</h2>
+      <p class="text-body">
+        Ao preencher o formulário de demonstração desta página, coletamos: nome, empresa, WhatsApp,
+        cidade, faixa de número de funcionários, se a empresa já usa outro sistema de gestão e, se
+        sim, qual. Esses dados são usados exclusivamente para que a equipe comercial da F5 entre em
+        contato e agende a demonstração solicitada.
+      </p>
+
+      <h2 class="text-h3 privacy__heading">Cookies e ferramentas de análise</h2>
+      <p class="text-body">
+        Usamos cookies necessários ao funcionamento do site e, mediante seu consentimento (banner de
+        cookies exibido na primeira visita), cookies de análise de audiência e publicidade — Google
+        Tag Manager, Google Analytics e Meta Pixel — para entender como a página é usada e medir o
+        resultado de campanhas de anúncio. Você pode revisar ou alterar essa escolha a qualquer
+        momento limpando os dados de navegação deste site no seu navegador.
+      </p>
+
+      <h2 class="text-h3 privacy__heading">Compartilhamento de dados</h2>
+      <p class="text-body">
+        Os dados do formulário são usados internamente pela equipe comercial da F5 e não são
+        vendidos a terceiros. Dados de navegação (não identificáveis diretamente) podem ser
+        processados pelo Google e pela Meta conforme as políticas de privacidade dessas empresas,
+        apenas para as finalidades de análise e publicidade descritas acima.
+      </p>
+
+      <h2 class="text-h3 privacy__heading">Seus direitos</h2>
+      <p class="text-body">
+        Você pode solicitar a qualquer momento a confirmação, correção ou exclusão dos seus dados
+        entrando em contato pelo e-mail <a href={`mailto:${CONTACT.emails.contact}`}>{CONTACT.emails.contact}</a> ou
+        pelo telefone {CONTACT.phone.display}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .privacy__updated {
+    margin-bottom: var(--space-8);
+  }
+
+  .privacy__heading {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-3);
+  }
+</style>

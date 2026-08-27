@@ -4,8 +4,14 @@
  *
  * MUST: se não houver preço público, omitir o bloco `offers` por completo —
  * nunca inventar valor nem usar "price": "0" (dado estruturado enganoso).
+ *
+ * `pageUrl` recebe a URL COMPLETA da página do produto (ex.: .../siofi), não
+ * a origem crua do site — auditoria SEO 2026-08-26: schema.org define `url`
+ * de um SoftwareApplication como a página que descreve o software, e antes
+ * esse campo recebia só `https://f5sg.com.br` (a raiz), o que é factualmente
+ * impreciso mesmo não sendo "errado" o bastante pra falhar validação.
  */
-export function buildSoftwareApplicationSchema(siteUrl: string) {
+export function buildSoftwareApplicationSchema(pageUrl: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -16,7 +22,7 @@ export function buildSoftwareApplicationSchema(siteUrl: string) {
     operatingSystem: 'Windows',
     description:
       'Sistema de gestão para oficinas mecânicas, auto centers, autoelétricas e funilarias: ordem de serviço, financeiro, estoque, compras e fiscal.',
-    url: siteUrl,
+    url: pageUrl,
     publisher: {
       '@type': 'Organization',
       name: 'F5 Software de Gestão',

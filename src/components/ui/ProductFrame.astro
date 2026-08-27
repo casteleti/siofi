@@ -12,6 +12,15 @@ interface Props {
   size?: 'md' | 'lg';
   class?: string;
   src?: string;
+  /** Dimensão real do arquivo em `src` (evita CLS — MUST §13 spec técnica). */
+  width?: number;
+  height?: number;
+  /**
+   * `eager` só no candidato a LCP (Hero); todo o resto é `lazy` por padrão
+   * (auditoria SEO 2026-08-26 — antes vinha "eager" fixo pra qualquer
+   * instância com `src`, inclusive fora da dobra inicial).
+   */
+  loading?: 'eager' | 'lazy';
 }
 
 const RATIO_MAP: Record<NonNullable<Props['ratio']>, string> = {
@@ -21,8 +30,25 @@ const RATIO_MAP: Record<NonNullable<Props['ratio']>, string> = {
   '4:5': '4 / 5',
 };
 
-const { label, ratio = '16:10', size = 'md', class: className, src } = Astro.props;
+const {
+  label,
+  ratio = '16:10',
+  size = 'md',
+  class: className,
+  src,
+  width,
+  height,
+  loading = 'lazy',
+} = Astro.props;
 const aspectRatio = RATIO_MAP[ratio];
+const webpSrc = src ? src.replace(/\.(jpg|jpeg|png)$/i, '.webp') : undefined;
+
+// Texto alternativo real (spec técnica §14) — antes ia parar só na
+// figcaption visualmente oculta, e o <img> em si nascia com alt="" mesmo
+// sendo uma imagem de conteúdo (ruim pra Google Images e pra quem usa
+// leitor de tela em navegadores que não associam figcaption como nome
+// acessível). O slot continua existindo como fonte única do texto.
+const altText = await Astro.slots.render('default');
 ---
 
 <figure class={['product-frame', `product-frame--${size}`, className].filter(Boolean).join(' ')}>
@@ -35,7 +61,19 @@ const aspectRatio = RATIO_MAP[ratio];
   <div class="product-frame__body" style={`aspect-ratio: ${aspectRatio};`}>
     {
       src ? (
-        <img src={src} alt="" class="product-frame__img" loading="eager" />
+        <picture>
+          {webpSrc && <source srcset={webpSrc} type="image/webp" />}
+          <img
+            src={src}
+            alt={altText}
+            width={width}
+            height={height}
+            class="product-frame__img"
+            loading={loading}
+            fetchpriority={loading === 'eager' ? 'high' : 'auto'}
+            decoding="async"
+          />
+        </picture>
       ) : (
         <p>[PLACEHOLDER — screenshot: {label}. Aguardando asset real da F5 (§29.1 design system).]</p>
       )

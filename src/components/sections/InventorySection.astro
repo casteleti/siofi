@@ -5,6 +5,7 @@
 import Icon from '../ui/Icon.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
+import ImagePlaceholder from '../ui/ImagePlaceholder.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { inventory } = copy;
@@ -33,6 +34,12 @@ const { inventory } = copy;
           ))
         }
       </ul>
+
+      <ImagePlaceholder
+        class="inventory__photo"
+        ratio="16 / 10"
+        label="Mecânico conferindo peça recebida no estoque — aguardando envio"
+      />
     </div>
   </div>
 </section>
@@ -56,5 +63,9 @@ const { inventory } = copy;
     align-items: center;
     gap: var(--space-2);
     color: var(--color-text-primary);
+  }
+
+  .inventory__photo {
+    margin-top: var(--space-8);
   }
 </style>

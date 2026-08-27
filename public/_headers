@@ -5,7 +5,9 @@
 # já que não há input de terceiros renderizado sem sanitização nesta página.
 # Ajustar connect-src quando o CRM final (§34) usar domínio próprio.
 # HSTS sem `preload` de propósito (§40/§41): só ativar depois de confirmar
-# HTTPS em todos os subdomínios relevantes — domínio ainda é [TBD].
+# HTTPS em todos os subdomínios relevantes de f5sg.com.br em produção — não
+# ativar só porque o domínio já foi decidido (auditoria SEO 2026-08-26);
+# preload é um registro público de difícil reversão.
 
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains
@@ -27,6 +29,18 @@
 
 /assets/screens/*
   Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/og/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400
 
 /sitemap-index.xml
   Cache-Control: public, max-age=3600

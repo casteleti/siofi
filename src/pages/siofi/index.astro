@@ -8,6 +8,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/sections/Hero.astro';
 import TrustBar from '../../components/sections/TrustBar.astro';
 import PainSection from '../../components/sections/PainSection.astro';
+import ParallaxBreak from '../../components/sections/ParallaxBreak.astro';
 import ValueProposition from '../../components/sections/ValueProposition.astro';
 import FeaturePillars from '../../components/sections/FeaturePillars.astro';
 import WorkOrderSection from '../../components/sections/WorkOrderSection.astro';
@@ -43,6 +44,14 @@ const page = entry.data;
   <Hero h1={page.h1} />
   <TrustBar />
   <PainSection />
+  {
+    /* DOBRA 1 — DRAFT: frase de impacto pendente de aprovação do Renato,
+       não vem de copy.json de propósito (ainda não é copy final). */
+  }
+  <ParallaxBreak
+    eyebrow="A realidade da oficina"
+    headline="Toda oficina já perdeu dinheiro por causa de anotação em papel. A sua não precisa continuar perdendo."
+  />
   <ValueProposition />
   <FeaturePillars />
   <WorkOrderSection />
@@ -51,6 +60,14 @@ const page = entry.data;
   <BeforeAfterSection />
   <SegmentsSection />
   <SwitchingSection />
+  {
+    /* DOBRA 2 — DRAFT, mesma ressalva da dobra 1 acima. */
+  }
+  <ParallaxBreak
+    eyebrow="Antes de continuar"
+    headline="A oficina organizada não é sorte. É rotina — e a rotina começa com o sistema certo."
+    placeholderLabel="Foto de mecânico trabalhando na oficina (parallax) — aguardando envio"
+  />
   <SupportSection />
   <TestimonialsSection />
   <FAQSection />

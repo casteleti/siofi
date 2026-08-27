@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /siofi/obrigado
 Disallow: /siofi/gestao-oficina
 
-Sitemap: [TBD — DEFINIR DOMÍNIO CANÔNICO]/sitemap-index.xml
+Sitemap: https://f5sg.com.br/sitemap-index.xml

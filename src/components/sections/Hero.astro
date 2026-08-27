@@ -38,7 +38,15 @@ const { hero } = copy;
     </div>
 
     <div class="hero__media reveal">
-      <ProductFrame label="Indicadores" ratio="16:10" size="lg" src="/assets/screens/indicadores.jpg">
+      <ProductFrame
+        label="Indicadores"
+        ratio="16:10"
+        size="lg"
+        src="/assets/screens/indicadores.jpg"
+        width={686}
+        height={429}
+        loading="eager"
+      >
         Tela de indicadores do SiOfi mostrando faturamento e resultado do período
       </ProductFrame>
       <Callout icon="bar-chart-3" position="top-right">Resultado do período</Callout>

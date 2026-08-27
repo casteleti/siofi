@@ -1,0 +1,149 @@
+---
+/**
+ * Dobra de impacto full-bleed (pedido do Renato em 2026-08-26): frase forte
+ * sobre um fundo em parallax associado a oficina mecânica. Reaproveita
+ * `.container-wide` (mesmo container das 2 seções full-bleed já existentes,
+ * Financeiro/CTA final — global.css:135) e a paleta --color-primary-deep
+ * pro scrim, pra ficar no mesmo sistema visual do resto da página.
+ *
+ * Sem foto real ainda: o fundo usa o mesmo marcador vermelho hachurado do
+ * `ImagePlaceholder` (em vez de uma imagem), só que como
+ * background-image — assim o efeito de parallax já fica demonstrável e é
+ * só trocar a URL por uma foto real depois (ver comentário no <style>).
+ *
+ * Parallax implementado via transform no scroll (JS), não
+ * `background-attachment: fixed` — essa técnica CSS é famosa por falhar
+ * silenciosamente (fundo simplesmente não pinta, sem erro no console) em
+ * vários webviews/navegadores mobile; foi reproduzido durante o dev desta
+ * seção no preview do próprio harness. `transform: translate3d` é a via
+ * que funciona de forma consistente em qualquer engine. Desativado com
+ * prefers-reduced-motion (fica estático, sem JS rodando).
+ */
+interface Props {
+  eyebrow?: string;
+  headline: string;
+  placeholderLabel?: string;
+}
+
+const {
+  eyebrow,
+  headline,
+  placeholderLabel = 'Foto de oficina mecânica (parallax) — aguardando envio',
+} = Astro.props;
+---
+
+<section class="parallax-break">
+  <div class="parallax-break__bg" role="presentation" aria-hidden="true"></div>
+  <div class="parallax-break__scrim" aria-hidden="true"></div>
+  <div class="container-wide parallax-break__content">
+    {eyebrow && <span class="text-eyebrow parallax-break__eyebrow">{eyebrow}</span>}
+    <p class="parallax-break__headline">{headline}</p>
+    <span class="parallax-break__note">[IMAGEM — {placeholderLabel}]</span>
+  </div>
+</section>
+
+<script>
+  // Parallax por transform (não background-attachment: fixed, ver comentário
+  // no frontmatter). Um único listener de scroll cobre todas as instâncias
+  // de .parallax-break na página; Astro dedupa este <script> automaticamente
+  // mesmo com o componente usado mais de uma vez.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('.parallax-break'));
+
+  if (sections.length > 0 && !prefersReducedMotion) {
+    const layers = sections
+      .map((section) => section.querySelector<HTMLElement>('.parallax-break__bg'))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const STRENGTH = 0.25;
+    let ticking = false;
+
+    const update = () => {
+      const viewportH = window.innerHeight;
+      for (const layer of layers) {
+        const rect = layer.parentElement!.getBoundingClientRect();
+        const centerOffset = rect.top + rect.height / 2 - viewportH / 2;
+        layer.style.transform = `translate3d(0, ${(-centerOffset * STRENGTH).toFixed(1)}px, 0)`;
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+</script>
+
+<style>
+  .parallax-break {
+    position: relative;
+    isolation: isolate;
+    min-height: clamp(360px, 42vw, 480px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .parallax-break__bg {
+    position: absolute;
+    inset: -18% 0;
+    z-index: 0;
+    will-change: transform;
+    /* Trocar por: background-image: url('/assets/photos/oficina-01.jpg');
+       quando a foto real chegar — manter background-position/size. */
+    background-color: var(--color-error);
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.14) 0,
+      rgba(255, 255, 255, 0.14) 18px,
+      transparent 18px,
+      transparent 36px
+    );
+    background-position: center;
+    background-size: cover;
+  }
+
+  .parallax-break__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(8, 46, 99, 0.82) 0%, rgba(11, 61, 130, 0.86) 100%);
+  }
+
+  .parallax-break__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+    padding-block: var(--space-16);
+  }
+
+  .parallax-break__eyebrow {
+    display: block;
+    margin-bottom: var(--space-4);
+    color: var(--color-primary-soft);
+  }
+
+  .parallax-break__headline {
+    font: var(--weight-extrabold) var(--text-3xl) / var(--leading-tight) var(--font-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-white);
+    max-width: 880px;
+    margin-inline: auto;
+  }
+
+  .parallax-break__note {
+    display: block;
+    margin-top: var(--space-6);
+    font: var(--weight-medium) var(--text-sm) var(--font-body);
+    color: var(--color-text-on-dark-secondary);
+    opacity: 0.85;
+  }
+</style>
