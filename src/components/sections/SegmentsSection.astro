@@ -8,7 +8,6 @@
  */
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
-import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { segments } = copy;
@@ -38,25 +37,26 @@ const { segments } = copy;
       {segments.items.map((_, i) => <span class="segments-dots__dot" data-index={i}></span>)}
     </div>
 
-    <Card variant="highlight" class="segments__qualifier reveal">
-      <span class="segments__qualifier-icon">
-        <Icon name="target" size={24} />
-      </span>
-      <p class="text-body-lg segments__qualifier-text">{segments.qualifier}</p>
-    </Card>
-
     {
-      /* Banda de foto opcional prevista pro design system p/ "Para quem é"
-         (docs/siofi-landing-visual-design-system.md, ~linha 430). */
+      /* Banda de foto prevista pro design system p/ "Para quem é"
+         (docs/siofi-landing-visual-design-system.md, ~linha 430), agora
+         carregando o texto de qualificação dentro dela: antes eram dois
+         blocos empilhados (card azul-claro + foto muda logo abaixo), o que
+         repetia peso visual e deixava a foto sem função editorial. */
     }
-    <Photo
-      class="segments__photo-band"
-      ratio="21 / 9"
-      src="/assets/photos/oficina-parallax-03.webp"
-      width={2560}
-      height={888}
-      alt="Carros em atendimento no salão de uma oficina mecânica"
-    />
+    <div class="segments__band reveal">
+      <img
+        class="segments__band-bg"
+        src="/assets/photos/oficina-parallax-03.webp"
+        alt=""
+        width="2560"
+        height="888"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="segments__band-scrim" aria-hidden="true"></div>
+      <p class="segments__band-text">{segments.qualifier}</p>
+    </div>
   </div>
 </section>
 
@@ -141,46 +141,64 @@ const { segments } = copy;
     }
   }
 
-  .segments__qualifier {
+  .segments__band {
+    position: relative;
+    isolation: isolate;
     margin-top: var(--space-16);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
     display: flex;
     align-items: center;
-    gap: var(--space-6);
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-light-active) 100%);
-    border: 1px solid var(--color-primary-soft);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .segments__qualifier-icon {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    flex-shrink: 0;
-    border-radius: var(--radius-full);
-    background: var(--color-white);
-    color: var(--color-primary);
-    box-shadow: var(--shadow-xs);
+    aspect-ratio: 21 / 9;
+    /* Piso de altura: no mobile o 21:9 sozinho daria ~143px de altura, o que
+       não comporta a frase; a partir daí a razão deixa de mandar e a altura
+       passa a ser ditada pelo texto + padding. */
+    min-height: 300px;
   }
 
-  .segments__qualifier-text {
-    color: var(--color-primary-deep);
-    font-weight: var(--weight-medium);
-    max-width: none;
+  .segments__band-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* A foto já vem com o tratamento azul da marca, mas tem áreas claras
+     (carros brancos, piso) onde texto branco sumiria — daí o véu extra,
+     mais forte no centro, que é onde a frase fica. */
+  .segments__band-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(8, 46, 99, 0.42) 0%, rgba(11, 61, 130, 0.55) 100%);
+  }
+
+  .segments__band-text {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    padding-inline: var(--space-8);
+    text-align: center;
+    text-wrap: balance;
+    color: var(--color-white);
+    font: var(--weight-semibold) var(--text-xl) / var(--leading-sub) var(--font-body);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
   }
 
   @media (max-width: 767px) {
-    .segments__qualifier {
-      flex-direction: column;
-      text-align: center;
-      gap: var(--space-4);
+    .segments__band {
+      aspect-ratio: auto;
+      min-height: 260px;
+      padding-block: var(--space-10);
     }
-  }
 
-  .segments__photo-band {
-    margin-top: var(--space-10);
-    min-height: 220px;
+    .segments__band-text {
+      padding-inline: var(--space-5);
+    }
   }
 </style>
 
