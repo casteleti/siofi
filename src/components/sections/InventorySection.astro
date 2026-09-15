@@ -1,74 +1,127 @@
 ---
 /**
- * Estoque e compras (Section Map §25 #8). Split 7/5 invertido, ProductFrame + checklist.
+ * Estoque e compras (Section Map §25 #8, id #inventory). Redesenho editorial:
+ * duas colunas equilibradas (texto + foto) no topo, benefícios como grid leve
+ * de "feature rows" abaixo (não 5 cards pesados), com a entrada automática
+ * por XML destacada por ser o último benefício e o mais "concreto" em termos
+ * de ganho de tempo.
+ *
+ * Não existe no projeto um screenshot real de Estoque/Compras do SiOfi (só
+ * /public/assets/screens/indicadores.jpg e ordem-de-servico.jpg) — por isso
+ * a composição foi desenhada para ficar completa sem essa peça, em vez de
+ * usar o placeholder textual do ProductFrame ou reaproveitar a tela de outro
+ * módulo como se fosse Estoque. TODO F5: se um screenshot real de Estoque for
+ * fornecido, incorporar como um ProductFrame secundário abaixo do grid de
+ * benefícios (bloco full-width, screenshot como elemento secundário à
+ * mensagem principal).
  */
 import Icon from '../ui/Icon.astro';
-import ProductFrame from '../ui/ProductFrame.astro';
-import Callout from '../ui/Callout.astro';
 import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { inventory } = copy;
+const lastIndex = inventory.benefits.length - 1;
 ---
 
 <section id="inventory" class="section" aria-labelledby="inventory-heading">
-  <div class="container split split--7-5">
-    <div class="split__media reveal">
-      <ProductFrame label="Estoque" ratio="16:10">
-        Tela de consulta de estoque e importação de XML no SiOfi
-      </ProductFrame>
-      <Callout icon="file-code-2" position="top-left">Importação de XML</Callout>
+  <div class="container">
+    <div class="split split--6-6 inventory__intro">
+      <div>
+        <h2 id="inventory-heading" class="text-h2 reveal">{inventory.headline}</h2>
+        {inventory.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
+      </div>
+
+      <div class="split__media reveal">
+        <Photo
+          class="inventory__photo"
+          ratio="16 / 9"
+          src="/assets/photos/mecanico-estoque.webp"
+          width={1672}
+          height={941}
+          alt="Profissional conferindo o estoque de pneus com o sistema aberto no notebook"
+        />
+      </div>
     </div>
 
-    <div>
-      <h2 id="inventory-heading" class="text-h2 reveal">{inventory.headline}</h2>
-      {inventory.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
-
-      <ul class="inventory__checklist reveal">
-        {
-          inventory.benefits.map((benefit) => (
-            <li>
-              <Icon name="check" size={20} />
-              <span>{benefit}</span>
-            </li>
-          ))
-        }
-      </ul>
-
-      <Photo
-        class="inventory__photo"
-        ratio="16 / 10"
-        src="/assets/photos/mecanico-estoque.webp"
-        width={1672}
-        height={941}
-        alt="Profissional conferindo o estoque de pneus com o sistema aberto no notebook"
-      />
-    </div>
+    <ul class="inventory__benefits reveal">
+      {
+        inventory.benefits.map((benefit, i) => (
+          <li class={i === lastIndex ? 'inventory__benefit inventory__benefit--highlight' : 'inventory__benefit'}>
+            <span class="inventory__benefit-icon">
+              <Icon name={i === lastIndex ? 'file-code-2' : 'check'} size={20} />
+            </span>
+            <span>{benefit}</span>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
 <style>
-  .split__media {
-    position: relative;
+  .inventory__intro {
+    margin-bottom: var(--space-14);
   }
 
-  .inventory__checklist {
+  :global(.inventory__photo) {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .inventory__benefits {
     list-style: none;
-    margin: var(--space-6) 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    margin: 0;
+    padding: var(--space-8);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5) var(--space-8);
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg-alt) 100%);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xs);
   }
 
-  .inventory__checklist li {
+  .inventory__benefit {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
     color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
   }
 
-  .inventory__photo {
-    margin-top: var(--space-8);
+  .inventory__benefit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    border-radius: var(--radius-full);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+  }
+
+  .inventory__benefit--highlight {
+    grid-column: 1 / -1;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-primary-light-active);
+    border-radius: var(--radius-md);
+  }
+
+  .inventory__benefit--highlight .inventory__benefit-icon {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .inventory__benefit--highlight span:last-child {
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary-dark);
+  }
+
+  @media (max-width: 767px) {
+    .inventory__benefits {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+    }
   }
 </style>

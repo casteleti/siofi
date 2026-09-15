@@ -1,7 +1,7 @@
 /**
- * Dados de contato reais da F5 (fornecidos em conversa — ainda faltam
- * WhatsApp e CNPJ, ver README). Centralizado aqui para não duplicar os
- * mesmos valores em Footer, SupportSection e organization.json.
+ * Dados de contato reais da F5 (fornecidos em conversa — ainda falta o
+ * CNPJ, ver README). Centralizado aqui para não duplicar os mesmos
+ * valores em Footer, SupportSection e organization.json.
  */
 export const CONTACT = {
   address: {

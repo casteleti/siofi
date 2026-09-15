@@ -1,0 +1,90 @@
+---
+/**
+ * Painel do Cliente (Seção 11, entre Estoque e Antes × Com SiOfi). Sem
+ * screenshot: não existe no projeto uma captura real do painel do cliente
+ * (só telas de Indicadores e Ordem de Serviço em public/assets/screens),
+ * e a copy aprovada não prevê CTA — por isso reaproveita o mesmo formato
+ * texto + painel de lista (sem mídia) já usado em SwitchingSection, em vez
+ * de inventar mockup ou usar uma screenshot de outro módulo.
+ */
+import Icon from '../ui/Icon.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
+
+const { clientPanel } = copy;
+---
+
+<section id="painel-cliente" class="section section--alt" aria-labelledby="painel-cliente-heading">
+  <div class="container split split--6-6">
+    <div>
+      <p class="text-eyebrow reveal">{clientPanel.eyebrow}</p>
+      <h2 id="painel-cliente-heading" class="text-h2 reveal">{clientPanel.headline}</h2>
+      <p class="text-body-lg reveal">{clientPanel.text}</p>
+      <p class="text-body reveal">{clientPanel.closing}</p>
+    </div>
+
+    <div class="client-panel__list reveal">
+      <p class="client-panel__list-intro">{clientPanel.listIntro}</p>
+      <ul>
+        {
+          clientPanel.items.map((item) => (
+            <li>
+              <Icon name={item.icon} size={20} />
+              <span>{item.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .client-panel__list {
+    padding: var(--space-8);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .client-panel__list-intro {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+  }
+
+  .client-panel__list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .client-panel__list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .client-panel__list li :global(svg) {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    padding: 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 767px) {
+    .client-panel__list {
+      padding: var(--space-6);
+    }
+  }
+</style>

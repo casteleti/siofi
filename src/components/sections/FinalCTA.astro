@@ -13,7 +13,7 @@ const { finalCta } = copy;
   <div class="container-wide split split--6-6">
     <div>
       <h2 id="final-cta-heading" class="text-h2 reveal">{finalCta.headline}</h2>
-      <p class="text-body-lg reveal">{finalCta.text}</p>
+      {finalCta.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
     </div>
 
     <div class="final-cta__form-card reveal">

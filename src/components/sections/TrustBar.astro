@@ -20,7 +20,7 @@ const hasLogos = logos.length > 0;
 <section id="trust-bar" class="trust-bar">
   <div class="container trust-bar__inner">
     <span class="trust-bar__icon reveal" aria-hidden="true">
-      <Icon name="shield-check" size={22} />
+      <Icon name="shield-check" size={24} />
     </span>
     <p class="text-body-lg trust-bar__phrase reveal">{trustBar.phrase}</p>
     {
@@ -37,9 +37,10 @@ const hasLogos = logos.length > 0;
 
 <style>
   .trust-bar {
-    padding-block: var(--space-12);
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-white) 100%);
-    border-block: 1px solid var(--color-primary-light-active);
+    padding-block: var(--space-16);
+    background: linear-gradient(120deg, var(--color-primary-light) 0%, var(--color-white) 45%, var(--color-primary-light) 100%);
+    border-top: 1px solid var(--color-primary-light-active);
+    border-bottom: 1px solid var(--color-primary-light-active);
   }
 
   .trust-bar__inner {
@@ -47,8 +48,8 @@ const hasLogos = logos.length > 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-4);
-    max-width: 640px;
+    gap: var(--space-5);
+    max-width: 680px;
     margin-inline: auto;
   }
 
@@ -56,20 +57,28 @@ const hasLogos = logos.length > 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: var(--space-14);
+    height: var(--space-14);
     flex-shrink: 0;
     border-radius: var(--radius-full);
     background: var(--color-white);
     color: var(--color-primary);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm), inset 0 0 0 1px var(--color-primary-light-active);
   }
 
   .trust-bar__phrase {
+    font: var(--weight-bold) var(--text-lg)/var(--leading-heading) var(--font-display);
+    letter-spacing: var(--tracking-heading);
     text-align: center;
     text-wrap: balance;
-    font-weight: var(--weight-semibold);
+    max-width: 34ch;
     color: var(--color-primary-deep);
+  }
+
+  @media (max-width: 767px) {
+    .trust-bar {
+      padding-block: var(--space-12);
+    }
   }
 
   .trust-bar__logos {

@@ -1,6 +1,14 @@
 ---
 /**
  * Página principal /siofi (spec técnica §4: versão canônica do produto).
+ *
+ * Reestruturação persuasiva (ver relatório): as antigas 18 seções viraram
+ * 11 movimentos — Hero, Especialização, Dor, Solução, Transformação,
+ * Recursos, Produto na prática, Resultado financeiro, Confiança, Objeções
+ * (Troca de sistema + FAQ) e CTA final. Ritmo: Dor → Solução →
+ * Transformação → Recursos → Produto → Resultado → Confiança → Objeções →
+ * Conversão, evitando a sequência feature → feature → feature do layout
+ * anterior.
  */
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -8,16 +16,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/sections/Hero.astro';
 import TrustBar from '../../components/sections/TrustBar.astro';
 import PainSection from '../../components/sections/PainSection.astro';
-import ParallaxBreak from '../../components/sections/ParallaxBreak.astro';
 import ValueProposition from '../../components/sections/ValueProposition.astro';
-import FeaturePillars from '../../components/sections/FeaturePillars.astro';
+import BeforeAfterSection from '../../components/sections/BeforeAfterSection.astro';
+import ResourcesSection from '../../components/sections/ResourcesSection.astro';
 import WorkOrderSection from '../../components/sections/WorkOrderSection.astro';
 import FinancialSection from '../../components/sections/FinancialSection.astro';
-import InventorySection from '../../components/sections/InventorySection.astro';
-import BeforeAfterSection from '../../components/sections/BeforeAfterSection.astro';
-import SegmentsSection from '../../components/sections/SegmentsSection.astro';
+import TrustSection from '../../components/sections/TrustSection.astro';
 import SwitchingSection from '../../components/sections/SwitchingSection.astro';
-import SupportSection from '../../components/sections/SupportSection.astro';
 import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
 import FAQSection from '../../components/sections/FAQSection.astro';
 import FinalCTA from '../../components/sections/FinalCTA.astro';
@@ -31,6 +36,24 @@ if (!entry) {
   throw new Error('Content collection entry "siofi" não encontrada em src/content/landing-pages.');
 }
 const page = entry.data;
+
+/**
+ * FAQ reduzido às 7 perguntas decisórias do movimento Objeções (ver
+ * FAQSection.astro). Filtrado aqui — não em copy.json, que continua com as
+ * 12 aprovadas — para garantir que o accordion e o FAQPage JSON-LD (schema
+ * abaixo) usem exatamente a mesma lista, sem pergunta oculta em um e visível
+ * no outro.
+ */
+const VISIBLE_FAQ_QUESTIONS = [
+  'Para quais empresas o SiOfi é indicado?',
+  'O SiOfi possui ordem de serviço?',
+  'O SiOfi ajuda no controle financeiro?',
+  'O sistema controla estoque?',
+  'O SiOfi emite nota fiscal?',
+  'Posso conhecer o sistema antes de contratar?',
+  'Como funciona o suporte?',
+];
+const visibleFaqItems = copy.faq.items.filter((item) => VISIBLE_FAQ_QUESTIONS.includes(item.question));
 ---
 
 <BaseLayout
@@ -39,38 +62,19 @@ const page = entry.data;
   canonical={page.canonical}
   indexable={page.indexable}
   includeSoftwareApplicationSchema
-  faqItems={copy.faq.items}
+  faqItems={visibleFaqItems}
 >
   <Hero h1={page.h1} />
   <TrustBar />
   <PainSection />
-  {
-    /* DOBRA 1 — DRAFT: frase de impacto pendente de aprovação do Renato,
-       não vem de copy.json de propósito (ainda não é copy final). */
-  }
-  <ParallaxBreak
-    eyebrow="A realidade da oficina"
-    headline="Toda oficina já perdeu dinheiro por causa de anotação em papel. A sua não precisa continuar perdendo."
-    image="/assets/photos/oficina-parallax-01.webp"
-  />
   <ValueProposition />
-  <FeaturePillars />
+  <BeforeAfterSection />
+  <ResourcesSection />
   <WorkOrderSection />
   <FinancialSection />
-  <InventorySection />
-  <BeforeAfterSection />
-  <SegmentsSection />
+  <TrustSection />
   <SwitchingSection />
-  {
-    /* DOBRA 2 — DRAFT, mesma ressalva da dobra 1 acima. */
-  }
-  <ParallaxBreak
-    eyebrow="Antes de continuar"
-    headline="A oficina organizada não é sorte. É rotina — e a rotina começa com o sistema certo."
-    image="/assets/photos/oficina-parallax-02.webp"
-  />
-  <SupportSection />
   <TestimonialsSection />
-  <FAQSection />
+  <FAQSection items={visibleFaqItems} />
   <FinalCTA />
 </BaseLayout>

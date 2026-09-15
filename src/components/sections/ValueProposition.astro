@@ -1,16 +1,22 @@
 ---
 /**
- * Virada / proposta de valor (Section Map §25 #4). Bloco centralizado 720px
- * + diagrama de fluxo com os módulos reais citados na copy (§16 design
- * system pedia uma "linha de conexão com 5 nós" — aqui os 5 nós carregam
- * ícone + rótulo dos módulos citados no parágrafo, em vez de bolinhas
- * puramente decorativas sem informação nenhuma).
+ * Solução (movimento 4 da reestruturação persuasiva). Funde a antiga Virada
+ * / Proposta de Valor (Section Map §25 #4) com o conteúdo essencial dos
+ * antigos Pilares (§25 #5): o headline + fluxo explicam COMO o SiOfi
+ * organiza a operação, e o grid compacto abaixo mostra O QUE ele organiza
+ * (Oficina, Financeiro, Gestão, Estoque, Compras, Fiscal) sem repetir os
+ * 6 cards pesados com lista de features + divider da versão antiga — só
+ * ícone + nome + uma frase, para não virar catálogo de funcionalidades.
+ *
+ * Sem CTA próprio (disciplina de CTA da reestruturação: só Hero, Produto,
+ * Financeiro, Confiança e CTA final têm botão) — o texto aprovado
+ * `valueProposition.cta` ("Quero conhecer o SiOfi") fica em copy.json sem
+ * uso nesta versão, não foi apagado nem reescrito.
  */
-import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
-const { valueProposition } = copy;
+const { valueProposition, featurePillars } = copy;
 
 const MODULES = [
   { icon: 'user-round', label: 'Atendimento' },
@@ -21,10 +27,10 @@ const MODULES = [
 ];
 ---
 
-<section id="value-proposition" class="section" aria-labelledby="value-proposition-heading">
+<section id="solucao" class="section" aria-labelledby="solucao-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <h2 id="value-proposition-heading" class="text-h2 reveal">{valueProposition.headline}</h2>
+      <h2 id="solucao-heading" class="text-h2 reveal">{valueProposition.headline}</h2>
       {valueProposition.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
     </div>
 
@@ -34,13 +40,13 @@ const MODULES = [
           <Fragment>
             <div class="value-proposition__node" style={`--i:${i}`}>
               <span class="value-proposition__node-icon">
-                <Icon name={mod.icon} size={24} />
+                <Icon name={mod.icon} size={28} />
               </span>
               <span class="value-proposition__node-label">{mod.label}</span>
             </div>
             {i < MODULES.length - 1 && (
               <span class="value-proposition__connector" aria-hidden="true">
-                <Icon name="arrow-right" size={16} />
+                <Icon name="arrow-right" size={20} />
               </span>
             )}
           </Fragment>
@@ -48,31 +54,67 @@ const MODULES = [
       }
     </div>
 
-    <div class="value-proposition__cta reveal">
-      <Button variant="primary" href="#pilares" trackId="secondary_cta_click" section="virada">
-        {valueProposition.cta}
-      </Button>
-    </div>
+    <ul class="solution__pillars reveal">
+      {
+        featurePillars.pillars.map((pillar, i) => (
+          <li class="solution__pillar" style={`--i:${i}`}>
+            <span class="solution__pillar-icon">
+              <Icon name={pillar.icon} size={24} />
+            </span>
+            <p class="solution__pillar-name">{pillar.name}</p>
+            <p class="solution__pillar-text">{pillar.text}</p>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
 <style>
+  /* Atmosfera: leve profundidade vertical só nesta seção (não mexe em .section
+     global, que é compartilhada por todas as outras). */
+  #solucao {
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+  }
+
+  #solucao .text-h2 {
+    max-width: 620px;
+    font-size: clamp(1.875rem, 1.5rem + 1.6vw, 2.75rem);
+    letter-spacing: var(--tracking-display);
+    margin-bottom: var(--space-5);
+  }
+
+  #solucao .text-body-lg {
+    max-width: 56ch;
+    font-size: var(--text-lg);
+    color: var(--color-text-primary);
+  }
+
+  #solucao .text-body-lg + .text-body-lg {
+    margin-top: var(--space-3);
+  }
+
   .value-proposition__flow {
     display: flex;
     align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-4);
     max-width: var(--container);
-    margin: var(--space-12) auto;
+    margin: var(--space-16) auto var(--space-14);
+    padding: var(--space-8) var(--space-6);
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg-alt) 100%);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xs);
   }
 
   .value-proposition__node {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-3);
-    width: 108px;
+    gap: var(--space-4);
+    width: 120px;
     text-align: center;
   }
 
@@ -80,37 +122,78 @@ const MODULES = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--icon-box);
-    height: var(--icon-box);
+    width: var(--space-14);
+    height: var(--space-14);
+    flex-shrink: 0;
     border-radius: var(--radius-full);
     background: var(--color-icon-bg);
     color: var(--color-icon);
     border: 1px solid var(--color-primary-light-active);
-    box-shadow: var(--shadow-xs);
+    box-shadow: var(--shadow-sm);
     transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
   }
 
   .value-proposition__node:hover .value-proposition__node-icon {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
   }
 
   .value-proposition__node-label {
-    font: var(--weight-semibold) var(--text-sm) var(--font-body);
-    color: var(--color-text-secondary);
+    font: var(--weight-bold) var(--text-sm) var(--font-body);
+    color: var(--color-text-primary);
+    text-wrap: balance;
   }
 
   .value-proposition__connector {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-border-strong);
-    margin-top: calc(var(--icon-box) / 2 - 8px);
+    flex-shrink: 0;
+    color: var(--color-primary-soft);
+    margin-top: 18px;
+  }
+
+  /* Pilares compactos: grid editorial leve (sem card/borda/sombra por item)
+     — ícone + nome + uma frase, para servir só como "mapa" das áreas do
+     sistema, não como segundo catálogo de funcionalidades. */
+  .solution__pillars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8) var(--gutter);
+  }
+
+  .solution__pillar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--icon-box);
+    height: var(--icon-box);
+    border-radius: var(--radius-md);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    margin-bottom: var(--space-3);
+  }
+
+  .solution__pillar-name {
+    font: var(--weight-bold) var(--text-base) var(--font-display);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .solution__pillar-text {
+    font: var(--weight-regular) var(--text-sm) var(--font-body);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-body);
   }
 
   @media (max-width: 767px) {
     .value-proposition__flow {
-      gap: var(--space-2) var(--space-1);
+      gap: var(--space-3) var(--space-2);
+      padding: var(--space-6) var(--space-4);
     }
 
     .value-proposition__connector {
@@ -118,12 +201,12 @@ const MODULES = [
     }
 
     .value-proposition__node {
-      width: 84px;
+      width: 92px;
     }
-  }
 
-  .value-proposition__cta {
-    display: flex;
-    justify-content: center;
+    .solution__pillars {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6) var(--gutter-sm);
+    }
   }
 </style>

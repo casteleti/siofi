@@ -1,23 +1,40 @@
 ---
 /**
- * Antes × Com o SiOfi (Section Map §25 #9). Nunca uma <table> visual —
- * cards pareados (design system §17.2).
+ * Transformação (movimento 5 da reestruturação persuasiva). Antiga Antes ×
+ * Com o SiOfi (Section Map §25 #9) — movida bem mais cedo na narrativa
+ * (desejo antes de detalhe funcional) e reduzida dos 10 pares originais
+ * para os 6 mais fortes, selecionados por já aparecerem no prompt de
+ * reestruturação como as transformações mais decisivas. Os outros 4 pares
+ * aprovados continuam em copy.json, só não renderizam aqui (redundância
+ * com Dor/Recursos/Solução). Nunca uma <table> visual — cards pareados
+ * (design system §17.2).
  */
 import Icon from '../ui/Icon.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { beforeAfter } = copy;
+
+const FEATURED_BEFORE = [
+  'Informações espalhadas',
+  'Digitação manual de dados do veículo',
+  'Cadastro manual de dados do cliente',
+  'Entrada manual de compras',
+  'Financeiro sem visão consolidada',
+  'Cliente liga para pedir boleto e documentos',
+];
+
+const featuredPairs = beforeAfter.pairs.filter((pair) => FEATURED_BEFORE.includes(pair.before));
 ---
 
-<section id="before-after" class="section section--alt" aria-labelledby="before-after-heading">
+<section id="transformacao" class="section section--alt" aria-labelledby="transformacao-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <h2 id="before-after-heading" class="text-h2 reveal">{beforeAfter.headline}</h2>
+      <h2 id="transformacao-heading" class="text-h2 reveal">{beforeAfter.headline}</h2>
     </div>
 
     <div class="before-after__list">
       {
-        beforeAfter.pairs.map((pair, i) => (
+        featuredPairs.map((pair, i) => (
           <div class="before-after__row reveal" style={`--i:${i}`}>
             <span class="before-after__item before-after__item--before">
               <span class="before-after__icon before-after__icon--before">
@@ -27,7 +44,7 @@ const { beforeAfter } = copy;
             </span>
 
             <span class="before-after__arrow" aria-hidden="true">
-              <Icon name="arrow-right" size={18} />
+              <Icon name="arrow-right" size={20} />
             </span>
 
             <span class="before-after__item before-after__item--after">
@@ -58,7 +75,7 @@ const { beforeAfter } = copy;
     background: var(--color-white);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xs);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
     transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out),
       border-color var(--dur-fast) var(--ease-out);
@@ -118,11 +135,12 @@ const { beforeAfter } = copy;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-full);
     background: var(--color-icon-bg);
     color: var(--color-primary);
+    border: 1px solid var(--color-primary-light-active);
     justify-self: center;
     z-index: 1;
   }

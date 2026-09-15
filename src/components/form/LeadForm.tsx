@@ -266,7 +266,7 @@ export default function LeadForm({ buttonLabel, microcopy }: Props) {
       {values.usesManagementSystem === 'sim' && (
         <FormField
           id="currentSystem"
-          label="Qual sistema utiliza hoje?"
+          label="Se sim: qual sistema utiliza?"
           maxLength={150}
           value={values.currentSystem}
           onInput={setField('currentSystem')}

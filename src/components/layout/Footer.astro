@@ -1,7 +1,7 @@
 ---
 /**
  * Footer (copy §22 / design system §25): fundo primary-deep, logo negativo,
- * contatos, links legais. WhatsApp e CNPJ ainda não fornecidos pela F5.
+ * contatos, links legais. CNPJ ainda não fornecido/validado pela F5.
  */
 import { getWhatsappHref, hasWhatsappNumber } from '../../lib/whatsapp';
 import { CONTACT, CITY_STATE } from '../../lib/contact';
@@ -19,12 +19,11 @@ const whatsappHref = getWhatsappHref();
     <nav class="footer__nav" aria-label="Links rápidos">
       <p class="footer__col-title">Recursos</p>
       <ul>
-        <li><a href="#pilares">Pilares</a></li>
+        <li><a href="#solucao">Solução</a></li>
         <li><a href="#os">Ordem de serviço</a></li>
         <li><a href="#financeiro">Financeiro</a></li>
-        <li><a href="#inventory">Estoque</a></li>
-        <li><a href="#segments">Para quem é</a></li>
-        <li><a href="#suporte">Suporte</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+        <li><a href="#confianca">Para quem é</a></li>
         <li><a href="#faq">Dúvidas</a></li>
       </ul>
     </nav>

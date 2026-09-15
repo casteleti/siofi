@@ -43,18 +43,20 @@
   "featurePillars": {
     "eyebrow": "Gestão completa",
     "headline": "O que você precisa acompanhar, em um só lugar",
-    "subheadline": "Tenha controle total da sua oficina com uma gestão integrada, simples e completa.",
+    "subheadline": "Tenha mais controle da sua oficina com uma gestão integrada às principais áreas da operação.",
     "pillars": [
       {
         "name": "Oficina",
         "icon": "clipboard-list",
         "title": "Acompanhe cada serviço",
-        "text": "Abra e acompanhe ordens de serviço, registre serviços, peças, técnicos e mantenha o histórico de clientes e veículos organizado.",
+        "text": "Abra e acompanhe ordens de serviço, registre serviços, peças e técnicos e mantenha o histórico de clientes e veículos organizado.",
         "features": [
           { "label": "Abertura e controle de OS", "icon": "clipboard-list" },
           { "label": "Histórico de veículos", "icon": "car-front" },
           { "label": "Histórico de clientes", "icon": "user-round" },
-          { "label": "Produtividade de mecânicos", "icon": "gauge" }
+          { "label": "Produtividade de mecânicos", "icon": "gauge" },
+          { "label": "Busca de dados do veículo pela placa", "icon": "scan-line" },
+          { "label": "Busca de dados do cliente por CPF ou CNPJ", "icon": "id-card" }
         ]
       },
       {
@@ -88,7 +90,7 @@
         "name": "Estoque",
         "icon": "package",
         "title": "Estoque integrado à operação",
-        "text": "Acompanhe produtos, movimentações e entradas de mercadorias de forma integrada às vendas e ordens de serviço.",
+        "text": "Acompanhe produtos, movimentações e entradas de mercadorias de forma integrada às vendas, compras e ordens de serviço.",
         "features": [
           { "label": "Consulta de produtos", "icon": "search" },
           { "label": "Entrada de notas", "icon": "file-input" },
@@ -104,7 +106,8 @@
         "text": "Organize pedidos e utilize as informações do sistema para apoiar as decisões de compra.",
         "features": [
           { "label": "Pedido de compra", "icon": "package-search" },
-          { "label": "Sugestão de compra", "icon": "lightbulb" }
+          { "label": "Sugestão de compra", "icon": "lightbulb" },
+          { "label": "Entrada de compras por XML", "icon": "file-input" }
         ]
       },
       {
@@ -121,10 +124,50 @@
       }
     ]
   },
+  "automations": {
+    "eyebrow": "Menos trabalho manual",
+    "headline": "Pequenas tarefas deixam de tomar tanto tempo da sua equipe",
+    "intro": "Além de centralizar a gestão, o SiOfi automatiza etapas da rotina que normalmente exigem consulta, digitação, procura de documentos ou atendimento da equipe.",
+    "items": [
+      {
+        "title": "Informe a placa. O SiOfi busca os dados do veículo.",
+        "text": "Ao informar a placa, o sistema consulta informações como descrição, ano, modelo e chassi, agilizando o cadastro e reduzindo a necessidade de preencher esses dados manualmente.",
+        "icon": "scan-line"
+      },
+      {
+        "title": "Localize os dados do cliente pelo CPF ou CNPJ",
+        "text": "Informe o CPF ou CNPJ para buscar os dados do cliente e tornar o cadastro mais rápido durante o atendimento.",
+        "icon": "id-card"
+      },
+      {
+        "title": "Receba as compras do fornecedor pelo XML",
+        "text": "As notas de entrada do fornecedor aparecem automaticamente no sistema por meio do XML, facilitando a entrada das compras e reduzindo trabalho manual.",
+        "icon": "file-input"
+      },
+      {
+        "title": "Segunda via de boleto sem ocupar sua equipe",
+        "text": "O cliente pode acessar a segunda via dos boletos diretamente pelo painel, sem precisar entrar em contato com a oficina apenas para solicitar o documento.",
+        "icon": "barcode"
+      },
+      {
+        "title": "Um painel para o cliente consultar as próprias informações",
+        "text": "O cliente da oficina pode acessar informações como ordens de serviço, notas fiscais e boletos em seu próprio painel.",
+        "icon": "layout-dashboard"
+      },
+      {
+        "title": "Integração com WhatsApp",
+        "text": "O SiOfi também possui integração com WhatsApp, aproximando a comunicação com o cliente da rotina do sistema.",
+        "icon": "message-circle"
+      }
+    ],
+    "cta": "Quero ver esses recursos funcionando"
+  },
   "workOrder": {
     "headline": "Do orçamento à entrega, acompanhe cada serviço",
     "paragraphs": [
       "Centralize as informações do veículo, cliente, serviços, peças e técnicos em uma única ordem de serviço.",
+      "No atendimento, a busca pela placa ajuda a localizar dados do veículo como descrição, ano, modelo e chassi. Para o cadastro do cliente, a consulta pode ser feita pelo CPF ou CNPJ.",
+      "Menos tempo digitando informações. Mais agilidade para abrir o atendimento e seguir com o serviço.",
       "Tenha o histórico organizado e facilite o acompanhamento da equipe durante toda a operação."
     ],
     "cta": "Ver o SiOfi funcionando"
@@ -142,18 +185,36 @@
   "inventory": {
     "headline": "Saiba o que entra, o que sai e o que precisa comprar",
     "paragraphs": [
-      "O estoque do SiOfi trabalha integrado às ordens de serviço, vendas e notas fiscais, ajudando sua equipe a manter as movimentações organizadas.",
-      "A entrada de mercadorias pode ser feita utilizando XML, reduzindo trabalho manual na rotina."
+      "O estoque do SiOfi trabalha integrado às ordens de serviço, vendas, compras e notas fiscais, ajudando sua equipe a manter as movimentações organizadas.",
+      "E a entrada de compras pode ser ainda mais simples: por meio do XML do fornecedor, as notas de entrada aparecem automaticamente no sistema.",
+      "Isso reduz digitação manual e facilita a atualização das informações da compra e do estoque."
     ],
-    "benefits": ["Organização das entradas e saídas", "Histórico de movimentações", "Integração com OS e vendas", "Apoio aos pedidos de compra"]
+    "benefits": ["Organização das entradas e saídas", "Histórico de movimentações", "Integração com OS e vendas", "Apoio aos pedidos de compra", "Entrada automática de compras por XML"]
+  },
+  "clientPanel": {
+    "eyebrow": "Mais autonomia para o seu cliente",
+    "headline": "Nem toda solicitação precisa virar uma ligação para a oficina",
+    "text": "Algumas informações que o cliente procura no dia a dia podem ficar disponíveis para consulta diretamente no painel do cliente.",
+    "listIntro": "Ele pode acessar informações como:",
+    "items": [
+      { "label": "Ordens de serviço", "icon": "clipboard-list" },
+      { "label": "Notas fiscais", "icon": "file-text" },
+      { "label": "Boletos", "icon": "barcode" },
+      { "label": "Segunda via de boleto", "icon": "download" }
+    ],
+    "closing": "Assim, o cliente encontra o que precisa com mais autonomia e sua equipe deixa de interromper o atendimento para localizar e reenviar documentos que já estão disponíveis no sistema."
   },
   "beforeAfter": {
     "headline": "Quando as informações se conectam, administrar fica mais simples",
     "pairs": [
       { "before": "Informações espalhadas", "after": "Dados centralizados" },
       { "before": "OS em papel ou controles separados", "after": "Histórico organizado de serviços" },
+      { "before": "Digitação manual de dados do veículo", "after": "Consulta de informações pela placa" },
+      { "before": "Cadastro manual de dados do cliente", "after": "Consulta pelo CPF ou CNPJ" },
+      { "before": "Entrada manual de compras", "after": "Notas de entrada recebidas por XML" },
       { "before": "Estoque difícil de acompanhar", "after": "Movimentações integradas" },
       { "before": "Financeiro sem visão consolidada", "after": "Relatórios e indicadores" },
+      { "before": "Cliente liga para pedir boleto e documentos", "after": "Acesso pelo painel do cliente" },
       { "before": "Dependência da memória", "after": "Informações registradas" },
       { "before": "Problemas percebidos tarde", "after": "Mais visibilidade da operação" }
     ]
@@ -172,7 +233,11 @@
   "switching": {
     "headline": "Já usa outro sistema?",
     "subheadline": "Trocar de sistema precisa trazer mais controle — não mais problemas.",
-    "text": "Se sua empresa já utiliza um software, a demonstração do SiOfi pode ser direcionada para comparar exatamente os pontos mais importantes da sua rotina. Avalie recursos, operação e possibilidades antes de tomar a decisão.",
+    "paragraphs": [
+      "Se sua empresa já utiliza um software, a demonstração do SiOfi pode ser direcionada para comparar exatamente os pontos mais importantes da sua rotina.",
+      "Além das funções essenciais de gestão, você pode avaliar recursos como consulta de veículos pela placa, busca de clientes por CPF ou CNPJ, entrada automática de compras por XML, painel do cliente e integração com WhatsApp.",
+      "Avalie recursos, operação e possibilidades antes de tomar a decisão."
+    ],
     "cta": "Quero avaliar o SiOfi"
   },
   "support": {
@@ -204,16 +269,36 @@
         "answer": "Sim. O sistema permite abertura e controle de ordens de serviço, além de histórico de veículos, clientes e acompanhamento de técnicos."
       },
       {
+        "question": "Consigo buscar os dados de um veículo pela placa?",
+        "answer": "Sim. Ao informar a placa, o SiOfi busca dados do veículo como descrição, ano, modelo e chassi, agilizando o cadastro durante o atendimento."
+      },
+      {
+        "question": "É possível buscar os dados do cliente por CPF ou CNPJ?",
+        "answer": "Sim. O sistema permite consultar os dados do cliente utilizando CPF ou CNPJ, reduzindo o preenchimento manual durante o cadastro."
+      },
+      {
         "question": "O SiOfi ajuda no controle financeiro?",
         "answer": "Sim. O sistema possui recursos de contas a pagar e receber, caixa, cobrança, boletos, fluxo de caixa e relatórios gerenciais."
       },
       {
         "question": "O sistema controla estoque?",
-        "answer": "Sim. O estoque é integrado às ordens de serviço, vendas e notas fiscais e permite, entre outros recursos, entrada de mercadorias via XML."
+        "answer": "Sim. O estoque é integrado às ordens de serviço, vendas e notas fiscais, permitindo acompanhar entradas, saídas e movimentações."
+      },
+      {
+        "question": "Como funciona a entrada de compras por XML?",
+        "answer": "As notas de entrada do fornecedor aparecem automaticamente no sistema por meio do XML, reduzindo o trabalho manual na entrada das compras."
+      },
+      {
+        "question": "O cliente consegue acessar boletos e documentos sem falar com a oficina?",
+        "answer": "Sim. Pelo painel do cliente, ele pode consultar informações como ordens de serviço, notas fiscais e boletos, inclusive acessar a segunda via do boleto."
+      },
+      {
+        "question": "O SiOfi possui integração com WhatsApp?",
+        "answer": "Sim. O SiOfi possui integração com WhatsApp."
       },
       {
         "question": "O SiOfi emite nota fiscal?",
-        "answer": "O material atual do produto informa emissão, transmissão e validação de NF-e, além do envio de XML e PDF por e-mail."
+        "answer": "O SiOfi permite emissão, transmissão e validação de NF-e, além do envio de XML e PDF por e-mail."
       },
       {
         "question": "Posso conhecer o sistema antes de contratar?",
@@ -228,7 +313,10 @@
   },
   "finalCta": {
     "headline": "Veja como o SiOfi pode funcionar na sua oficina",
-    "text": "Agende uma demonstração e conheça os recursos mais importantes para a rotina da sua empresa.",
+    "paragraphs": [
+      "Agende uma demonstração e veja, na prática, como o SiOfi pode ajudar sua equipe a organizar a operação, reduzir tarefas manuais e acompanhar melhor os resultados da empresa.",
+      "Conheça recursos como ordem de serviço, financeiro, estoque, consultas automáticas, painel do cliente e as demais ferramentas aplicadas à rotina da sua oficina."
+    ],
     "buttonLabel": "Quero agendar uma demonstração",
     "microcopy": "Ao enviar seus dados, nossa equipe entrará em contato para combinar a demonstração."
   }

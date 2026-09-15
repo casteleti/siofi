@@ -22,7 +22,7 @@ const STEPS = [
     STEPS.map((step, i) => (
       <li class={['wo-timeline__step', step.emphasis ? 'wo-timeline__step--emphasis' : ''].filter(Boolean).join(' ')} style={`--i:${i}`}>
         <span class="wo-timeline__node">
-          <Icon name={step.icon} size={20} />
+          <Icon name={step.icon} size={24} />
         </span>
         <span class="wo-timeline__label">{step.label}</span>
       </li>
@@ -36,14 +36,14 @@ const STEPS = [
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 
   .wo-timeline__step {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
     flex: 1;
     text-align: center;
     position: relative;
@@ -52,11 +52,12 @@ const STEPS = [
   .wo-timeline__step:not(:last-child)::after {
     content: '';
     position: absolute;
-    top: calc(var(--icon-box) / 2); /* centro vertical do nó de 44px */
+    top: calc(var(--space-14) / 2); /* centro vertical do nó de 56px */
     left: 50%;
     width: 100%;
     height: 2px;
-    background: var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-primary-light-active);
     z-index: 0;
   }
 
@@ -66,24 +67,33 @@ const STEPS = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--icon-box);
-    height: var(--icon-box);
+    width: var(--space-14);
+    height: var(--space-14);
+    flex-shrink: 0;
     border-radius: var(--radius-full);
     background: var(--color-icon-bg);
     color: var(--color-icon);
+    border: 1px solid var(--color-primary-light-active);
+    box-shadow: var(--shadow-xs);
+    transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
   }
 
   .wo-timeline__step--emphasis .wo-timeline__node {
     background: var(--color-primary);
     color: var(--color-white);
+    border-color: transparent;
+    transform: scale(1.12);
+    box-shadow: 0 0 0 6px var(--color-primary-light);
   }
 
   .wo-timeline__label {
     font: var(--weight-semibold) var(--text-sm) var(--font-body);
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
+    text-wrap: balance;
   }
 
   .wo-timeline__step--emphasis .wo-timeline__label {
+    font-weight: var(--weight-bold);
     color: var(--color-primary-dark);
   }
 
@@ -91,9 +101,9 @@ const STEPS = [
     .wo-timeline {
       flex-direction: column;
       align-items: flex-start;
-      gap: var(--space-6);
+      gap: var(--space-8);
       padding-left: var(--space-4);
-      border-left: 2px solid var(--color-border);
+      border-left: 2px solid var(--color-primary-light-active);
     }
 
     .wo-timeline__step {
@@ -103,6 +113,10 @@ const STEPS = [
 
     .wo-timeline__step:not(:last-child)::after {
       display: none;
+    }
+
+    .wo-timeline__step--emphasis .wo-timeline__node {
+      transform: scale(1.08);
     }
   }
 </style>

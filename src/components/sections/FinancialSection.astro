@@ -1,15 +1,35 @@
 ---
 /**
- * Financeiro e resultados (Section Map §25 #7, id #financeiro). Uma das duas
- * seções primary-deep (design system §16.1). Split 5/7, ProductFrame DRE + chips.
+ * Resultado financeiro (movimento 8 da reestruturação persuasiva). Base:
+ * antiga Financeiro e resultados (Section Map §25 #7, id #financeiro) —
+ * headline e copy preservados; id mantido de propósito (o header e o
+ * scroll-spy já apontam para `#financeiro`).
+ *
+ * O `ProductFrame` de DRE que existia aqui não tinha `src` (nenhum
+ * screenshot real de DRE no projeto — só indicadores.jpg e
+ * ordem-de-servico.jpg em public/assets/screens/) e por isso renderizava o
+ * texto `[PLACEHOLDER — screenshot: DRE...]` em produção. A regra global
+ * desta reestruturação proíbe placeholder visível, então o bloco foi
+ * removido e o espaço foi ocupado pelos 9 destaques (`financial.highlights`)
+ * em um grid real, em vez de deixar a seção com uma coluna vazia.
  */
 import Button from '../ui/Button.astro';
-import ProductFrame from '../ui/ProductFrame.astro';
-import Callout from '../ui/Callout.astro';
-import Chip from '../ui/Chip.astro';
+import Icon from '../ui/Icon.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { financial } = copy;
+
+const HIGHLIGHT_ICONS: Record<string, string> = {
+  'Faturamento': 'trending-up',
+  'Contas a pagar': 'upload',
+  'Contas a receber': 'download',
+  'Fluxo de caixa': 'activity',
+  'DRE': 'file-text',
+  'Balanço gerencial': 'scale',
+  'Resultados do período': 'calendar-check',
+  'Ticket médio': 'receipt-text',
+  'Indicadores': 'bar-chart-3',
+};
 ---
 
 <section id="financeiro" class="section section--dark on-dark" aria-labelledby="financeiro-heading">
@@ -17,10 +37,6 @@ const { financial } = copy;
     <div>
       <h2 id="financeiro-heading" class="text-h2 reveal">{financial.headline}</h2>
       {financial.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
-
-      <div class="financial__chips reveal">
-        {financial.highlights.map((label) => <Chip onDark>{label}</Chip>)}
-      </div>
 
       <p class="financial__support-phrase reveal">{financial.supportPhrase}</p>
 
@@ -31,30 +47,64 @@ const { financial } = copy;
       </div>
     </div>
 
-    <div class="split__media reveal">
-      <ProductFrame label="DRE" ratio="16:9">
-        Tela de DRE e resultados do período no SiOfi
-      </ProductFrame>
-      <Callout icon="bar-chart-3" position="top-right">Resultado líquido</Callout>
-    </div>
+    <ul class="financial__metrics reveal">
+      {
+        financial.highlights.map((label) => (
+          <li>
+            <span class="financial__metric-icon">
+              <Icon name={HIGHLIGHT_ICONS[label] ?? 'bar-chart-3'} size={20} />
+            </span>
+            <span>{label}</span>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
 <style>
-  .financial__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-block: var(--space-6);
-  }
-
   .financial__support-phrase {
     font: var(--weight-bold) 24px var(--font-display);
     color: var(--color-white);
     margin-bottom: var(--space-8);
   }
 
-  .split__media {
-    position: relative;
+  .financial__metrics {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-8);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5) var(--space-6);
+    background: var(--color-surface-dark);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-xl);
+  }
+
+  .financial__metrics li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font: var(--weight-medium) var(--text-sm) var(--font-body);
+    color: var(--color-text-on-dark);
+  }
+
+  .financial__metric-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-primary-soft);
+  }
+
+  @media (max-width: 767px) {
+    .financial__metrics {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+    }
   }
 </style>

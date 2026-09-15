@@ -1,12 +1,16 @@
 ---
 /**
- * Ordem de serviço (Section Map §25 #6, id #os). Timeline + split 5/7 com ProductFrame.
+ * Ordem de serviço (Section Map §25 #6, id #os). Redesenho editorial em 3
+ * momentos: texto de abertura (largura confortável) → fluxo das 7 etapas
+ * (painel próprio, ver WorkOrderTimeline) → screenshot como protagonista,
+ * com o CTA centralizado logo abaixo (ajuste pontual: a foto da oficina que
+ * ficava ao lado do botão foi removida para deixar o produto como único
+ * foco visual desse último momento).
  */
 import Button from '../ui/Button.astro';
 import ProductFrame from '../ui/ProductFrame.astro';
 import Callout from '../ui/Callout.astro';
 import WorkOrderTimeline from '../ui/WorkOrderTimeline.astro';
-import Photo from '../ui/Photo.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { workOrder } = copy;
@@ -14,31 +18,19 @@ const { workOrder } = copy;
 
 <section id="os" class="section" aria-labelledby="os-heading">
   <div class="container">
-    <div class="section-header">
+    <div class="section-header work-order__intro">
       <h2 id="os-heading" class="text-h2 reveal">{workOrder.headline}</h2>
       {workOrder.paragraphs.map((paragraph) => <p class="text-body-lg reveal">{paragraph}</p>)}
     </div>
 
-    <div class="work-order__timeline reveal">
+    <div class="work-order__timeline-panel reveal">
       <WorkOrderTimeline />
     </div>
 
-    <div class="split split--5-7">
-      <div class="reveal">
-        <Button variant="secondary" href="#os" trackId="secondary_cta_click" section="os" icon="play-circle" iconPosition="left">
-          {workOrder.cta}
-        </Button>
-        <Photo
-          class="work-order__photo"
-          ratio="16 / 10"
-          src="/assets/photos/mecanico-balcao-os.webp"
-          width={1536}
-          height={1024}
-          alt="Mecânico registrando a ordem de serviço no computador, na bancada da oficina"
-        />
-      </div>
-      <div class="split__media reveal">
+    <div class="work-order__showcase">
+      <div class="work-order__screenshot-wrap reveal">
         <ProductFrame
+          class="work-order__screenshot"
           label="Ordem de serviço"
           ratio="16:10"
           src="/assets/screens/ordem-de-servico.jpg"
@@ -50,20 +42,91 @@ const { workOrder } = copy;
         <Callout icon="package" position="top-left">Peças e serviços</Callout>
         <Callout icon="file-text" position="bottom-right">Total</Callout>
       </div>
+
+      <div class="work-order__cta reveal">
+        <Button variant="primary" href="#os" trackId="secondary_cta_click" section="os" icon="play-circle" iconPosition="left">
+          {workOrder.cta}
+        </Button>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .work-order__timeline {
+  /* Momento 1 — texto de abertura: largura confortável, mais respiro abaixo. */
+  .work-order__intro {
+    max-width: 640px;
     margin-bottom: var(--space-16);
   }
 
-  .split__media {
-    position: relative;
+  .work-order__intro .text-h2 {
+    font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.625rem);
+    letter-spacing: var(--tracking-display);
   }
 
-  .work-order__photo {
-    margin-top: var(--space-8);
+  /* Momento 2 — fluxo: painel próprio dá ao diagrama peso de "seção dentro
+     da seção", em vez de ficar solto entre o texto e o showcase. */
+  .work-order__timeline-panel {
+    padding: var(--space-8) var(--space-6);
+    margin-bottom: var(--space-20);
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg-alt) 100%);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xs);
+  }
+
+  /* Momento 3 — produto: screenshot dominante, CTA centralizado logo
+     abaixo, com bom respiro (sem foto/segundo elemento disputando espaço). */
+  .work-order__screenshot-wrap {
+    position: relative;
+    max-width: 880px;
+    margin-inline: auto;
+  }
+
+  :global(.work-order__screenshot) {
+    /* Moldura discreta: sombra mais leve que o padrão do ProductFrame,
+       para não competir com o CTA logo abaixo. */
+    box-shadow: var(--shadow-sm);
+  }
+
+  .work-order__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-10);
+  }
+
+  /* Botão mais presente que o secondary padrão: fundo sólido (variant
+     primary), leve sombra em repouso e mais padding — escopado só a esta
+     instância, o componente Button e os demais CTAs secondary do site não
+     são afetados. */
+  .work-order__cta :global(.btn) {
+    padding-inline: var(--space-8);
+    font-weight: var(--weight-bold);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .work-order__cta :global(.btn:hover) {
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (max-width: 1023px) {
+    .work-order__intro {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .work-order__timeline-panel {
+      padding: var(--space-6) var(--space-4);
+      margin-bottom: var(--space-14);
+    }
+
+    .work-order__cta {
+      margin-top: var(--space-8);
+    }
+
+    .work-order__cta :global(.btn) {
+      width: 100%;
+    }
   }
 </style>

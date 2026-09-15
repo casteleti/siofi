@@ -1,6 +1,11 @@
 ---
 /**
- * Identificação da dor (Section Map §25 #3). neutral-50, header centralizado + 4 PainCards.
+ * Dor (movimento 3 da reestruturação persuasiva). Funde a antiga Identificação
+ * da Dor (Section Map §25 #3) com a antiga dobra de parallax "A realidade da
+ * oficina" (§25 #4) — a frase de impacto deixa de ser uma seção full-bleed
+ * independente e vira o fechamento visual deste bloco, sobre a mesma foto,
+ * mas contida no container (não mais full-bleed) para não voltar a parecer
+ * uma segunda seção grande.
  */
 import Icon from '../ui/Icon.astro';
 import Card from '../ui/Card.astro';
@@ -8,12 +13,21 @@ import copy from '../../content/copy/siofi-main.copy.json';
 
 const { pain } = copy;
 const ICONS = ['eye-off', 'layers', 'package-search', 'user-round-cog'];
+
+/**
+ * Frase de fechamento — antes a dobra de parallax "A realidade da oficina"
+ * (Renato, 2026-08-26). Ainda é DRAFT (não vem de content/copy.json, mesma
+ * ressalva de sempre: pendente de aprovação final do texto exato), mas deixa
+ * de existir como seção própria por decisão desta reestruturação.
+ */
+const CLOSING_LINE =
+  'Toda oficina já perdeu dinheiro por causa de anotação em papel. A sua não precisa continuar perdendo.';
 ---
 
-<section id="pain" class="section section--alt" aria-labelledby="pain-heading">
+<section id="dor" class="section section--alt" aria-labelledby="dor-heading">
   <div class="container">
     <div class="section-header section-header--center">
-      <h2 id="pain-heading" class="text-h2 reveal">{pain.headline}</h2>
+      <h2 id="dor-heading" class="text-h2 reveal">{pain.headline}</h2>
       <p class="text-body-lg reveal">{pain.intro}</p>
     </div>
 
@@ -30,6 +44,20 @@ const ICONS = ['eye-off', 'layers', 'package-search', 'user-round-cog'];
         ))
       }
     </div>
+
+    <div class="dor__closing reveal">
+      <img
+        class="dor__closing-bg"
+        src="/assets/photos/oficina-parallax-01.webp"
+        alt=""
+        width="2560"
+        height="888"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="dor__closing-scrim" aria-hidden="true"></div>
+      <p class="dor__closing-text">{CLOSING_LINE}</p>
+    </div>
   </div>
 </section>
 
@@ -44,5 +72,59 @@ const ICONS = ['eye-off', 'layers', 'package-search', 'user-round-cog'];
     background: var(--color-icon-bg);
     color: var(--color-icon);
     margin-bottom: var(--space-5);
+  }
+
+  .dor__closing {
+    position: relative;
+    isolation: isolate;
+    margin-top: var(--space-14);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 21 / 6;
+    min-height: 220px;
+  }
+
+  .dor__closing-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .dor__closing-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(8, 46, 99, 0.48) 0%, rgba(11, 61, 130, 0.6) 100%);
+  }
+
+  .dor__closing-text {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    padding-inline: var(--space-8);
+    text-align: center;
+    text-wrap: balance;
+    color: var(--color-white);
+    font: var(--weight-bold) var(--text-xl) / var(--leading-sub) var(--font-display);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  @media (max-width: 767px) {
+    .dor__closing {
+      aspect-ratio: auto;
+      min-height: 200px;
+      padding-block: var(--space-8);
+    }
+
+    .dor__closing-text {
+      padding-inline: var(--space-5);
+    }
   }
 </style>

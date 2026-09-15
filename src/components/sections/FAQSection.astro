@@ -1,17 +1,32 @@
 ---
 /**
- * FAQ (Section Map §25 #14, id #faq). Narrow 720px, <details>/<summary> nativo
- * (zero JS, acessível por padrão — spec técnica §12). As duas perguntas
- * marcadas TODO F5 na copy (implantação, migração) não entram aqui — só as
- * 7 com resposta validada (content/copy → faq.items).
+ * FAQ — parte 2 do movimento Objeções (Section Map §25 #14, id #faq).
+ * Narrow 720px, <details>/<summary> nativo (zero JS, acessível por padrão —
+ * spec técnica §12). Renderiza logo após SwitchingSection, mesmo fundo
+ * `.section--alt`, sem dobra entre elas — as duas juntas formam o movimento
+ * "Objeções" da reestruturação persuasiva.
+ *
+ * Reduzido de 12 para as 7 perguntas realmente decisórias (ver
+ * `VISIBLE_FAQ_QUESTIONS`): as 5 removidas (placa, CPF/CNPJ, XML, painel do
+ * cliente, WhatsApp) já foram bem explicadas no movimento Recursos — repeti-
+ * las aqui só aumentaria volume sem agregar decisão. As 12 perguntas
+ * aprovadas continuam intactas em copy.json; o array abaixo só seleciona
+ * quais renderizam. `items` é passado por `index.astro`, que usa a MESMA
+ * lista filtrada no `faqItems` do FAQPage JSON-LD — nunca há pergunta oculta
+ * no schema que não apareça no accordion, nem vice-versa.
  */
 import Icon from '../ui/Icon.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
+interface Props {
+  items?: typeof copy.faq.items;
+}
+
 const { faq } = copy;
+const { items = faq.items } = Astro.props;
 ---
 
-<section id="faq" class="section" aria-labelledby="faq-heading">
+<section id="faq" class="section section--alt" aria-labelledby="faq-heading">
   <div class="container container-narrow">
     <div class="section-header section-header--center">
       <h2 id="faq-heading" class="text-h2 reveal">{faq.headline}</h2>
@@ -19,7 +34,7 @@ const { faq } = copy;
 
     <div class="faq-accordion reveal">
       {
-        faq.items.map((item, i) => (
+        items.map((item, i) => (
           <details class="faq-item" open={i === 0} data-track="faq_open" data-faq-question={item.question}>
             <summary class="faq-item__question">
               <h3 class="faq-item__question-text">{item.question}</h3>

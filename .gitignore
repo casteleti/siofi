@@ -23,3 +23,6 @@ yarn-error.log*
 .DS_Store
 .vscode/*
 !.vscode/extensions.json
+
+# infra secrets (SSH keys, API tokens) — never commit
+docs/cx43-prod-01/

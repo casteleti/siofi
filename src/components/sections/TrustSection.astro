@@ -1,0 +1,209 @@
+---
+/**
+ * Confiança / adequação / suporte (movimento 9 da reestruturação
+ * persuasiva). Funde, de forma compacta, as antigas "Para quem é" (Section
+ * Map §25 #10) e "Suporte" (§25 #12) — nenhuma das duas continua como
+ * grande seção independente.
+ *
+ * "Para quem é": mantém apenas ícone + nome dos 5 segmentos (sem as frases
+ * descritivas de cada um, sem o carrossel mobile com scroll-snap, sem a
+ * banda de foto com o qualifier) — a ideia central ("feito para quem vive a
+ * rotina do setor automotivo") já fica clara com a lista compacta.
+ *
+ * "Suporte": mantém headline, texto, os 5 canais e o CTA, mas sem o split
+ * 5/7 de página inteira — a foto real da equipe (equipe-suporte-f5.webp)
+ * vira um elemento de apoio menor, não a metade da seção.
+ *
+ * Prova social: nenhum dado real e validado (cliente, tempo de mercado,
+ * depoimento, avaliação, case) foi encontrado no projeto — `testimonials`
+ * em copy.json continua vazio — então nada foi inventado nem incorporado
+ * aqui (ver relatório da reestruturação).
+ */
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import Photo from '../ui/Photo.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
+import { CONTACT, CITY_STATE, getMapsHref } from '../../lib/contact';
+
+const { segments, support } = copy;
+
+const CHANNEL_LINKS: Record<string, { href: string; trackId: string } | undefined> = {
+  Telefone: { href: CONTACT.phone.href, trackId: 'phone_click' },
+  'E-mail': { href: `mailto:${CONTACT.emails.contact}`, trackId: '' },
+};
+---
+
+<section id="confianca" class="section section--alt" aria-labelledby="confianca-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <h2 id="confianca-heading" class="text-h2 reveal">{segments.headline}</h2>
+    </div>
+
+    <ul class="trust__segments reveal">
+      {
+        segments.items.map((segment) => (
+          <li>
+            <Icon name={segment.icon} size={20} />
+            <span>{segment.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="trust__support reveal">
+      <div>
+        <h3 class="text-h3">{support.headline}</h3>
+        <p class="text-body">{support.text}</p>
+
+        <ul class="trust__channels">
+          {
+            support.channels.map((channel) => {
+              const link = CHANNEL_LINKS[channel.label];
+              return (
+                <li>
+                  <Icon name={channel.icon} size={20} />
+                  {link ? (
+                    <a href={link.href} data-track={link.trackId || undefined} data-section="confianca">
+                      {channel.label}
+                    </a>
+                  ) : (
+                    <span>{channel.label}</span>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ul>
+
+        <div class="trust__footer">
+          <Button variant="secondary" href="#form" trackId="secondary_cta_click" section="confianca">
+            {support.cta}
+          </Button>
+          <a class="trust__location" href={getMapsHref()} target="_blank" rel="noopener">
+            <Icon name="map-pin" size={16} />
+            {CITY_STATE}
+          </a>
+        </div>
+      </div>
+
+      <Photo
+        class="trust__photo"
+        ratio="4 / 3"
+        src="/assets/photos/equipe-suporte-f5.webp"
+        width={1448}
+        height={1086}
+        alt="Equipe de suporte da F5 atendendo clientes por telefone e computador"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust__segments {
+    list-style: none;
+    margin: 0 0 var(--space-16);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+
+  .trust__segments li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font: var(--weight-semibold) var(--text-sm) var(--font-body);
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .trust__segments :global(svg) {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .trust__support {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--split-gap);
+    align-items: center;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-top: var(--space-14);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .trust__channels {
+    list-style: none;
+    margin: var(--space-6) 0 var(--space-8);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .trust__channels li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-primary);
+  }
+
+  .trust__channels li a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .trust__channels li a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .trust__footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .trust__location {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font: var(--weight-regular) var(--text-sm) var(--font-body);
+    text-decoration: none;
+  }
+
+  .trust__location:hover {
+    color: var(--color-primary);
+  }
+
+  :global(.trust__photo) {
+    max-width: 320px;
+    margin-inline: auto;
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 1023px) {
+    .trust__support {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    :global(.trust__photo) {
+      max-width: 380px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .trust__segments {
+      margin-bottom: var(--space-12);
+    }
+  }
+</style>

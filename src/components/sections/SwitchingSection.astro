@@ -1,13 +1,24 @@
 ---
 /**
- * Troca de sistema (Section Map §25 #11, neutral-50). Split 6/6, painel de
- * confiança + shield-check. Promessas de migração ficam pendentes (copy §16 TODO F5).
+ * Objeções (movimento 10 da reestruturação persuasiva) — parte 1: antiga
+ * Troca de sistema (Section Map §25 #11). Split 6/6, painel de confiança +
+ * shield-check. Promessas de migração seguem pendentes (copy §16 TODO F5).
+ *
+ * O segundo parágrafo aprovado ("Além das funções essenciais de gestão...")
+ * não é renderizado aqui de propósito: ele repete, quase palavra por
+ * palavra, os mesmos 5-6 recursos já detalhados no movimento Recursos
+ * (placa, CPF/CNPJ, XML, painel do cliente, WhatsApp) — manter os dois
+ * geraria a repetição que esta reestruturação existe para eliminar.
+ *
+ * O FAQ (parte 2 deste movimento) renderiza logo depois, como uma seção
+ * irmã (mesmo fundo, sem dobra entre elas) — ver FAQSection.astro.
  */
 import Icon from '../ui/Icon.astro';
 import Button from '../ui/Button.astro';
 import copy from '../../content/copy/siofi-main.copy.json';
 
 const { switching } = copy;
+const paragraphs = [switching.paragraphs[0], switching.paragraphs[2]];
 
 /**
  * Rótulos curtos derivados do que a persona "Empresa trocando de sistema"
@@ -21,12 +32,12 @@ const TRUST_POINTS = [
 ];
 ---
 
-<section id="switching" class="section section--alt" aria-labelledby="switching-heading">
+<section id="objecoes" class="section section--alt" aria-labelledby="objecoes-heading">
   <div class="container split split--6-6">
     <div>
-      <h2 id="switching-heading" class="text-h2 reveal">{switching.headline}</h2>
+      <h2 id="objecoes-heading" class="text-h2 reveal">{switching.headline}</h2>
       <p class="text-sub text-sub--emphasis reveal">{switching.subheadline}</p>
-      <p class="text-body reveal">{switching.text}</p>
+      {paragraphs.map((paragraph) => <p class="text-body reveal">{paragraph}</p>)}
       <div class="reveal">
         <Button variant="primary" href="#form?ctx=troca" trackId="demo_cta_click" section="troca_sistema">
           {switching.cta}

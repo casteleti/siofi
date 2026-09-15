@@ -1,0 +1,94 @@
+---
+/**
+ * Recursos que economizam trabalho (movimento 6 da reestruturação
+ * persuasiva). Substitui a antiga "Funcionalidades que agilizam a rotina"
+ * (Section Map §25 #7, id #automacoes) — a copy (`automations.items`) já
+ * cobria, palavra por palavra, os 6 recursos pedidos para este movimento
+ * (placa, CPF/CNPJ, XML, segunda via de boleto, painel do cliente, WhatsApp),
+ * então nenhum texto novo foi necessário aqui.
+ *
+ * Absorve o papel das antigas Estoque (§25 #10) e Painel do Cliente (§25
+ * #11) como seções independentes: o item de XML já cobre a entrada
+ * automática de compras, e o item de painel já cita ordens de serviço,
+ * notas fiscais e boletos — por isso essas duas deixaram de renderizar
+ * como blocos próprios (ver relatório da reestruturação).
+ *
+ * Sem CTA próprio (disciplina de CTA da reestruturação) — `automations.cta`
+ * fica em copy.json sem uso nesta versão.
+ */
+import Icon from '../ui/Icon.astro';
+import copy from '../../content/copy/siofi-main.copy.json';
+
+const { automations } = copy;
+---
+
+<section id="recursos" class="section section--alt" aria-labelledby="recursos-heading">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="text-eyebrow reveal">{automations.eyebrow}</p>
+      <h2 id="recursos-heading" class="text-h2 reveal">{automations.headline}</h2>
+      <p class="text-body-lg reveal">{automations.intro}</p>
+    </div>
+
+    <div class="resources__list">
+      {
+        automations.items.map((item, i) => (
+          <div class="resources__item reveal" style={`--i:${i}`}>
+            <span class="resources__icon">
+              <Icon name={item.icon} size={28} />
+            </span>
+            <div>
+              <p class="text-h3 resources__title">{item.title}</p>
+              <p class="text-body">{item.text}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .resources__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10) var(--gutter);
+  }
+
+  .resources__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .resources__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--space-14);
+    height: var(--space-14);
+    border-radius: var(--radius-md);
+    background: var(--color-icon-bg);
+    color: var(--color-icon);
+    border: 1px solid var(--color-primary-light-active);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .resources__title {
+    margin-bottom: var(--space-2);
+  }
+
+  @media (max-width: 1023px) {
+    .resources__list {
+      gap: var(--space-8) var(--gutter);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .resources__list {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>
