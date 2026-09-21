@@ -3,7 +3,7 @@
  * Transformação (movimento 5 da reestruturação persuasiva). Antiga Antes ×
  * Com o SiOfi (Section Map §25 #9) — movida bem mais cedo na narrativa
  * (desejo antes de detalhe funcional) e reduzida dos 10 pares originais
- * para os 6 mais fortes, selecionados por já aparecerem no prompt de
+ * para os mais fortes, selecionados por já aparecerem no prompt de
  * reestruturação como as transformações mais decisivas. Os outros 4 pares
  * aprovados continuam em copy.json, só não renderizam aqui (redundância
  * com Dor/Recursos/Solução). Nunca uma <table> visual — cards pareados
@@ -16,11 +16,12 @@ const { beforeAfter } = copy;
 
 const FEATURED_BEFORE = [
   'Informações espalhadas',
-  'Digitação manual de dados do veículo',
-  'Cadastro manual de dados do cliente',
-  'Entrada manual de compras',
+  'Digitar os dados do veículo',
+  'Preencher o cadastro do cliente',
+  'Lançar compras manualmente',
   'Financeiro sem visão consolidada',
-  'Cliente liga para pedir boleto e documentos',
+  'Cliente pedir 2ª via para a equipe',
+  'Procurar OS, notas e documentos para o cliente',
 ];
 
 const featuredPairs = beforeAfter.pairs.filter((pair) => FEATURED_BEFORE.includes(pair.before));

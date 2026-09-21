@@ -49,7 +49,7 @@
         "name": "Oficina",
         "icon": "clipboard-list",
         "title": "Acompanhe cada serviço",
-        "text": "Abra e acompanhe ordens de serviço, registre serviços, peças e técnicos e mantenha o histórico de clientes e veículos organizado.",
+        "text": "Abra e acompanhe ordens de serviço, registre serviços, peças e técnicos e agilize o atendimento com consultas pela placa do veículo e CPF/CNPJ do cliente.",
         "features": [
           { "label": "Abertura e controle de OS", "icon": "clipboard-list" },
           { "label": "Histórico de veículos", "icon": "car-front" },
@@ -103,7 +103,7 @@
         "name": "Compras",
         "icon": "shopping-cart",
         "title": "Compre com mais informação",
-        "text": "Organize pedidos e utilize as informações do sistema para apoiar as decisões de compra.",
+        "text": "Organize pedidos, apoie as decisões de compra e agilize a entrada de mercadorias com o recebimento das notas dos fornecedores por XML.",
         "features": [
           { "label": "Pedido de compra", "icon": "package-search" },
           { "label": "Sugestão de compra", "icon": "lightbulb" },
@@ -125,38 +125,38 @@
     ]
   },
   "automations": {
-    "eyebrow": "Menos trabalho manual",
-    "headline": "Pequenas tarefas deixam de tomar tanto tempo da sua equipe",
-    "intro": "Além de centralizar a gestão, o SiOfi automatiza etapas da rotina que normalmente exigem consulta, digitação, procura de documentos ou atendimento da equipe.",
+    "eyebrow": "Automações e facilidades",
+    "headline": "Menos digitação. Menos tarefas manuais. Mais tempo para atender.",
+    "intro": "O SiOfi automatiza tarefas que fazem parte da rotina da oficina e dá mais autonomia ao cliente, reduzindo consultas, digitação e trabalho administrativo da equipe.",
     "items": [
       {
-        "title": "Informe a placa. O SiOfi busca os dados do veículo.",
-        "text": "Ao informar a placa, o sistema consulta informações como descrição, ano, modelo e chassi, agilizando o cadastro e reduzindo a necessidade de preencher esses dados manualmente.",
+        "title": "Digite a placa. O SiOfi busca o veículo.",
+        "text": "Informe a placa e o sistema busca dados como descrição, ano, modelo e chassi.",
         "icon": "scan-line"
       },
       {
-        "title": "Localize os dados do cliente pelo CPF ou CNPJ",
-        "text": "Informe o CPF ou CNPJ para buscar os dados do cliente e tornar o cadastro mais rápido durante o atendimento.",
+        "title": "Informe CPF ou CNPJ. O SiOfi busca o cliente.",
+        "text": "Agilize o cadastro consultando os dados do cliente sem precisar preencher tudo manualmente.",
         "icon": "id-card"
       },
       {
-        "title": "Receba as compras do fornecedor pelo XML",
-        "text": "As notas de entrada do fornecedor aparecem automaticamente no sistema por meio do XML, facilitando a entrada das compras e reduzindo trabalho manual.",
+        "title": "As notas de compra entram pelo XML.",
+        "text": "As notas de entrada dos fornecedores aparecem no sistema por meio do XML, reduzindo digitação e agilizando o recebimento das compras.",
         "icon": "file-input"
       },
       {
-        "title": "Segunda via de boleto sem ocupar sua equipe",
-        "text": "O cliente pode acessar a segunda via dos boletos diretamente pelo painel, sem precisar entrar em contato com a oficina apenas para solicitar o documento.",
+        "title": "Segunda via de boleto sem chamar a oficina.",
+        "text": "O cliente acessa seus boletos diretamente, sem precisar solicitar uma segunda via para sua equipe.",
         "icon": "barcode"
       },
       {
-        "title": "Um painel para o cliente consultar as próprias informações",
-        "text": "O cliente da oficina pode acessar informações como ordens de serviço, notas fiscais e boletos em seu próprio painel.",
+        "title": "OS, notas fiscais e boletos em um só painel.",
+        "text": "No painel do cliente, ele consulta suas informações e documentos sempre que precisar.",
         "icon": "layout-dashboard"
       },
       {
-        "title": "Integração com WhatsApp",
-        "text": "O SiOfi também possui integração com WhatsApp, aproximando a comunicação com o cliente da rotina do sistema.",
+        "title": "WhatsApp integrado à rotina da oficina.",
+        "text": "O SiOfi possui integração com WhatsApp, aproximando a comunicação com o cliente da rotina do sistema.",
         "icon": "message-circle"
       }
     ],
@@ -166,7 +166,7 @@
     "headline": "Do orçamento à entrega, acompanhe cada serviço",
     "paragraphs": [
       "Centralize as informações do veículo, cliente, serviços, peças e técnicos em uma única ordem de serviço.",
-      "No atendimento, a busca pela placa ajuda a localizar dados do veículo como descrição, ano, modelo e chassi. Para o cadastro do cliente, a consulta pode ser feita pelo CPF ou CNPJ.",
+      "Quando o cliente chega, a placa ajuda a localizar os dados do veículo, como descrição, ano, modelo e chassi. O CPF ou CNPJ ajuda a localizar e cadastrar o cliente, e a abertura da OS fica mais rápida.",
       "Menos tempo digitando informações. Mais agilidade para abrir o atendimento e seguir com o serviço.",
       "Tenha o histórico organizado e facilite o acompanhamento da equipe durante toda a operação."
     ],
@@ -209,12 +209,13 @@
     "pairs": [
       { "before": "Informações espalhadas", "after": "Dados centralizados" },
       { "before": "OS em papel ou controles separados", "after": "Histórico organizado de serviços" },
-      { "before": "Digitação manual de dados do veículo", "after": "Consulta de informações pela placa" },
-      { "before": "Cadastro manual de dados do cliente", "after": "Consulta pelo CPF ou CNPJ" },
-      { "before": "Entrada manual de compras", "after": "Notas de entrada recebidas por XML" },
+      { "before": "Digitar os dados do veículo", "after": "Informar a placa e localizar os dados" },
+      { "before": "Preencher o cadastro do cliente", "after": "Consultar pelo CPF ou CNPJ" },
+      { "before": "Lançar compras manualmente", "after": "Receber notas de entrada por XML" },
       { "before": "Estoque difícil de acompanhar", "after": "Movimentações integradas" },
       { "before": "Financeiro sem visão consolidada", "after": "Relatórios e indicadores" },
-      { "before": "Cliente liga para pedir boleto e documentos", "after": "Acesso pelo painel do cliente" },
+      { "before": "Cliente pedir 2ª via para a equipe", "after": "Cliente acessar o boleto diretamente" },
+      { "before": "Procurar OS, notas e documentos para o cliente", "after": "Cliente consultar tudo pelo próprio painel" },
       { "before": "Dependência da memória", "after": "Informações registradas" },
       { "before": "Problemas percebidos tarde", "after": "Mais visibilidade da operação" }
     ]
@@ -235,7 +236,7 @@
     "subheadline": "Trocar de sistema precisa trazer mais controle — não mais problemas.",
     "paragraphs": [
       "Se sua empresa já utiliza um software, a demonstração do SiOfi pode ser direcionada para comparar exatamente os pontos mais importantes da sua rotina.",
-      "Além das funções essenciais de gestão, você pode avaliar recursos como consulta de veículos pela placa, busca de clientes por CPF ou CNPJ, entrada automática de compras por XML, painel do cliente e integração com WhatsApp.",
+      "Além das funções essenciais de gestão, você pode avaliar recursos como consulta de veículos pela placa, busca de clientes por CPF ou CNPJ, entrada de compras por XML, painel do cliente e integração com WhatsApp.",
       "Avalie recursos, operação e possibilidades antes de tomar a decisão."
     ],
     "cta": "Quero avaliar o SiOfi"
