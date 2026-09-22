@@ -80,6 +80,18 @@ O FAQ usa apenas as 7 perguntas com resposta validada na copy; as 2 marcadas
   componente — precisa ser repassado como build arg no `Dockerfile` se um dia
   precisar variar por ambiente (hoje o `RUN npm run build` do Docker não lê
   `.env`, então só o fallback hardcoded é o que realmente vale em produção).
+- **Meta Pixel direto** (`AnalyticsBootstrap.astro`): base code do `fbq`
+  (`PUBLIC_META_PIXEL_ID=2344577213019896`, fornecido em 2026-09-22, mesmo
+  fallback hardcoded que GA4) disparando `PageView` + `<noscript>` de
+  fallback. Usa o mecanismo de consentimento próprio do Pixel
+  (`fbq('consent', 'grant'|'revoke')`, não é o Google Consent Mode) —
+  inicializa em `revoke` a menos que já haja escolha salva com
+  `analytics_and_ads: true`; `consent.ts` propaga toda mudança feita no banner
+  pros dois sistemas de consentimento (gtag e fbq) ao mesmo tempo.
+  `LeadForm.tsx` dispara `fbq('track', 'Lead', {}, { eventID: leadId })` no
+  sucesso do submit, com o mesmo `leadId` que o Meta CAPI (`metaCapi.ts`) usa
+  como `event_id` — fecha o dedup browser/servidor que o CAPI já pressupunha
+  desde a Tarefa 4, mas que não tinha contraparte no client até agora.
 - **Atribuição de primeira parte** (`src/lib/tracking/attribution.ts`): lê
   UTMs/click IDs da URL, grava cookie `siofi_attribution` (90 dias) com
   first-touch (nunca sobrescrito) e last-touch (atualizado só com sinal de
@@ -118,7 +130,11 @@ para `/siofi/obrigado` só após 2xx real (nunca no clique do botão).
 `CRM_API_KEY`, `META_PIXEL_ID`/`META_CAPI_ACCESS_TOKEN`) — sem elas, o lead
 ainda é validado, protegido contra spam e registrado no store de
 idempotência do servidor, só não é entregue a nenhum destino externo (loga
-um aviso). **Mecanismo de fila/retry para indisponibilidade do CRM** é
+um aviso). `META_PIXEL_ID` já é conhecido (2344577213019896, o mesmo ID do
+Pixel do browser) mas `META_CAPI_ACCESS_TOKEN` continua `[TBD]` — o CAPI
+server-side segue desativado até a F5 fornecer o token; isso é independente
+do Pixel do browser (Tarefa 3), que já dispara `PageView`/`Lead` normalmente.
+**Mecanismo de fila/retry para indisponibilidade do CRM** é
 `[TBD — DEFINIR MECANISMO, ex. Cloudflare Queues]`, não implementado.
 
 ### Tarefa 5 — QA
@@ -204,7 +220,7 @@ visuais ou arquitetura de tracking/backend, só a forma como o stack é montado:
 - ~~Telefone, e-mail, endereço~~ — preenchidos (`src/lib/contact.ts`, `Footer.astro`, `SupportSection.astro`, `organization.json`). Ainda faltam **WhatsApp** (`src/lib/whatsapp.ts`) e **CNPJ** (`organization.json`, footer).
 - URL da política de privacidade (`Footer.astro`, `ConsentBanner.astro`).
 - CRM escolhido (`CRM_ENDPOINT`/`CRM_API_KEY`) e mecanismo de fila/retry para indisponibilidade.
-- IDs reais de GTM/Meta Pixel/Google Ads (`.env.example`/`.dev.vars.example`) e configuração das tags dentro do painel do GTM. ~~GA4~~ — resolvido (`G-7H5MLNCYHJ`, `PUBLIC_GA4_MEASUREMENT_ID`).
+- IDs reais de GTM/Google Ads (`.env.example`/`.dev.vars.example`) e configuração das tags dentro do painel do GTM. ~~GA4~~ e ~~Meta Pixel~~ — resolvidos (`G-7H5MLNCYHJ`/`PUBLIC_GA4_MEASUREMENT_ID`; `2344577213019896`/`PUBLIC_META_PIXEL_ID`+`META_PIXEL_ID`). `META_CAPI_ACCESS_TOKEN` (server-side, para o CAPI) continua `[TBD]`.
 - Criar o KV namespace de rate limiting em produção (`wrangler kv namespace create RATE_LIMIT_KV` ou deixar o provisionamento automático do Cloudflare rodar no primeiro deploy).
 
 ### Recomendado

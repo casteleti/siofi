@@ -18,6 +18,7 @@ const CONSENT_COOKIE_MAX_AGE_DAYS = 365;
 declare global {
   interface Window {
     gtag: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -76,6 +77,10 @@ function applyConsentChoice(choice: ConsentChoice): void {
     ad_user_data: granted ? 'granted' : 'denied',
     ad_personalization: granted ? 'granted' : 'denied',
   });
+  // Meta Pixel usa seu próprio mecanismo de consentimento (não lê o Google
+  // Consent Mode acima) — só existe se AnalyticsBootstrap.astro já injetou o
+  // Pixel nesta carga de página; no-op silencioso caso contrário.
+  window.fbq?.('consent', granted ? 'grant' : 'revoke');
 }
 
 export function setConsentChoice(choice: ConsentChoice): void {

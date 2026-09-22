@@ -174,6 +174,12 @@ export default function LeadForm({ buttonLabel, microcopy }: Props) {
       pageVariant: 'siofi_main',
     });
 
+    // Mesmo event_id do Lead enviado ao Meta CAPI (metaCapi.ts) — dedup
+    // browser/servidor exige event_name + event_id iguais nos dois lados.
+    // window.fbq só existe se o usuário já concedeu consentimento (senão o
+    // Pixel inicializa em "revoke" e não processa nenhum evento).
+    window.fbq?.('track', 'Lead', {}, { eventID: leadId });
+
     setStatus('success');
     try {
       sessionStorage.setItem('siofi_conversion_confirmed', '1');

@@ -10,7 +10,7 @@
 # configurados como secrets do Cloudflare (`wrangler secret put`) ou no
 # dashboard do projeto, nunca neste arquivo.
 
-META_PIXEL_ID=[TBD — FORNECER PELA F5]
+META_PIXEL_ID=2344577213019896
 META_CAPI_ACCESS_TOKEN=[TBD — FORNECER PELA F5]
 GOOGLE_ADS_CONVERSION_ID=[TBD — FORNECER PELA F5]
 GOOGLE_ADS_CONVERSION_LABEL=[TBD — FORNECER PELA F5]
