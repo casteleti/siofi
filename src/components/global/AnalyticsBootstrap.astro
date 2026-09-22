@@ -38,7 +38,7 @@ const hasValidGtmId = typeof gtmContainerId === 'string' && /^GTM-[A-Z0-9]+$/.te
     type WhatsappClickLocation,
   } from '../../lib/analytics/dataLayer';
 
-  // Consent Mode default (MUST antes do GTM) + atribuição — independem de GTM configurado.
+  // Consent Mode default (MUST antes de GTM/GA4) + atribuição — independem de GTM/GA4 configurados.
   applyDefaultConsent();
   captureAttributionFromUrl();
 
@@ -56,6 +56,25 @@ const hasValidGtmId = typeof gtmContainerId === 'string' && /^GTM-[A-Z0-9]+$/.te
       j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
       f.parentNode?.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', gtmContainerId);
+  }
+
+  // Tag direta do GA4 (fora do GTM) — ID fornecido em 2026-09-22, com fallback
+  // hardcoded no mesmo padrão de PUBLIC_SITE_URL (astro.config.mjs), já que o
+  // Dockerfile não repassa PUBLIC_* como build arg para o `npm run build`.
+  // Carregada depois de applyDefaultConsent() para respeitar o Consent Mode v2:
+  // window.gtag já existe como stub que só enfileira em dataLayer até o
+  // gtag.js real (abaixo) processar a fila, então os 4 sinais continuam
+  // "denied" até o usuário aceitar no banner.
+  const ga4MeasurementId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-7H5MLNCYHJ';
+  const hasValidGa4Id = typeof ga4MeasurementId === 'string' && /^G-[A-Z0-9]+$/.test(ga4MeasurementId);
+
+  if (hasValidGa4Id) {
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}`;
+    document.head.appendChild(gaScript);
+    window.gtag('js', new Date());
+    window.gtag('config', ga4MeasurementId);
   }
 
   const CTA_EVENTS = new Set(['hero_cta_click', 'demo_cta_click', 'secondary_cta_click']);

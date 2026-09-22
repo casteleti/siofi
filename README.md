@@ -73,6 +73,13 @@ O FAQ usa apenas as 7 perguntas com resposta validada na copy; as 2 marcadas
 - **GTM** (`AnalyticsBootstrap.astro`): só carrega se `PUBLIC_GTM_CONTAINER_ID`
   for um ID real (`/^GTM-[A-Z0-9]+$/`) — com o `.env.example` placeholder,
   o snippet nem tenta carregar (evita erro 404 contra `GTM-undefined`).
+- **GA4 direto** (`AnalyticsBootstrap.astro`): tag `gtag.js` própria, fora do
+  GTM, carregada depois de `applyDefaultConsent()` (mesma ordem/garantia do
+  Consent Mode do item acima). `PUBLIC_GA4_MEASUREMENT_ID=G-7H5MLNCYHJ`
+  (fornecido em 2026-09-22), com o mesmo valor como fallback hardcoded no
+  componente — precisa ser repassado como build arg no `Dockerfile` se um dia
+  precisar variar por ambiente (hoje o `RUN npm run build` do Docker não lê
+  `.env`, então só o fallback hardcoded é o que realmente vale em produção).
 - **Atribuição de primeira parte** (`src/lib/tracking/attribution.ts`): lê
   UTMs/click IDs da URL, grava cookie `siofi_attribution` (90 dias) com
   first-touch (nunca sobrescrito) e last-touch (atualizado só com sinal de
@@ -197,7 +204,7 @@ visuais ou arquitetura de tracking/backend, só a forma como o stack é montado:
 - ~~Telefone, e-mail, endereço~~ — preenchidos (`src/lib/contact.ts`, `Footer.astro`, `SupportSection.astro`, `organization.json`). Ainda faltam **WhatsApp** (`src/lib/whatsapp.ts`) e **CNPJ** (`organization.json`, footer).
 - URL da política de privacidade (`Footer.astro`, `ConsentBanner.astro`).
 - CRM escolhido (`CRM_ENDPOINT`/`CRM_API_KEY`) e mecanismo de fila/retry para indisponibilidade.
-- IDs reais de GTM/GA4/Meta Pixel/Google Ads (`.env.example`/`.dev.vars.example`) e configuração das tags dentro do painel do GTM.
+- IDs reais de GTM/Meta Pixel/Google Ads (`.env.example`/`.dev.vars.example`) e configuração das tags dentro do painel do GTM. ~~GA4~~ — resolvido (`G-7H5MLNCYHJ`, `PUBLIC_GA4_MEASUREMENT_ID`).
 - Criar o KV namespace de rate limiting em produção (`wrangler kv namespace create RATE_LIMIT_KV` ou deixar o provisionamento automático do Cloudflare rodar no primeiro deploy).
 
 ### Recomendado
