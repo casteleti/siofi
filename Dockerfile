@@ -5,7 +5,12 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=build /app/dist/client /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+FROM node:22-bookworm-slim
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=build /app/dist/client ./dist/client
+COPY --from=build /app/node_modules ./node_modules
+COPY server.mjs ./server.mjs
+USER node
+EXPOSE 3000
+CMD ["node", "server.mjs"]
