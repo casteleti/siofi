@@ -1,5 +1,5 @@
 # Redirects — Cloudflare Pages (spec técnica §4/§45).
-# Domínio canônico definido em 2026-08-26 (auditoria SEO): f5sg.com.br.
+# Domínio canônico do produto: siofi.com.br.
 
 # HTTP → HTTPS é resolvido pelo próprio Cloudflare Pages (SSL/TLS "Always Use
 # HTTPS") — não duplicar aqui.
@@ -16,5 +16,8 @@
 /oficina           /siofi/oficina-mecanica   301
 /auto-center       /siofi/auto-center        301
 
+# A página principal agora está na raiz do domínio.
+/siofi/            /                        301
+/siofi             /                        301
+
 # Trailing slash → sem trailing slash (spec técnica §4)
-/siofi/            /siofi                    301

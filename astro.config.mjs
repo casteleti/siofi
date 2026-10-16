@@ -6,12 +6,8 @@ import sitemap from '@astrojs/sitemap';
 // Stack e decisões de arquitetura: docs/siofi-landing-technical-performance-seo-tracking.md §3
 // output: 'static' (SSG) com rotas dinâmicas pontuais (ex.: /api/lead) via `export const prerender = false`.
 //
-// Domínio canônico definido por Renato em 2026-08-26 (auditoria SEO): https://f5sg.com.br
-// A rota do produto em si já é "/siofi" (kebab-case minúsculo, consistente com o resto
-// do projeto — ver §4 da spec técnica) mesmo o link informado usando "/siOfi" (grafia
-// do slug atual no site institucional da F5); ajustar aqui + em public/_redirects se
-// o path final precisar bater literalmente com a grafia do WordPress deles.
-const siteUrl = process.env.PUBLIC_SITE_URL || 'https://f5sg.com.br';
+// Domínio canônico do produto.
+const siteUrl = process.env.PUBLIC_SITE_URL || 'https://siofi.com.br';
 
 export default defineConfig({
   site: siteUrl,

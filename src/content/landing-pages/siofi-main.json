@@ -4,7 +4,7 @@
   "metaTitle": "Sistema para Oficina Mecânica e Auto Center | SiOfi",
   "metaDescription": "Gerencie ordens de serviço, financeiro, estoque, clientes e resultados da sua oficina ou auto center com o SiOfi. Agende uma demonstração.",
   "indexable": true,
-  "canonical": "/siofi",
+  "canonical": "/",
   "sections": [
     "hero",
     "trust-bar",

@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /siofi/obrigado
 Disallow: /siofi/gestao-oficina
 
-Sitemap: https://f5sg.com.br/sitemap-index.xml
+Sitemap: https://siofi.com.br/sitemap-index.xml
